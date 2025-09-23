@@ -18,7 +18,7 @@
 ---
 
 ## 📂 專案資料夾結構
-
+```
 .
 └── 🏨 **enjoyment-luxury-hotel/**
     ├── 📁 **src/**/
@@ -37,7 +37,7 @@
     ├── 📦 **package.json** → 專案依賴與指令
     ├── 📄 **index.html** → 專案入口 HTML
     └── 📝 **README.md**
-
+```
 ## 🌱 Git Flow 規範
 
 ### 1. 分支規則
