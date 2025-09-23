@@ -1,8 +1,20 @@
+import Hero from "./Hero";
+import News from "./News";
+import About from "./About";
+import Rooms from "./Rooms";
+import Foods from "./Foods";
+import Traffic from "./Traffic";
+
 const Home = () => {
     return (
-        <div>
-            <h1>Home</h1>
-        </div>
+        <main>
+            <Hero/>
+            <News/>
+            <About/>
+            <Rooms/>
+            <Foods/>
+            <Traffic/>
+        </main>
     )
 }
 
