@@ -1,1 +1,12 @@
 @import 'tailwindcss';
+```css
+@theme {
+  --font-brand: 'Noto Serif TC', sans-serif;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-brand);
+  }
+}
+```
