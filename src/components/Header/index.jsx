@@ -1,7 +1,12 @@
 const Header = () => {
   return (
     <>
-      <div>我會當軟體工程師</div>
+      <div>
+        <div>
+          <h2>享樂酒店</h2>
+          <h2>Enjoyment Luxury Hotel</h2>
+        </div>
+      </div>
     </>
   )
 }
