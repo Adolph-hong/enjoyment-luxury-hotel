@@ -1,21 +1,21 @@
-import Hero from "./Hero";
-import News from "./News";
-import About from "./About";
-import Rooms from "./Rooms";
-import Foods from "./Foods";
-import Traffic from "./Traffic";
+import Hero from './HeroSection'
+import News from './NewsSection'
+import About from './AboutSection'
+import Rooms from './RoomsSection'
+import Foods from './FoodsSection'
+import Traffic from './TrafficSection'
 
 const Home = () => {
-    return (
-        <main>
-            <Hero/>
-            <News/>
-            <About/>
-            <Rooms/>
-            <Foods/>
-            <Traffic/>
-        </main>
-    )
+  return (
+    <>
+      <Hero />
+      <News />
+      <About />
+      <Rooms />
+      <Foods />
+      <Traffic />
+    </>
+  )
 }
 
-export default Home;
+export default Home
