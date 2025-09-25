@@ -1,12 +1,22 @@
 import { createBrowserRouter } from 'react-router-dom'
+import Home from './components/home'
+import Layout from './Layout.jsx'
+import Login from './components/auth/Login.jsx'
+import SignUp from './components/auth/SignUp.jsx'
 
-export const router = createBrowserRouter([
+export const router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: <Layout />,
+      children: [
+        { index: true, element: <Home /> },
+        { path: 'login', element: <Login /> },
+        { path: 'sign-up', element: <SignUp /> },
+      ],
+    },
+  ],
   {
-    path: '/',
-    element: <Root />,
-    children: [
-      { index: true, element: <Home /> },
-      { path: 'about', element: <About /> },
-    ],
+    basename: '/enjoyment-luxury-hotel/', // ← 設定前綴
   },
-])
+)
