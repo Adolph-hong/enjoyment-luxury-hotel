@@ -2,10 +2,13 @@ import { useEffect, useState } from 'react'
 
 const NewsSection = () => {
   const [news, setNews] = useState([])
+
+  const baseUrl = import.meta.env.VITE_API_BASE
+
   useEffect(() => {
     const getLatestNews = async () => {
       try {
-        const res = await fetch('https://nuxr3.zeabur.app/api/v1/home/news/')
+        const res = await fetch(`${baseUrl}/api/v1/home/news/`)
         const { result } = await res.json()
         setNews(result)
       } catch (err) {
