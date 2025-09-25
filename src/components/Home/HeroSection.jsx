@@ -1,4 +1,4 @@
-const Hero = () => {
+const HeroSection = () => {
   return (
     <section>
       <div className="relative flex flex-row w-full h-screen bg-cover bg-center bg-[image:var(--background-image-hero-bg)]">
@@ -27,4 +27,4 @@ const Hero = () => {
   )
 }
 
-export default Hero
+export default HeroSection
