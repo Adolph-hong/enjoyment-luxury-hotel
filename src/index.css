@@ -1,7 +1,8 @@
 @import 'tailwindcss';
-```css
+
 @theme {
   --font-brand: 'Noto Serif TC', sans-serif;
+  --background-image-hero-bg: url('./assets/home/hero.png');
 }
 
 @layer base {
@@ -9,4 +10,3 @@
     font-family: var(--font-brand);
   }
 }
-```
