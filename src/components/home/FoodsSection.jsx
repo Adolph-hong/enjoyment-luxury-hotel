@@ -19,22 +19,28 @@ const FoodsSection = () => {
 
   return (
     <section>
-      <div>
-        <div className="flex flex-row gap-8 ">
+      <div className="w-full h-screen bg-[#F7F2EE] py-20 pl-40">
+        <div className="flex flex-row gap-8 items-center">
           <h2 className="text-3xl font-bold text-[#BF9D7D]">
             佳餚
             <br />
             美饌
           </h2>
-          <div className="mt-2 h-[2px] w-24 bg-gradient-to-r from-[#c0a375] to-transparent"></div>
+          <div className="h-[2px] w-24 bg-gradient-to-r from-[#c0a375] to-transparent"></div>
         </div>
         <ul className="flex flex-row gap-8">
           {foods.map((foodItem) => (
-            <li key={foodItem._id} className="flex flex-col gap-4">
-              <img src={foodItem.image} alt={foodItem.title} />
-              <div className="flex flex-col gap-2"></div>
-              <h3 className="text-2xl font-bold">{foodItem.title}</h3>
-              <p>{foodItem.description}</p>
+            <li key={foodItem._id} className="relative flex flex-col gap-4">
+              <img
+                src={foodItem.image}
+                alt={foodItem.title}
+                className="absolute inset-0 w-[400px] h-full object-cover"
+              />
+              <div className="flex flex-row z-10 gap-2">
+                <h3 className="text-2xl font-bold">{foodItem.title}</h3>
+                <p>{foodItem.diningTime}</p>
+              </div>
+              <p className="z-10">{foodItem.description}</p>
             </li>
           ))}
         </ul>
