@@ -34,7 +34,7 @@ const RoomsSection = () => {
         <div className="flex flex-col md:flex-row justify-center items-center py-20 mt-20 md:mt-0 px-5 md:px-0">
           <div className="w-full mt-5 relative">
             <RoomsSwiper rooms={rooms} />
-            <div className="absolute  inset-0 md:mt-[20%] ml-5 md:ml-0 w-full h-auto">
+            <div className="absolute  inset-0 mt-[60%] md:mt-[20%] ml-5 md:ml-0 w-full h-auto">
               <img
                 className="w-full h-auto"
                 src={roomsDecosA}
