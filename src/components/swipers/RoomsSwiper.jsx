@@ -9,7 +9,7 @@ import 'swiper/css/scrollbar'
 // import required modules
 import { Navigation, Scrollbar } from 'swiper/modules'
 
-export const RoomsSwiper = ({ rooms }) => {
+const RoomsSwiper = ({ rooms }) => {
   const [width, setWidth] = useState(window.innerWidth)
 
   useEffect(() => {
@@ -74,3 +74,5 @@ export const RoomsSwiper = ({ rooms }) => {
     </>
   )
 }
+
+export default RoomsSwiper
