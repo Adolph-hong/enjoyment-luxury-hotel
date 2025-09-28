@@ -1,5 +1,6 @@
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react'
+import { useEffect, useState } from 'react'
 
 // Import Swiper styles
 import 'swiper/css'
@@ -7,30 +8,45 @@ import 'swiper/css/free-mode'
 import 'swiper/css/pagination'
 
 // import required modules
-import { FreeMode, Pagination } from 'swiper/modules'
+import { FreeMode } from 'swiper/modules'
 
-const FoodsSwiper = () => {
+const FoodsSwiper = ({ foods }) => {
+  const [width, setWidth] = useState(window.innerWidth)
+  useEffect(() => {
+    const handleResize = () => setWidth(window.innerWidth)
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
   return (
     <>
       <Swiper
-        slidesPerView={3}
-        spaceBetween={30}
+        slidesPerView={width < 768 ? 1 : 3}
+        spaceBetween={20}
         freeMode={true}
-        pagination={{
-          clickable: true,
-        }}
-        modules={[FreeMode, Pagination]}
+        modules={[FreeMode]}
         className="mySwiper"
       >
-        <SwiperSlide>Slide 1</SwiperSlide>
-        <SwiperSlide>Slide 2</SwiperSlide>
-        <SwiperSlide>Slide 3</SwiperSlide>
-        <SwiperSlide>Slide 4</SwiperSlide>
-        <SwiperSlide>Slide 5</SwiperSlide>
-        <SwiperSlide>Slide 6</SwiperSlide>
-        <SwiperSlide>Slide 7</SwiperSlide>
-        <SwiperSlide>Slide 8</SwiperSlide>
-        <SwiperSlide>Slide 9</SwiperSlide>
+        {foods.map((foodItem) => (
+          <SwiperSlide>
+            <div
+              key={foodItem._id}
+              className="relative flex flex-col w-full h-[100vh] gap-4 justify-center rounded-xl"
+            >
+              <img
+                src={foodItem.image}
+                alt={foodItem.title}
+                className="absolute inset-0  w-full h-[60vh]  object-cover rounded-xl"
+              />
+              <div className=" z-10 bg-transparent bg-opacity-40 backdrop-blur-md h-[20vh] p-5 text-white rounded-xl overflow-hidden">
+                <div className="flex flex-row gap-2 justify-between pb-5">
+                  <h3 className="text-xl font-bold">{foodItem.title}</h3>
+                  <p className="text-sm">{foodItem.diningTime}</p>
+                </div>
+                <p className="z-10 text-xs">{foodItem.description}</p>
+              </div>
+            </div>
+          </SwiperSlide>
+        ))}
       </Swiper>
     </>
   )
