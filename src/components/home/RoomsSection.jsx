@@ -4,29 +4,29 @@ import roomsDecosB from '../../assets/home/decos/rooms-2.png'
 const RoomsSection = () => {
   return (
     <section>
-      <div className="bg-black text-white w-full h-screen  overflow-hidden">
-        <div className="flex flex-row justify-center items-center py-20 ">
-          <div className="w-1/2">
+      <div className="bg-black text-white w-full md:h-screen  overflow-hidden">
+        <div className="flex flex-col md:flex-row justify-center items-center py-20  px-5 md:px-0">
+          <div className="w-full md:w-1/2 relative">
+            <img
+              className="w-full h-[110px] md:h-auto scale-200 md:scale-100 absolute top-0 left-[65%] md:top-0 md:left-[100%] pt-10"
+              src={roomsDecosB}
+              alt="rooms decoration B"
+            />
             <img
               src={roomsImg}
               alt="rooms"
-              className="w-full h-auto object-cover"
+              className="w-full min-h-[300px] aspect-square object-cover mt-40 md:mt-0"
             />
           </div>
-          <div className="w-1/2 pr-30 mt-60 relative">
-            <div className="absolute top-1/2 mt-[-60%] inset-0 w-full h-auto">
-              <img
-                className="w-full h-auto mb-30"
-                src={roomsDecosB}
-                alt="rooms decoration B"
-              />
+          <div className="w-full mt-5 md:w-1/2 md:pr-30 md:mt-60 relative">
+            <div className="absolute  inset-0 md:mt-[-10%] ml-5 md:ml-0 w-full h-auto">
               <img
                 className="w-full h-auto"
                 src={roomsDecosA}
                 alt="rooms decoration A"
               />
             </div>
-            <div className="w-full pl-10">
+            <div className="w-full md:pl-10">
               <h2 className="text-3xl font-semibold mb-4 w-full ">
                 尊爵雙人房
               </h2>
