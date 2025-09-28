@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { RoomsSwiper } from '../swiper/RoomsSwiper'
+import { RoomsSwiper } from '../swipers/RoomsSwiper'
 import roomsDecosA from '../../assets/home/decos/rooms-1.png'
 import roomsDecosB from '../../assets/home/decos/rooms-2.png'
 const RoomsSection = () => {
