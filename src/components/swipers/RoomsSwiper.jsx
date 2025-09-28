@@ -1,5 +1,5 @@
-import { useState, useRef, useEffect } from 'react'
-import { Swiper, SwiperSlide, useSwiper } from 'swiper/react'
+import { useState, useEffect } from 'react'
+import { Swiper, SwiperSlide } from 'swiper/react'
 
 // Import Swiper styles
 import 'swiper/css'
@@ -7,7 +7,7 @@ import 'swiper/css/navigation'
 import 'swiper/css/scrollbar'
 
 // import required modules
-import { Virtual, Navigation, Pagination, Scrollbar } from 'swiper/modules'
+import { Navigation, Scrollbar } from 'swiper/modules'
 
 export const RoomsSwiper = ({ rooms }) => {
   const [width, setWidth] = useState(window.innerWidth)
