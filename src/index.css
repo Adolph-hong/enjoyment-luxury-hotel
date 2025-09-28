@@ -4,10 +4,18 @@
   --font-brand: 'Noto Serif TC', sans-serif;
   --background-image-hero-bg: url('./assets/home/hero.png');
   --home-bg-about: url('./assets/home/about.png');
+  --login-and-signup-bg: url('./assets/login-and-signup/login-and-signup-bg.jpg');
+  --rooms-2: url('./assets/home/decos/rooms-2.png');
 }
 
 @layer base {
   body {
     font-family: var(--font-brand);
+  }
+}
+
+@layer utilities {
+  .bg-common {
+    @apply bg-cover bg-center bg-no-repeat;
   }
 }
