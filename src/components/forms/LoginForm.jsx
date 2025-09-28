@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 
 const LoginForm = () => {
   return (
-    <form className=" flex flex-col z-10 mt-[40px] w-[416px]">
+    <form className=" flex flex-col z-10 mt-[40px] w-[416px] max-sm:max-w-[335px] max-sm:px-[20px]">
       <AuthTitle eyebrow={'享樂酒店，誠摯歡迎'} title={'立即開始旅程'} />
 
       <FormInput
