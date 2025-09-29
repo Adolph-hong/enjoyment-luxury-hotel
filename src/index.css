@@ -4,7 +4,7 @@
   --font-brand: 'Noto Serif TC', sans-serif;
   --background-image-hero-bg: url('./assets/home/hero.png');
   --home-bg-about: url('./assets/home/about.png');
-  --login-and-signup-bg: url('./assets/login-and-signup/login-and-signup-bg.jpg');
+  --auth-bg: url('./assets/auth/bg.jpg');
   --rooms-2: url('./assets/home/decos/rooms-2.png');
 }
 
