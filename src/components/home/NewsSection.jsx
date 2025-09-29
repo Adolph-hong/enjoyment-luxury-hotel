@@ -1,21 +1,26 @@
 import { useEffect, useState } from 'react'
-import { newsData, baseUrl } from './data'
+import { newsData } from './data'
+import { getNews } from '../../api/home-api'
 
 const NewsSection = () => {
   const [news, setNews] = useState([])
 
   useEffect(() => {
-    const getLatestNews = async () => {
+    const controller = new AbortController()
+    const { signal } = controller
+    const fetchNews = async () => {
       try {
-        const res = await fetch(`${baseUrl}/api/v1/home/news/`)
-        const { result } = await res.json()
+        const result = await getNews(signal)
         setNews(result)
       } catch (err) {
         console.error('Failed to fetch news:', err)
       }
     }
 
-    getLatestNews()
+    fetchNews()
+    return () => {
+      controller.abort()
+    }
   }, [])
   return (
     <section className="bg-[#F7F2EE]">

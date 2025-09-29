@@ -1,22 +1,28 @@
 import { useEffect, useState } from 'react'
-import { foodsData, baseUrl } from './data'
+import { foodsData } from './data'
 import FoodsSwiper from '../swipers/FoodsSwiper'
+import { getCulinary } from '../../api/home-api'
 
 const FoodsSection = () => {
   const [foods, setFoods] = useState([])
 
   useEffect(() => {
-    const getLatestFoods = async () => {
+    const controller = new AbortController()
+    const { signal } = controller
+
+    const fetchFoods = async () => {
       try {
-        const res = await fetch(`${baseUrl}/api/v1/home/culinary/`)
-        const { result } = await res.json()
+        const result = await getCulinary(signal)
         setFoods(result)
       } catch (err) {
-        console.error('Failed to fetch news:', err)
+        console.error('Failed to fetch foods:', err)
       }
     }
 
-    getLatestFoods()
+    fetchFoods()
+    return () => {
+      controller.abort()
+    }
   }, [])
 
   return (
