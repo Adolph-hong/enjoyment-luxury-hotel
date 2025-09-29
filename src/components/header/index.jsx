@@ -12,7 +12,7 @@ const Header = () => {
           <img src={hotelLogoEn} alt="hotelLogo-English" />
         </div>
         <img src={burgerLogo} alt="burgerLogo" className="xl:hidden pr-10" />
-        <nav className="hidden xl:flex gap-2 pt-[20px] pr-[60px]">
+        <nav className="hidden xl:flex gap-2 pt-[20px] pr-[62px]">
           <Link
             to="/"
             className="font-bold inline-flex items-center justify-center px-8 py-1 rounded-lg font-bold text-white
