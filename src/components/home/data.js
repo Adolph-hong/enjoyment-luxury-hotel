@@ -8,8 +8,6 @@ import newsDeco from '../../assets/home/decos/news.png'
 import roomsDecosA from '../../assets/home/decos/rooms-1.png'
 import roomsDecosB from '../../assets/home/decos/rooms-2.png'
 
-export const baseUrl = import.meta.env.VITE_API_BASE
-
 export const trafficData = {
   title: ['交通', '方式'],
   address: '台灣高雄市新興區六角路123號',

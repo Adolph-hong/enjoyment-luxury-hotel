@@ -1,25 +1,26 @@
 import { useEffect, useState } from 'react'
 import RoomsSwiper from '../swipers/RoomsSwiper'
 import { roomsData } from './data'
+import { getRooms } from '../../api/home-api'
 
 const RoomsSection = () => {
   const [rooms, setRooms] = useState([])
 
-  const baseUrl = import.meta.env.VITE_API_BASE
-
   useEffect(() => {
-    const getLatestRooms = async () => {
+    const controller = new AbortController()
+    const { signal } = controller
+
+    const fetchRooms = async () => {
       try {
-        const res = await fetch(`${baseUrl}/api/v1/rooms/`)
-        const { result } = await res.json()
+        const result = await getRooms(signal)
         setRooms(result)
       } catch (err) {
         console.error('Failed to fetch rooms:', err)
       }
     }
 
-    getLatestRooms()
-  }, [baseUrl])
+    fetchRooms()
+  }, [])
 
   return (
     <section>
