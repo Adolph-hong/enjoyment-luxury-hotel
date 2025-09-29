@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import newsDeco from '../../assets/home/decos/news.png'
 
 const NewsSection = () => {
   const [news, setNews] = useState([])
@@ -20,7 +21,7 @@ const NewsSection = () => {
   }, [])
   return (
     <section className="bg-[#F7F2EE]">
-      <div className="py-16 flex flex-row gap-8 max-w-screen-xl mx-auto px-4">
+      <div className="py-16 flex flex-col relative xl:flex-row gap-8 max-w-screen-xl mx-auto px-4">
         <div className="pr-20">
           <h2 className="text-3xl font-bold text-[#BF9D7D]">
             最新
@@ -29,13 +30,30 @@ const NewsSection = () => {
           </h2>
           <div className="mt-2 h-[2px] w-24 bg-gradient-to-r from-[#c0a375] to-transparent"></div>
         </div>
+        <img
+          className="w-[100px] absolute top-10 right-10"
+          src={newsDeco}
+          alt="newsDeco"
+        />
+        <img
+          className="w-[100px] z-10 absolute bottom-[-2%] xl:bottom-[-5%] left-10"
+          src={newsDeco}
+          alt="newsDeco"
+        />
         <ul className="flex flex-col gap-8">
           {news.map((item) => (
-            <li key={item._id} className="flex flex-row items-center gap-4">
-              <img src={item.image} alt={item.title} />
-              <div className="flex flex-col gap-2">
-                <h3 className="text-2xl font-bold">{item.title}</h3>
-                <p>{item.description}</p>
+            <li
+              key={item._id}
+              className="flex flex-col xl:max-h-[300px] xl:flex-row items-center gap-4"
+            >
+              <img
+                className="w-full h-auto xl:max-h-[300px] object-cover rounded-lg"
+                src={item.image}
+                alt={item.title}
+              />
+              <div className="flex flex-col w-full gap-2">
+                <h3 className="text-xl font-bold pb-5">{item.title}</h3>
+                <p className="text-sm">{item.description}</p>
               </div>
             </li>
           ))}
