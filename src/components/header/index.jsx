@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
-import hotelLogo from '../../assets/home/logo/hotel-logo.svg'
-import hotelLogoEn from '../../assets/home/logo/hotel-logo-english.svg'
+import hotelLogo from '/src/assets/logo/hotel-logo.svg'
+import hotelLogoEn from '/src/assets/logo/hotel-logo-english.svg'
 
 const Header = () => {
   return (
