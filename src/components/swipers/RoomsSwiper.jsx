@@ -9,6 +9,28 @@ import 'swiper/css/scrollbar'
 // import required modules
 import { Navigation, Scrollbar } from 'swiper/modules'
 
+const RoomSwiper = ({ room }) => {
+  return (
+    <Swiper
+      scrollbar={{
+        hide: true,
+      }}
+      modules={[Scrollbar]}
+      className="mySwiper"
+    >
+      {room.imageUrlList.map((imageUrl, index) => (
+        <SwiperSlide key={index}>
+          <img
+            className="w-[100vw] h-[50vh] object-cover mb-10"
+            src={imageUrl}
+            alt={`Room ${room.id} - Image ${index + 1}`}
+          />
+        </SwiperSlide>
+      ))}
+    </Swiper>
+  )
+}
+
 const RoomsSwiper = ({ rooms }) => {
   const [width, setWidth] = useState(window.innerWidth)
 
@@ -34,23 +56,7 @@ const RoomsSwiper = ({ rooms }) => {
                   className="w-1/2 min-h-[300px] aspect-square object-cover mr-10"
                 />
               ) : (
-                <Swiper
-                  scrollbar={{
-                    hide: true,
-                  }}
-                  modules={[Scrollbar]}
-                  className="mySwiper"
-                >
-                  {room.imageUrlList.map((imageUrl, index) => (
-                    <SwiperSlide key={index}>
-                      <img
-                        className="w-[100vw] h-[50vh] object-cover mb-10"
-                        src={imageUrl}
-                        alt={`Room ${room.id} - Image ${index + 1}`}
-                      />
-                    </SwiperSlide>
-                  ))}
-                </Swiper>
+                <RoomSwiper room={room} />
               )}
               <div className="flex flex-col justify-end">
                 <div className="w-full flex flex-col">
