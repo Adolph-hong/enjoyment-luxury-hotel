@@ -3,7 +3,7 @@ import { trafficData } from './data'
 const TrafficSection = () => {
   return (
     <section className="">
-      <div className="w-full h-auto mb-35  bg-black text-white ">
+      <div className="w-full h-auto bg-black text-white ">
         <div className="w-full pt-20 px-5 md:px-50">
           <div className="mb-15">
             <div className="w-full flex flex-row justify-start items-center text-white mr-[-50px]">
