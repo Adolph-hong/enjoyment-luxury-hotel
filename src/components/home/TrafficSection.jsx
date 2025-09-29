@@ -19,28 +19,24 @@ const TrafficSection = () => {
             <p className="pb-5">{trafficData.address}</p>
             <img
               className="w-full min-h-[300px] object-cover"
-              src={trafficData.mapImg}
-              alt="交通方式"
+              {...trafficData.mapImg}
             />
           </div>
           <ul className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4">
-            {trafficData.info.map((item) => (
-              <li key={item.id}>
-                <img
-                  className="w-[64px] h-[64px]"
-                  src={item.img}
-                  alt={item.title}
-                />
-                <h2 className="text-xl font-bold pt-5 pb-2">{item.title}</h2>
-                <p className="text-sm">{item.description}</p>
+            {trafficData.info.map((trafficItem) => (
+              <li key={trafficItem.id}>
+                <img className="w-[64px] h-[64px]" {...trafficItem.image} />
+                <h2 className="text-xl font-bold pt-5 pb-2">
+                  {trafficItem.title}
+                </h2>
+                <p className="text-sm">{trafficItem.description}</p>
               </li>
             ))}
           </ul>
         </div>
         <img
           className="bg-black pt-15 w-full min-h-[250px] object-cover"
-          src={trafficData.decosImg}
-          alt="交通裝飾"
+          {...trafficData.decosImg}
         />
       </div>
     </section>
