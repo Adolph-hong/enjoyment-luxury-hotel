@@ -1,9 +1,15 @@
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
 import hotelLogo from '/src/assets/logo/hotel-logo.svg'
 import hotelLogoEn from '/src/assets/logo/hotel-logo-english.svg'
 import burgerLogo from '/src/assets/icon/menu-button.svg'
+import cancelLogo from '/src/assets/icon/cancel.svg'
 
 const Header = ({ simple }) => {
+  const [isOpen, setIsOpen] = useState(false)
+  {
+    /* 以上為漢堡圖的state */
+  }
   return (
     <header className="absolute inset-x-0 top-0 z-50 text-white">
       <div className="flex justify-between">
@@ -11,23 +17,60 @@ const Header = ({ simple }) => {
           <img src={hotelLogo} alt="hotelLogo"></img>
           <img src={hotelLogoEn} alt="hotelLogo-English" />
         </div>
-        <button type="button" className="cursor-pointer">
-          <img src={burgerLogo} alt="burgerLogo" className="xl:hidden pr-10" />
-        </button>
+        {/* 以下為漢堡圖區域 */}
+        {!isOpen && (
+          <button
+            onClick={() => setIsOpen(true)}
+            type="button"
+            className="cursor-pointer xl:hidden pr-10 block"
+          >
+            <img src={burgerLogo} alt="burgerLogo" />
+          </button>
+        )}
+        {isOpen && (
+          <div className="fixed inset-0 bg-[#140F0A] flex flex-col items-center justify-center gap-16">
+            <button
+              type="button"
+              className="cursor-pointer absolute top-10 right-10"
+              onClick={() => setIsOpen(false)}
+            >
+              <img src={cancelLogo} alt="cancel logo" />
+            </button>
+            <Link
+              className="w-11/12 max-w-[700px] text-2xl font-bold inline-flex items-center justify-center px-8 py-3 rounded-lg text-white
+             transition-colors duration-200 hover:bg-[#BF9D7D]"
+            >
+              客房旅宿
+            </Link>
+            <Link
+              to="login"
+              onClick={() => setIsOpen(false)}
+              className="w-11/12 max-w-[700px] text-2xl font-bold inline-flex items-center justify-center px-8 py-3 rounded-lg text-white
+             transition-colors duration-200 hover:bg-[#BF9D7D]"
+            >
+              會員登入
+            </Link>
+            <Link
+              className="w-11/12 max-w-[700px] text-2xl font-bold inline-flex items-center justify-center px-8 py-3 rounded-lg text-white
+             transition-colors duration-200 hover:bg-[#BF9D7D]"
+            >
+              立即訂房
+            </Link>
+          </div>
+        )}
+        {/* 以上為漢堡圖區域 */}
         {!simple && (
           <nav className="hidden xl:flex gap-2 pt-[20px] pr-[62px]">
             <Link
               to="/"
               className="font-bold inline-flex items-center justify-center px-8 py-1 rounded-lg font-bold text-white
              transition-colors duration-200 hover:bg-[#BF9D7D]"
-
-          >
-            客房旅宿
-          </Link>
-          <Link
-            to="login"
-            className="font-bold inline-flex items-center justify-center px-8 py-1 rounded-lg font-bold text-white
- dev
+            >
+              客房旅宿
+            </Link>
+            <Link
+              to="login"
+              className="font-bold inline-flex items-center justify-center px-8 py-1 rounded-lg font-bold text-white
              transition-colors duration-200 hover:bg-[#BF9D7D]"
             >
               會員登入
