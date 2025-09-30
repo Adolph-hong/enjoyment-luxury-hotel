@@ -1,16 +1,16 @@
 @import 'tailwindcss';
 
 @theme {
-  --font-brand: 'Noto Serif TC', sans-serif;
-  --background-image-hero-bg: url('./assets/home/hero.png');
-  --home-bg-about: url('./assets/home/about.png');
-  --auth-bg: url('./assets/auth/bg.jpg');
-  --rooms-2: url('./assets/home/decos/rooms-2.png');
+  --font-family-brand: 'Noto Serif TC', sans-serif;
+  --bg-image-hero: url('./assets/home/hero.png');
+  --bg-image-about: url('./assets/home/about.png');
+  --bg-image-auth: url('./assets/auth/bg.jpg');
+  --bg-image-rooms-deco: url('./assets/home/decos/rooms-2.png');
 }
 
 @layer base {
   body {
-    font-family: var(--font-brand);
+    font-family: var(--font-family-brand);
   }
 }
 
