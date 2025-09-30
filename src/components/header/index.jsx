@@ -37,7 +37,7 @@ const Header = ({ simple }) => {
               <img src={cancelLogo} alt="cancel logo" />
             </button>
             <Link
-              className="w-11/12 max-w-[700px] text-2xl font-bold inline-flex items-center justify-center px-8 py-3 rounded-lg text-white
+              className="w-11/12 max-w-[700px] text-2xl font-bold inline-flex items-center justify-center px-8 py-7 rounded-lg text-white
              transition-colors duration-200 hover:bg-[#BF9D7D]"
             >
               客房旅宿
@@ -45,13 +45,13 @@ const Header = ({ simple }) => {
             <Link
               to="login"
               onClick={() => setIsOpen(false)}
-              className="w-11/12 max-w-[700px] text-2xl font-bold inline-flex items-center justify-center px-8 py-3 rounded-lg text-white
+              className="w-11/12 max-w-[700px] text-2xl font-bold inline-flex items-center justify-center px-8 py-7 rounded-lg text-white
              transition-colors duration-200 hover:bg-[#BF9D7D]"
             >
               會員登入
             </Link>
             <Link
-              className="w-11/12 max-w-[700px] text-2xl font-bold inline-flex items-center justify-center px-8 py-3 rounded-lg text-white
+              className="w-11/12 max-w-[700px] text-2xl font-bold inline-flex items-center justify-center px-8 py-7 rounded-lg text-white
              transition-colors duration-200 hover:bg-[#BF9D7D]"
             >
               立即訂房
