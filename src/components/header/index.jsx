@@ -11,7 +11,9 @@ const Header = ({ simple }) => {
           <img src={hotelLogo} alt="hotelLogo"></img>
           <img src={hotelLogoEn} alt="hotelLogo-English" />
         </div>
-        <img src={burgerLogo} alt="burgerLogo" className="xl:hidden pr-10" />
+        <button type="button" className="cursor-pointer">
+          <img src={burgerLogo} alt="burgerLogo" className="xl:hidden pr-10" />
+        </button>
         {!simple && (
           <nav className="hidden xl:flex gap-2 pt-[20px] pr-[62px]">
             <Link
