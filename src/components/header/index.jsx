@@ -20,12 +20,14 @@ const Header = ({ simple }) => {
               to="/"
               className="font-bold inline-flex items-center justify-center px-8 py-1 rounded-lg font-bold text-white
              transition-colors duration-200 hover:bg-[#BF9D7D]"
-            >
-              客房旅宿
-            </Link>
-            <Link
-              to="sign-up"
-              className="font-bold inline-flex items-center justify-center px-8 py-1 rounded-lg font-bold text-white
+
+          >
+            客房旅宿
+          </Link>
+          <Link
+            to="login"
+            className="font-bold inline-flex items-center justify-center px-8 py-1 rounded-lg font-bold text-white
+ dev
              transition-colors duration-200 hover:bg-[#BF9D7D]"
             >
               會員登入
