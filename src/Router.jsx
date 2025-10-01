@@ -27,8 +27,7 @@ export const router = createBrowserRouter(
         {
           path: 'sign-up2',
           element: <SignUp2 />,
-          handle: { headerVariant: 'simple' },
-          handle: { footer: false },
+          handle: { headerVariant: 'simple', footer: false },
         },
       ],
     },
