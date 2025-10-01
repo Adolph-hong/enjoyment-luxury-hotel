@@ -3,6 +3,7 @@ import Home from './components/pages/Home.jsx'
 import Layout from './Layout.jsx'
 import Login from './components/auth/Login.jsx'
 import SignUp from './components/auth/SignUp.jsx'
+import Account from './components/pages/Account.jsx'
 
 export const router = createBrowserRouter(
   [
@@ -20,6 +21,10 @@ export const router = createBrowserRouter(
           path: 'sign-up',
           element: <SignUp />,
           handle: { headerVariant: 'simple' },
+        },
+        {
+          path: 'account',
+          element: <Account />,
         },
       ],
     },
