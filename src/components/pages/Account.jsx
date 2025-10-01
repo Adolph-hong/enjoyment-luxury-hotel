@@ -1,7 +1,9 @@
+import AccountLayout from '../shared/AccountLayout'
+
 const Account = () => {
   return (
     <>
-      <h1>Account</h1>
+      <AccountLayout />
     </>
   )
 }
