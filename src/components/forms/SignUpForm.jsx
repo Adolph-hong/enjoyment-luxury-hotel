@@ -6,9 +6,14 @@ import Button from '../ui/Button'
 
 const SignUpForm = () => {
   return (
-    <form className=" flex flex-col z-10 mt-[40px] w-[416px] max-sm:max-w-[335px] max-sm:px-[20px]">
+    <form className="flex flex-col z-10 mt-[40px] w-full max-w-[416px] max-sm:max-w-[335px] max-sm:px-[20px]">
         <AuthTitle eyebrow={'享樂酒店，誠摯歡迎'} title={'立即註冊'} />
-        <AuthStep />
+        <AuthStep 
+        textColor2="text-[#909090]"
+        borderColor2="border-[#909090]"
+        lineColor="bg-[#909090]"
+        isDone={false}
+        />
         <FormInput
         labelType="email"
         labelContent="電子信箱"
@@ -38,7 +43,7 @@ const SignUpForm = () => {
         content={'下一步'}
         mt="mt-[24px]"
         textSize="max-sm:text-[14px]"
-        url="/"
+        url="/sign-up2"
       />
       <AuthPrompt question={'已經有會員了嗎？'} goto={'立即登入'} goUrl={'/login'} mt="mt-[16px]" />
     </form>
