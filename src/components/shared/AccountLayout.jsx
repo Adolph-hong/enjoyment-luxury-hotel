@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import headshot1 from '../../assets/account/headshot-1.png'
+import { trafficData } from '../home/data'
 
 const AccountLayout = ({ children }) => {
   const [activeTab, setActiveTab] = useState('profile')
@@ -10,13 +11,13 @@ const AccountLayout = ({ children }) => {
         <img className="w-[100px] h-[100px]" src={headshot1} alt="" />
         <h2 className="text-6xl font-bold">Hello，Jessica</h2>
       </div>
-      <div className="w-full px-60 py-20">
-        <div className="flex flex-row items-center gap-5">
+      <div className="w-full px-5 md:px-60 py-8">
+        <div className="flex flex-row items-center gap-5 py-5 md:py-10">
           <button
             className={`cursor-pointer px-4 py-2 transition-colors ${
               activeTab === 'profile'
-                ? 'border-b-2 border-white font-bold'
-                : 'text-gray-400 hover:text-white'
+                ? 'border-b-2 border-[#BF9D7D] text-[#BF9D7D] font-bold'
+                : 'hover:text-[#BF9D7D]'
             }`}
             onClick={() => setActiveTab('profile')}
           >
@@ -25,8 +26,8 @@ const AccountLayout = ({ children }) => {
           <button
             className={`cursor-pointer px-4 py-2 transition-colors ${
               activeTab === 'orders'
-                ? 'border-b-2 border-white font-bold'
-                : 'text-gray-400 hover:text-white'
+                ? 'border-b-2 border-[#BF9D7D] text-[#BF9D7D]  font-bold'
+                : ' hover:text-[#BF9D7D]'
             }`}
             onClick={() => setActiveTab('orders')}
           >
@@ -35,6 +36,10 @@ const AccountLayout = ({ children }) => {
         </div>
         {children?.(activeTab) || children}
       </div>
+      <img
+        className="bg-black py-15 w-full min-h-[250px] object-cover"
+        {...trafficData.decosImg}
+      />
     </section>
   )
 }

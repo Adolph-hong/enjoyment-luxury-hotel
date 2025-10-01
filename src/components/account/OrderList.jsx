@@ -27,9 +27,9 @@ const OrderList = () => {
   ]
 
   return (
-    <div className="mt-8 grid grid-cols-2 gap-6">
+    <div className="mt-8 flex flex-col md:flex-row gap-6">
       {/* 訂單來往詳情卡片 */}
-      <div className="bg-white text-black rounded-lg p-8">
+      <div className="bg-white w-3/5 text-black rounded-lg p-8">
         <div className="mb-4">
           <p className="text-sm text-gray-500 mb-2">
             預訂參考編號：10912301512222
@@ -135,7 +135,7 @@ const OrderList = () => {
       </div>
 
       {/* 歷史訂單列表 */}
-      <div className="space-y-4">
+      <div className="space-y-4 w-2/5">
         <h3 className="text-2xl font-bold mb-4">歷史訂單</h3>
         {orders.map((order) => (
           <div
