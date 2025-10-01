@@ -3,6 +3,7 @@ import Home from './components/pages/Home.jsx'
 import Layout from './Layout.jsx'
 import Login from './components/auth/Login.jsx'
 import SignUp from './components/auth/SignUp.jsx'
+import SignUp2 from './components/auth/SignUp-2.jsx'
 
 export const router = createBrowserRouter(
   [
@@ -11,8 +12,16 @@ export const router = createBrowserRouter(
       element: <Layout />,
       children: [
         { index: true, element: <Home /> },
-        { path: 'login', element: <Login /> },
-        { path: 'sign-up', element: <SignUp /> },
+        {
+          path: 'login',
+          element: <Login />,
+          handle: { headerVariant: 'simple', footer: false },
+        },
+        {
+          path: 'sign-up',
+          element: <SignUp />,
+          handle: { headerVariant: 'simple', footer: false },
+        },
       ],
     },
   ],
