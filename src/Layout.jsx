@@ -5,13 +5,14 @@ const Layout = () => {
   const matches = useMatches()
   const current = matches.at(-1)
   const variant = current?.handle?.headerVariant
+  const showFooter = current?.handle?.footer !== false
   return (
     <div>
       <Header simple={variant === 'simple'} />
       <main>
         <Outlet /> {/* 這裡會渲染子路由 */}
       </main>
-      <Footer />
+      {showFooter && <Footer />}
     </div>
   )
 }

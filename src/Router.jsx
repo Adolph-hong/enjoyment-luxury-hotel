@@ -16,11 +16,13 @@ export const router = createBrowserRouter(
           path: 'login',
           element: <Login />,
           handle: { headerVariant: 'simple' },
+          handle: { footer: false },
         },
         {
           path: 'sign-up',
           element: <SignUp />,
           handle: { headerVariant: 'simple' },
+          handle: { footer: false },
         },
       ],
     },
