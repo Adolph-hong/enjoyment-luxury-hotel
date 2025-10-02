@@ -1,15 +1,34 @@
 import { useForm } from 'react-hook-form'
+import { useState } from 'react'
+import { login } from '../../api/usersApi'
+import { useAuth } from '../../contexts/AuthContext'
 import FormInput from '../ui/FormInput'
 import AuthTitle from '../shared/AuthTitle'
 import Button from '../ui/Button'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const LoginForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm()
+  const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate()
+  const { fetchUser } = useAuth()
 
-  const onSubmit = (data) => {
-    console.log(data)
-    // 在這裡處理登入邏輯
+  const onSubmit = async (data) => {
+    try {
+      setIsLoading(true)
+      const result = await login(data.email, data.password)
+      console.log('登入成功:', result)
+      if (result.token) {
+        localStorage.setItem('token', result.token)
+        await fetchUser()
+      }
+      navigate('/')
+    } catch (error) {
+      console.error('登入失敗:', error)
+      alert(error.message || '登入失敗，請檢查帳號密碼')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -40,8 +59,12 @@ const LoginForm = () => {
         register={register('password', {
           required: '密碼為必填',
           minLength: {
-            value: 6,
-            message: '密碼至少需要 6 個字元'
+            value: 8,
+            message: '密碼至少需要 8 個字元'
+          },
+          pattern: {
+            value: /^(?=.*[a-zA-Z])/,
+            message: '密碼不能只有數字，需包含英文字母'
           }
         })}
         error={errors.password}
@@ -80,8 +103,9 @@ const LoginForm = () => {
         hoverBg="hover:bg-[#BF9D7D]"
         textSize="max-sm:text-[14px]"
         hoverText="hover:text-[#ffffff]"
-        content={'會員登入'}
+        content={isLoading ? '登入中...' : '會員登入'}
         type="submit"
+        disabled={isLoading}
       />
       <div className="flex gap-2 mt-[40px] max-sm:text-[14px]" >
         <p className="text-[#FFFFFF]">沒有會員嗎？</p>
