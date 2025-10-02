@@ -1,15 +1,37 @@
 import { useForm } from 'react-hook-form'
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import FormInput from '../ui/FormInput'
 import AuthTitle from '../shared/AuthTitle'
 import Button from '../ui/Button'
 import { Link } from 'react-router-dom'
+import { login } from '../../api/auth-api'
+import { setCookie } from '../../utils/cookie'
 
 const LoginForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm()
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState(null)
+  const navigate = useNavigate()
 
-  const onSubmit = (data) => {
-    console.log(data)
-    // 在這裡處理登入邏輯
+  const onSubmit = async (data) => {
+    try {
+      setIsLoading(true)
+      setError(null)
+      const response = await login(data.email, data.password)
+
+      // Save token to cookie
+      if (response.token) {
+        setCookie('customTodoToken', response.token)
+      }
+
+      // Navigate to home or account page
+      navigate('/')
+    } catch (err) {
+      setError(err.message || '登入失敗，請檢查您的電子信箱和密碼')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -80,9 +102,14 @@ const LoginForm = () => {
         hoverBg="hover:bg-[#BF9D7D]"
         textSize="max-sm:text-[14px]"
         hoverText="hover:text-[#ffffff]"
-        content={'會員登入'}
+        content={isLoading ? '登入中...' : '會員登入'}
         type="submit"
+        disabled={isLoading}
       />
+      {error && (
+        <p className="text-red-400 text-sm mt-2">{error}</p>
+      )}
+
       <div className="flex gap-2 mt-[40px] max-sm:text-[14px]" >
         <p className="text-[#FFFFFF]">沒有會員嗎？</p>
         <Link to="/sign-up" className="text-[#BF9D7D] font-bold">
