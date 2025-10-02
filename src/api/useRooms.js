@@ -41,24 +41,31 @@ const customData = {
     maxPeople: '2-4 人',
     bedInfo: '1 張大床',
     areaInfo: '24 坪',
+    description:
+      '享受高級的住宿體驗，尊爵雙人房提供給您舒適寬敞的空間和\n精緻的裝潢。',
   },
   1: {
     price: 10000,
     maxPeople: '2-4 人',
     bedInfo: '1 張大床',
     areaInfo: '28 坪',
+    description: '景觀雙人房擁有絕佳視野，讓您在舒適的環境中欣賞\n城市美景。',
   },
   2: {
     price: 10000,
     maxPeople: '2-4 人',
     bedInfo: '2 張大床',
     areaInfo: '36 坪',
+    description:
+      '豪華雅緻房提供更寬敞的空間，適合家庭或朋友一同\n享受美好時光。',
   },
   3: {
     price: 10000,
     maxPeople: '2-4 人',
     bedInfo: '2 張大床',
     areaInfo: '48 坪',
+    description:
+      '景觀尊榮家庭房不僅有寬敞的空間，還有絕美的市景視野，是\n帶給家庭最尊榮的待遇。',
   },
 }
 

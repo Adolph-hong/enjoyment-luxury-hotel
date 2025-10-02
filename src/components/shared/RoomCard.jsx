@@ -63,26 +63,26 @@ const RoomCard = ({ room }) => {
               <div className="w-10 h-10 mb-2">
                 <img src={py} alt="square meter icon" />
               </div>
-              <p className="text-sm font-medium">{areaInfo}</p>
+              <p className="text-base font-bold">{areaInfo}</p>
             </div>
             <div className="flex flex-col items-center justify-center border border-[#F1EAE4] rounded-lg p-4 min-w-[120px]">
               <div className="w-10 h-10 mb-2">
                 <img src={bed} alt="bed icon" />
               </div>
-              <p className="text-sm font-medium">{bedInfo}</p>
+              <p className="text-base font-bold">{bedInfo}</p>
             </div>
             <div className="flex flex-col items-center justify-center border border-[#F1EAE4] rounded-lg p-4 min-w-[120px]">
               <div className="w-10 h-10 mb-2">
                 <img src={person} alt="person icon" />
               </div>
-              <p className="text-sm font-medium">{maxPeople}</p>
+              <p className="text-base font-bold">{maxPeople}</p>
             </div>
           </div>
         </div>
 
         {/* 價格和按鈕 */}
         <div className="pt-6">
-          <div className="h-[1px] bg-gradient-to-r from-[#BE9C7C] to-transparent mb-6"></div>
+          <div className="h-[3px] bg-gradient-to-r from-[#BE9C7C] to-transparent mb-20"></div>
           <div className="flex items-center justify-between">
             <p className="text-[#BF9D7D] text-2xl font-bold">
               NT$ {price.toLocaleString()}
