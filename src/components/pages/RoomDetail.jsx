@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getRoomById } from '../../api/home-api'
-import { createOrder } from '../../api/ordersApi'
 import { useAuth } from '../../contexts/AuthContext'
 import py from '/src/assets/icon/Vector.svg'
 import bed from '/src/assets/icon/bed.svg'
@@ -19,7 +18,6 @@ const RoomDetail = () => {
   const [checkInDate, setCheckInDate] = useState('')
   const [checkOutDate, setCheckOutDate] = useState('')
   const [guestCount, setGuestCount] = useState(2)
-  const [isBooking, setIsBooking] = useState(false)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -43,7 +41,7 @@ const RoomDetail = () => {
     return () => controller.abort()
   }, [roomId])
 
-  const handleBooking = async () => {
+  const handleBooking = () => {
     if (!isLoggedIn) {
       alert('請先登入會員')
       navigate('/login')
@@ -63,31 +61,15 @@ const RoomDetail = () => {
       return
     }
 
-    try {
-      setIsBooking(true)
-      const orderData = {
-        roomId: roomId,
-        checkInDate: checkInDate,
-        checkOutDate: checkOutDate,
-        peopleNum: guestCount,
-      }
+    // 導航到預約頁面，帶上所有資訊
+    const params = new URLSearchParams({
+      roomId: roomId,
+      checkInDate: checkInDate,
+      checkOutDate: checkOutDate,
+      peopleNum: guestCount.toString(),
+    })
 
-      await createOrder(orderData)
-      alert('訂房成功！')
-      navigate('/account')
-    } catch (error) {
-      console.error('訂房失敗:', error)
-
-      // 如果是使用者資料未填寫，提示前往個人資料頁面
-      if (error.message && error.message.includes('未填寫')) {
-        alert('請先完善您的個人資料（姓名、電話、地址等）才能進行訂房。點擊確定前往個人資料頁面。')
-        navigate('/account')
-      } else {
-        alert(error.message || '訂房失敗，請稍後再試')
-      }
-    } finally {
-      setIsBooking(false)
-    }
+    navigate(`/booking?${params.toString()}`)
   }
 
   if (loading) {
@@ -413,10 +395,9 @@ const RoomDetail = () => {
                   <button
                     type="button"
                     onClick={handleBooking}
-                    disabled={isBooking}
-                    className="w-full bg-[#BF9D7D] text-white font-bold py-4 rounded-lg hover:bg-[#A0805E] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-[#BF9D7D] text-white font-bold py-4 rounded-lg hover:bg-[#A0805E] transition-colors"
                   >
-                    {isBooking ? '預訂中...' : '立即預訂'}
+                    立即預訂
                   </button>
                 </div>
               </form>
