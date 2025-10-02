@@ -4,6 +4,7 @@ import Layout from './Layout.jsx'
 import Login from './components/auth/Login.jsx'
 import SignUp from './components/auth/SignUp.jsx'
 import Account from './components/pages/Account.jsx'
+import Rooms from './components/pages/Rooms.jsx'
 
 export const router = createBrowserRouter(
   [
@@ -25,6 +26,10 @@ export const router = createBrowserRouter(
         {
           path: 'account',
           element: <Account />,
+        },
+        {
+          path: 'room',
+          element: <Rooms />,
         },
       ],
     },
