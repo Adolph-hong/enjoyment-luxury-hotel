@@ -1,38 +1,103 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import FormInput from '../ui/FormInput'
 import BirthdayGroup from '../ui/form/BirthdayGroup'
 import AddressGroup from '../ui/form/AddressGroup'
 import Button from '../ui/Button'
+import { getUser, updateUser } from '../../api/auth-api'
+import { getCookie } from '../../utils/cookie'
 
 const ProfileForm = () => {
   const [isEditingPassword, setIsEditingPassword] = useState(false)
   const [isEditingProfile, setIsEditingProfile] = useState(false)
+  const [user, setUser] = useState(null)
+  const [isLoading, setIsLoading] = useState(true)
   const {
     register,
     handleSubmit,
     watch,
+    reset,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      email: 'jessica@example.com',
-      name: 'Jessica Wang',
-      phone: '0912345678',
-      address: '六合路 123 號'
+  } = useForm()
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const token = getCookie('customTodoToken')
+      if (!token) {
+        setIsLoading(false)
+        return
+      }
+
+      try {
+        const response = await getUser()
+        const userData = response.result
+        setUser(userData)
+
+        // Parse birthday
+        const birthday = userData.birthday ? userData.birthday.split('/') : []
+        const year = birthday[0] || ''
+        const month = birthday[1] || ''
+        const day = birthday[2] || ''
+
+        reset({
+          email: userData.email || '',
+          name: userData.name || '',
+          phone: userData.phone || '',
+          address: userData.address?.detail || '',
+          city: userData.address?.city || '高雄市',
+          district: userData.address?.district || '新興區',
+          zipcode: userData.address?.zipcode || '',
+          year,
+          month,
+          day,
+        })
+      } catch (error) {
+        console.error('Failed to fetch user data:', error)
+      } finally {
+        setIsLoading(false)
+      }
     }
-  })
+
+    fetchUserData()
+  }, [])
 
   const onSubmitPassword = (data) => {
     console.log('Password change:', data)
     setIsEditingPassword(false)
   }
 
-  const onSubmitProfile = (data) => {
-    console.log('Profile update:', data)
-    setIsEditingProfile(false)
+  const onSubmitProfile = async (data) => {
+    try {
+      const updatedData = {
+        userId: user._id,
+        name: data.name,
+        phone: data.phone,
+        birthday: `${data.year}/${data.month}/${data.day}`,
+        address: {
+          zipcode: parseInt(data.zipcode) || 0,
+          detail: data.address,
+        },
+      }
+
+      await updateUser(updatedData)
+      setUser({ ...user, ...updatedData })
+      setIsEditingProfile(false)
+      alert('更新成功！')
+    } catch (error) {
+      console.error('Failed to update profile:', error)
+      alert('更新失敗，請稍後再試')
+    }
   }
 
   const password = watch('password')
+
+  if (isLoading) {
+    return <div className="mt-8 text-white text-center">載入中...</div>
+  }
+
+  if (!user) {
+    return <div className="mt-8 text-white text-center">請先登入</div>
+  }
 
   return (
     <div className="mt-8 flex flex-col md:flex-row gap-6">
@@ -44,7 +109,7 @@ const ProfileForm = () => {
           <div className="space-y-4">
             <div>
               <label className="block text-sm text-[#4B4B4B] mb-2">電子信箱</label>
-              <p className="text-[#000000]">Jessica@exsample.com</p>
+              <p className="text-[#000000]">{user?.email}</p>
             </div>
 
             <div>
@@ -142,22 +207,22 @@ const ProfileForm = () => {
           <div className="space-y-4">
             <div>
               <label className="block text-sm text-[#4B4B4B] mb-2">姓名</label>
-              <p className="text-[#000000]">Jessica Wang</p>
+              <p className="text-[#000000]">{user?.name}</p>
             </div>
 
             <div>
               <label className="block text-sm text-[#4B4B4B] mb-2">手機號碼</label>
-              <p className="text-[#000000]">+886 912 345 678</p>
+              <p className="text-[#000000]">{user?.phone}</p>
             </div>
 
             <div>
               <label className="block text-sm text-[#4B4B4B] mb-2">生日</label>
-              <p className="text-[#000000]">1990 年 8 月 15 日</p>
+              <p className="text-[#000000]">{user?.birthday?.replace(/\//g, ' 年 ').replace(/(\d+)$/, '$1 日').replace(/(\d+) 日/, '$1 月 ')}</p>
             </div>
 
             <div>
               <label className="block text-sm text-[#4B4B4B] mb-2">地址</label>
-              <p className="text-[#000000]">高雄市新興區六合路 123 號</p>
+              <p className="text-[#000000]">{user?.address?.detail}</p>
             </div>
 
             <button
