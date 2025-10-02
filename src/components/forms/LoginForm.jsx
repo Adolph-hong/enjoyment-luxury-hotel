@@ -5,12 +5,12 @@ import { Link } from 'react-router-dom'
 
 const LoginForm = () => {
   return (
-    <form className=" flex flex-col z-10 mt-[40px] w-[416px] max-sm:max-w-[335px] max-sm:px-[20px]">
+    <form className="flex flex-col  z-10 mt-[40px] w-full max-w-[416px] max-sm:max-w-[335px] max-sm:px-[20px]">
       <AuthTitle eyebrow={'享樂酒店，誠摯歡迎'} title={'立即開始旅程'} />
 
       <FormInput
         labelType="email"
-        labelContent="電子郵件"
+        labelContent="電子信箱"
         inputId="email"
         inputType="email"
         placeholder="hello@exsample.com"
@@ -23,7 +23,7 @@ const LoginForm = () => {
         placeholder="請輸入密碼"
       />
 
-      <div className="flex justify-between mb-[40px]">
+      <div className="flex justify-between mb-[40px] max-sm:text-[14px]">
         <label className="inline-flex items-center gap-3 text-white cursor-pointer">
           <input type="checkbox" className="peer sr-only" />
           <span className="inline-flex items-center justify-center w-5 h-5 rounded-md border border-white/60
@@ -54,10 +54,11 @@ const LoginForm = () => {
         bg="bg-[#ECECEC]"
         color="text-[#909090]"
         hoverBg="hover:bg-[#BF9D7D]"
+        textSize="max-sm:text-[14px]"
         hoverText="hover:text-[#ffffff]"
         content={'會員登入'}
       />
-      <div className="flex gap-2 mt-[40px]">
+      <div className="flex gap-2 mt-[40px] max-sm:text-[14px]" >
         <p className="text-[#FFFFFF]">沒有會員嗎？</p>
         <Link to="/sign-up" className="text-[#BF9D7D] font-bold">
           前往註冊

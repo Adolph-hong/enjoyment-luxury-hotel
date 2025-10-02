@@ -9,7 +9,7 @@ import Button from '../ui/Button'
 
 const SignUpForm2 = () => {
   return (
-    <form className=" flex flex-col z-10 mt-[40px] w-[416px] max-sm:max-w-[335px] max-sm:px-[20px]">
+    <form className="flex flex-col z-10 mt-[40px] w-full max-w-[416px] max-sm:max-w-[335px] max-sm:px-[20px]">
       <AuthTitle title={'立即註冊'} />
       <AuthStep
         textColor2="text-[#ffffff]"
