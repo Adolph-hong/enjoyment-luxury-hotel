@@ -49,6 +49,7 @@ const Header = ({ simple }) => {
               <img src={cancelLogo} alt="cancel logo" />
             </button>
             <Link
+              to="room"
               className="w-11/12 max-w-[700px] text-2xl font-bold inline-flex items-center justify-center px-8 py-7 rounded-lg text-white
              transition-colors duration-200 hover:bg-[#BF9D7D]"
             >
@@ -95,7 +96,7 @@ const Header = ({ simple }) => {
           <nav className="hidden xl:flex gap-2 pt-[20px] pr-[62px]">
             <Link
               to="/"
-              className="font-bold inline-flex items-center justify-center px-8 py-1 rounded-lg  text-white
+              className="font-bold inline-flex items-center justify-center px-8 py-1 rounded-lg font-bold text-white
              transition-colors duration-200 hover:bg-[#BF9D7D]"
             >
               客房旅宿
