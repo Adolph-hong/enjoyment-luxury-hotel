@@ -1,9 +1,20 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import BlurBg from '../ui/BlurBg'
 import OrderModal from '../modals/OrderModal'
 
 const OrderList = () => {
   const [showModal, setShowModal] = useState(false)
+
+  useEffect(() => {
+    if (showModal) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [showModal])
 
   const handleCancel = () => {
     setShowModal(false)

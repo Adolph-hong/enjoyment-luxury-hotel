@@ -101,7 +101,7 @@ const ProfileForm = () => {
   if (!user) {
     return <div className="mt-8 text-center text-white">載入中...</div>
   }
-
+  
   return (
     <div className="mt-8 flex gap-6 max-xl:flex-col">
       {/* 修改密碼卡片 */}
@@ -309,7 +309,6 @@ const ProfileForm = () => {
               編輯
             </button>
           </div>
-        )}
       </div>
     </div>
   )
