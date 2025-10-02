@@ -116,16 +116,22 @@ const Booking = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F7F2EE] pt-32">
-        <p className="text-[#4B4B4B] text-xl">載入中...</p>
+      <div className="min-h-screen bg-[#F7F2EE]">
+        <div className="bg-[#140F0A] h-[200px]"></div>
+        <div className="flex items-center justify-center py-20">
+          <p className="text-[#4B4B4B] text-xl">載入中...</p>
+        </div>
       </div>
     )
   }
 
   if (error || !room) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#F7F2EE] pt-32">
-        <p className="text-[#4B4B4B] text-xl">無法載入房間資訊</p>
+      <div className="min-h-screen bg-[#F7F2EE]">
+        <div className="bg-[#140F0A] h-[200px]"></div>
+        <div className="flex items-center justify-center py-20">
+          <p className="text-[#4B4B4B] text-xl">無法載入房間資訊</p>
+        </div>
       </div>
     )
   }
@@ -134,8 +140,11 @@ const Booking = () => {
     typeof room.maxPeople === 'number' ? `2-${room.maxPeople} 人` : room.maxPeople
 
   return (
-    <div className="min-h-screen bg-[#F7F2EE] pt-32 pb-20">
-      <div className="container mx-auto px-4 max-w-[1296px]">
+    <div className="min-h-screen bg-[#F7F2EE]">
+      {/* 頂部黑色背景區域 */}
+      <div className="bg-[#140F0A] h-[200px]"></div>
+
+      <div className="container mx-auto px-4 max-w-[1296px] -mt-[100px] pb-20">
         {/* 頁面標題 */}
         <div className="mb-10">
           <button
