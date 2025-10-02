@@ -1,19 +1,35 @@
+import { useForm } from 'react-hook-form'
 import FormInput from '../ui/FormInput'
 import AuthTitle from '../shared/AuthTitle'
 import Button from '../ui/Button'
 import { Link } from 'react-router-dom'
 
 const LoginForm = () => {
+  const { register, handleSubmit, formState: { errors } } = useForm()
+
+  const onSubmit = (data) => {
+    console.log(data)
+    // 在這裡處理登入邏輯
+  }
+
   return (
-    <form className=" flex flex-col z-10 mt-[40px] w-[416px] max-sm:max-w-[335px] max-sm:px-[20px]">
+    <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col  z-10 mt-[40px] w-full max-w-[416px] max-sm:max-w-[335px] max-sm:px-[20px]">
       <AuthTitle eyebrow={'享樂酒店，誠摯歡迎'} title={'立即開始旅程'} />
 
       <FormInput
         labelType="email"
-        labelContent="電子郵件"
+        labelContent="電子信箱"
         inputId="email"
         inputType="email"
         placeholder="hello@exsample.com"
+        register={register('email', {
+          required: '電子信箱為必填',
+          pattern: {
+            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+            message: '請輸入有效的電子信箱'
+          }
+        })}
+        error={errors.email}
       />
       <FormInput
         labelType="password"
@@ -21,11 +37,19 @@ const LoginForm = () => {
         inputId="password"
         inputType="password"
         placeholder="請輸入密碼"
+        register={register('password', {
+          required: '密碼為必填',
+          minLength: {
+            value: 6,
+            message: '密碼至少需要 6 個字元'
+          }
+        })}
+        error={errors.password}
       />
 
-      <div className="flex justify-between mb-[40px]">
+      <div className="flex justify-between mb-[40px] max-sm:text-[14px]">
         <label className="inline-flex items-center gap-3 text-white cursor-pointer">
-          <input type="checkbox" className="peer sr-only" />
+          <input type="checkbox" className="peer sr-only" {...register('rememberMe')} />
           <span className="inline-flex items-center justify-center w-5 h-5 rounded-md border border-white/60
                       peer-checked:bg-[#BF9D7D] peer-checked:border-[#BF9D7D]
                       [&>svg]:opacity-0 peer-checked:[&>svg]:opacity-100
@@ -54,10 +78,12 @@ const LoginForm = () => {
         bg="bg-[#ECECEC]"
         color="text-[#909090]"
         hoverBg="hover:bg-[#BF9D7D]"
+        textSize="max-sm:text-[14px]"
         hoverText="hover:text-[#ffffff]"
         content={'會員登入'}
+        type="submit"
       />
-      <div className="flex gap-2 mt-[40px]">
+      <div className="flex gap-2 mt-[40px] max-sm:text-[14px]" >
         <p className="text-[#FFFFFF]">沒有會員嗎？</p>
         <Link to="/sign-up" className="text-[#BF9D7D] font-bold">
           前往註冊

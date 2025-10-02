@@ -6,6 +6,7 @@
   --bg-image-about: url('./assets/home/about.png');
   --bg-image-auth: url('./assets/auth/bg.jpg');
   --bg-image-rooms-deco: url('./assets/home/decos/rooms-2.png');
+  --bg-image-account: url('./assets/account/bg.jpg');
 }
 
 @layer base {
