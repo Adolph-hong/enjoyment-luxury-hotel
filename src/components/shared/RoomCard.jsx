@@ -18,6 +18,9 @@ const RoomCard = ({ room }) => {
     maxPeople,
   } = room
 
+  // Format maxPeople for display
+  const maxPeopleDisplay = typeof maxPeople === 'number' ? `2-${maxPeople} 人` : maxPeople
+
   return (
     <div className="flex bg-white rounded-[20px] overflow-hidden shadow-lg max-lg:flex-col">
       {/* 左側圖片輪播區 */}
@@ -75,7 +78,7 @@ const RoomCard = ({ room }) => {
               <div className="w-10 h-10 mb-2">
                 <img src={person} alt="person icon" />
               </div>
-              <p className="text-base font-bold">{maxPeople}</p>
+              <p className="text-base font-bold">{maxPeopleDisplay}</p>
             </div>
           </div>
         </div>
