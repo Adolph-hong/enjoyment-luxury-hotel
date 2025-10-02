@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination } from 'swiper/modules'
 import 'swiper/css'
@@ -9,6 +10,7 @@ import person from '/src/assets/icon/person.svg'
 
 const RoomCard = ({ room }) => {
   const {
+    _id,
     name,
     description,
     imageUrlList,
@@ -90,9 +92,12 @@ const RoomCard = ({ room }) => {
             <p className="text-[#BF9D7D] text-2xl font-bold">
               NT$ {price.toLocaleString()}
             </p>
-            <button className="text-[#BF9D7D] hover:text-[#8B6F47] transition-colors">
+            <Link
+              to={`/room/${_id}`}
+              className="text-[#BF9D7D] hover:text-[#8B6F47] transition-colors"
+            >
               <span className="text-2xl">→</span>
-            </button>
+            </Link>
           </div>
         </div>
       </div>
