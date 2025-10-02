@@ -1,4 +1,20 @@
+import { useState } from 'react'
+import BlurBg from '../ui/BlurBg'
+import OrderModal from '../modals/OrderModal'
+
 const OrderList = () => {
+  const [showModal, setShowModal] = useState(false)
+
+  const handleCancel = () => {
+    setShowModal(false)
+  }
+
+  const handleConfirm = () => {
+    // 這裡可以加入取消預訂的邏輯
+    console.log('預訂已取消')
+    setShowModal(false)
+  }
+
   const orders = [
     {
       id: '10912301512222',
@@ -125,7 +141,10 @@ const OrderList = () => {
         </div>
 
         <div className="mt-6 flex gap-4">
-          <button className="flex-1 px-6 py-3 border border-gray-300 rounded hover:bg-gray-100 transition-colors">
+          <button
+            onClick={() => setShowModal(true)}
+            className="flex-1 px-6 py-3 border border-gray-300 rounded hover:bg-gray-100 transition-colors"
+          >
             取消預定
           </button>
           <button className="flex-1 px-6 py-3 bg-black text-white rounded hover:bg-gray-800 transition-colors">
@@ -133,6 +152,12 @@ const OrderList = () => {
           </button>
         </div>
       </div>
+
+      {showModal && (
+        <BlurBg>
+          <OrderModal handleCancel={handleCancel} handleConfirm={handleConfirm} />
+        </BlurBg>
+      )}
 
       {/* 歷史訂單列表 */}
       <div className="space-y-4 w-2/5">
