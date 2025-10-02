@@ -1,3 +1,4 @@
+import React from 'react'
 import { aboutData } from './data'
 
 const AboutSection = () => {
@@ -16,10 +17,10 @@ const AboutSection = () => {
             </div>
             <div className="text-sm leading-6">
               {aboutData.description.map((desc, index) => (
-                <>
-                  <p key={index}>{desc}</p>
+                <React.Fragment key={index}>
+                  <p>{desc}</p>
                   <br />
-                </>
+                </React.Fragment>
               ))}
             </div>
           </div>
