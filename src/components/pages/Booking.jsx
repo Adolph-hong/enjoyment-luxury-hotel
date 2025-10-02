@@ -3,6 +3,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { getRoomById } from '../../api/home-api'
 import { createOrder } from '../../api/ordersApi'
 import { useAuth } from '../../contexts/AuthContext'
+import BookingSuccessModal from '../booking/BookingSuccessModal'
+import BlurBg from '../ui/BlurBg'
 import py from '/src/assets/icon/Vector.svg'
 import bed from '/src/assets/icon/bed.svg'
 import person from '/src/assets/icon/person.svg'
@@ -26,6 +28,8 @@ const Booking = () => {
   const [checkOutDate, setCheckOutDate] = useState(initialCheckOut)
   const [guestCount, setGuestCount] = useState(initialGuests)
   const [isBooking, setIsBooking] = useState(false)
+  const [showSuccessModal, setShowSuccessModal] = useState(false)
+  const [orderResult, setOrderResult] = useState(null)
 
   // 計算天數
   const calculateNights = () => {
@@ -94,9 +98,21 @@ const Booking = () => {
         peopleNum: guestCount,
       }
 
-      await createOrder(orderData)
-      alert('訂房成功！')
-      navigate('/account')
+      const response = await createOrder(orderData)
+
+      // 準備成功 Modal 的資料
+      setOrderResult({
+        orderId: response.result?._id || '',
+        roomName: room.name,
+        checkInDate: checkInDate,
+        checkOutDate: checkOutDate,
+        peopleNum: guestCount,
+        userName: user?.name || '',
+        userPhone: user?.phone || '',
+        userEmail: user?.email || '',
+      })
+
+      setShowSuccessModal(true)
     } catch (error) {
       console.error('訂房失敗:', error)
 
@@ -355,6 +371,25 @@ const Booking = () => {
           </div>
         </div>
       </div>
+
+      {/* Loading 狀態 */}
+      {isBooking && (
+        <BlurBg>
+          <div className="fixed inset-0 z-50 flex items-center justify-center">
+            <div className="bg-white rounded-[20px] p-10 flex flex-col items-center">
+              <div className="w-16 h-16 border-4 border-[#BF9D7D] border-t-transparent rounded-full animate-spin mb-4"></div>
+              <p className="text-[#140F0A] text-lg font-medium">處理中，請稍候...</p>
+            </div>
+          </div>
+        </BlurBg>
+      )}
+
+      {/* 成功 Modal */}
+      <BookingSuccessModal
+        isOpen={showSuccessModal}
+        onClose={() => setShowSuccessModal(false)}
+        orderData={orderResult}
+      />
     </div>
   )
 }
