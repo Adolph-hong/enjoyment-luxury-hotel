@@ -77,7 +77,14 @@ const RoomDetail = () => {
       navigate('/account')
     } catch (error) {
       console.error('訂房失敗:', error)
-      alert(error.message || '訂房失敗，請稍後再試')
+
+      // 如果是使用者資料未填寫，提示前往個人資料頁面
+      if (error.message && error.message.includes('未填寫')) {
+        alert('請先完善您的個人資料（姓名、電話、地址等）才能進行訂房。點擊確定前往個人資料頁面。')
+        navigate('/account')
+      } else {
+        alert(error.message || '訂房失敗，請稍後再試')
+      }
     } finally {
       setIsBooking(false)
     }
@@ -85,16 +92,16 @@ const RoomDetail = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#140F0A]">
-        <p className="text-white text-xl">載入中...</p>
+      <div className="min-h-screen flex items-center justify-center bg-[#F7F2EE] pt-32">
+        <p className="text-[#4B4B4B] text-xl">載入中...</p>
       </div>
     )
   }
 
   if (error || !room) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[#140F0A]">
-        <p className="text-white text-xl">無法載入房間資訊</p>
+      <div className="min-h-screen flex items-center justify-center bg-[#F7F2EE] pt-32">
+        <p className="text-[#4B4B4B] text-xl">無法載入房間資訊</p>
       </div>
     )
   }
@@ -103,26 +110,26 @@ const RoomDetail = () => {
     typeof room.maxPeople === 'number' ? `2-${room.maxPeople} 人` : room.maxPeople
 
   return (
-    <div className="min-h-screen bg-[#140F0A] pt-32 pb-20">
-      <div className="container mx-auto px-4 max-w-[1320px]">
+    <div className="min-h-screen bg-[#F7F2EE] pt-32 pb-20">
+      <div className="container mx-auto px-4 max-w-[1296px]">
         {/* 圖片展示區 - 左大右小網格 */}
-        <div className="mb-20 flex gap-4 h-[420px] max-md:flex-col max-md:h-auto">
+        <div className="mb-16 flex gap-6 h-[530px] max-md:flex-col max-md:h-auto">
           {/* 左側大圖 */}
-          <div className="w-[58%] max-md:w-full max-md:h-[300px]">
+          <div className="w-[57%] max-md:w-full max-md:h-[300px]">
             {room.imageUrlList && room.imageUrlList.length > 0 && (
               <img
                 src={room.imageUrlList[0]}
                 alt={`${room.name} - 主圖`}
-                className="w-full h-full object-cover rounded-lg"
+                className="w-full h-full object-cover rounded-[20px]"
               />
             )}
           </div>
 
           {/* 右側 2x2 小圖網格 */}
-          <div className="flex-1 grid grid-cols-2 gap-4 max-md:grid-cols-2 max-md:h-[300px]">
+          <div className="flex-1 grid grid-cols-2 gap-6 max-md:grid-cols-2 max-md:h-[300px]">
             {room.imageUrlList &&
               room.imageUrlList.slice(1, 5).map((image, index) => (
-                <div key={index} className="overflow-hidden rounded-lg">
+                <div key={index} className="overflow-hidden rounded-[20px]">
                   <img
                     src={image}
                     alt={`${room.name} - ${index + 2}`}
@@ -136,70 +143,76 @@ const RoomDetail = () => {
         {/* 內容區 */}
         <div className="flex gap-10 max-lg:flex-col">
           {/* 左側資訊區 */}
-          <div className="flex-1">
+          <div className="flex-1 bg-white rounded-[20px] p-10">
             {/* 房間標題 */}
             <div className="mb-10">
-              <h1 className="text-white text-5xl font-bold mb-6">{room.name}</h1>
-              <p className="text-white leading-relaxed whitespace-pre-line text-lg">
+              <h1 className="text-[#140F0A] text-[48px] font-bold mb-4">{room.name}</h1>
+              <p className="text-[#4B4B4B] leading-8 whitespace-pre-line text-base">
                 {room.description}
               </p>
             </div>
 
             {/* 房型基本資訊 */}
             <div className="mb-10">
-              <h2 className="text-white text-2xl font-bold mb-6 pb-3 border-b border-white/30">
+              <h2 className="text-[#140F0A] text-2xl font-bold mb-6 pb-4 border-b-2 border-[#140F0A]">
                 房型基本資訊
               </h2>
               <div className="flex gap-4 flex-wrap">
-                <div className="flex items-center gap-3 bg-[#1C1C1C] rounded-lg px-6 py-4 min-w-[140px]">
+                <div className="flex flex-col items-center gap-2 border border-[#ECECEC] rounded-lg px-8 py-6 min-w-[140px]">
                   <div className="w-10 h-10">
-                    <img src={py} alt="square meter icon" className="brightness-200" />
+                    <img src={py} alt="square meter icon" />
                   </div>
-                  <p className="text-white text-base font-bold">{room.areaInfo}</p>
+                  <p className="text-[#4B4B4B] text-base font-bold">{room.areaInfo}</p>
                 </div>
-                <div className="flex items-center gap-3 bg-[#1C1C1C] rounded-lg px-6 py-4 min-w-[140px]">
+                <div className="flex flex-col items-center gap-2 border border-[#ECECEC] rounded-lg px-8 py-6 min-w-[140px]">
                   <div className="w-10 h-10">
-                    <img src={bed} alt="bed icon" className="brightness-200" />
+                    <img src={bed} alt="bed icon" />
                   </div>
-                  <p className="text-white text-base font-bold">{room.bedInfo}</p>
+                  <p className="text-[#4B4B4B] text-base font-bold">{room.bedInfo}</p>
                 </div>
-                <div className="flex items-center gap-3 bg-[#1C1C1C] rounded-lg px-6 py-4 min-w-[140px]">
+                <div className="flex flex-col items-center gap-2 border border-[#ECECEC] rounded-lg px-8 py-6 min-w-[140px]">
                   <div className="w-10 h-10">
-                    <img src={person} alt="person icon" className="brightness-200" />
+                    <img src={person} alt="person icon" />
                   </div>
-                  <p className="text-white text-base font-bold">{maxPeopleDisplay}</p>
+                  <p className="text-[#4B4B4B] text-base font-bold">{maxPeopleDisplay}</p>
                 </div>
               </div>
             </div>
 
             {/* 房間格局 */}
             <div className="mb-10">
-              <h2 className="text-white text-2xl font-bold mb-6 pb-3 border-b border-white/30">
+              <h2 className="text-[#140F0A] text-2xl font-bold mb-6 pb-4 border-b-2 border-[#140F0A]">
                 房間格局
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {room.layoutInfo?.map((item, index) => (
                   <div key={index} className="flex items-center gap-3">
-                    <div
-                      className={`w-6 h-6 rounded-full flex items-center justify-center ${
-                        item.isProvide ? 'bg-white' : 'bg-white/20'
-                      }`}
-                    >
-                      {item.isProvide && (
-                        <svg
-                          className="w-4 h-4 text-[#140F0A]"
-                          fill="none"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path d="M5 13l4 4L19 7"></path>
-                        </svg>
-                      )}
-                    </div>
-                    <span className={`text-base ${item.isProvide ? 'text-white' : 'text-white/40'}`}>
+                    {item.isProvide ? (
+                      <svg
+                        className="w-6 h-6 text-[#BF9D7D]"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path d="M5 13l4 4L19 7"></path>
+                      </svg>
+                    ) : (
+                      <svg
+                        className="w-6 h-6 text-[#ECECEC]"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path d="M6 18L18 6M6 6l12 12"></path>
+                      </svg>
+                    )}
+                    <span className={`text-base ${item.isProvide ? 'text-[#4B4B4B]' : 'text-[#ECECEC]'}`}>
                       {item.title}
                     </span>
                   </div>
@@ -209,32 +222,38 @@ const RoomDetail = () => {
 
             {/* 房內設備 */}
             <div className="mb-10">
-              <h2 className="text-white text-2xl font-bold mb-6 pb-3 border-b border-white/30">
+              <h2 className="text-[#140F0A] text-2xl font-bold mb-6 pb-4 border-b-2 border-[#140F0A]">
                 房內設備
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {room.facilityInfo?.map((item, index) => (
                   <div key={index} className="flex items-center gap-3">
-                    <div
-                      className={`w-6 h-6 rounded-full flex items-center justify-center ${
-                        item.isProvide ? 'bg-white' : 'bg-white/20'
-                      }`}
-                    >
-                      {item.isProvide && (
-                        <svg
-                          className="w-4 h-4 text-[#140F0A]"
-                          fill="none"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path d="M5 13l4 4L19 7"></path>
-                        </svg>
-                      )}
-                    </div>
-                    <span className={`text-base ${item.isProvide ? 'text-white' : 'text-white/40'}`}>
+                    {item.isProvide ? (
+                      <svg
+                        className="w-6 h-6 text-[#BF9D7D]"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path d="M5 13l4 4L19 7"></path>
+                      </svg>
+                    ) : (
+                      <svg
+                        className="w-6 h-6 text-[#ECECEC]"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path d="M6 18L18 6M6 6l12 12"></path>
+                      </svg>
+                    )}
+                    <span className={`text-base ${item.isProvide ? 'text-[#4B4B4B]' : 'text-[#ECECEC]'}`}>
                       {item.title}
                     </span>
                   </div>
@@ -244,32 +263,38 @@ const RoomDetail = () => {
 
             {/* 備品提供 */}
             <div className="mb-10">
-              <h2 className="text-white text-2xl font-bold mb-6 pb-3 border-b border-white/30">
+              <h2 className="text-[#140F0A] text-2xl font-bold mb-6 pb-4 border-b-2 border-[#140F0A]">
                 備品提供
               </h2>
               <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {room.amenityInfo?.map((item, index) => (
                   <div key={index} className="flex items-center gap-3">
-                    <div
-                      className={`w-6 h-6 rounded-full flex items-center justify-center ${
-                        item.isProvide ? 'bg-white' : 'bg-white/20'
-                      }`}
-                    >
-                      {item.isProvide && (
-                        <svg
-                          className="w-4 h-4 text-[#140F0A]"
-                          fill="none"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path d="M5 13l4 4L19 7"></path>
-                        </svg>
-                      )}
-                    </div>
-                    <span className={`text-base ${item.isProvide ? 'text-white' : 'text-white/40'}`}>
+                    {item.isProvide ? (
+                      <svg
+                        className="w-6 h-6 text-[#BF9D7D]"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path d="M5 13l4 4L19 7"></path>
+                      </svg>
+                    ) : (
+                      <svg
+                        className="w-6 h-6 text-[#ECECEC]"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path d="M6 18L18 6M6 6l12 12"></path>
+                      </svg>
+                    )}
+                    <span className={`text-base ${item.isProvide ? 'text-[#4B4B4B]' : 'text-[#ECECEC]'}`}>
                       {item.title}
                     </span>
                   </div>
@@ -279,10 +304,10 @@ const RoomDetail = () => {
 
             {/* 訂房須知 */}
             <div>
-              <h2 className="text-white text-2xl font-bold mb-6 pb-3 border-b border-white/30">
+              <h2 className="text-[#140F0A] text-2xl font-bold mb-6 pb-4 border-b-2 border-[#140F0A]">
                 訂房須知
               </h2>
-              <ul className="space-y-3 text-white/80 text-base leading-relaxed">
+              <ul className="space-y-2 text-[#4B4B4B] text-base leading-7">
                 <li className="flex">
                   <span className="mr-2">1.</span>
                   <span>入住時間為下午3點，退房時間為上午11點</span>
@@ -318,6 +343,10 @@ const RoomDetail = () => {
                 <li className="flex">
                   <span className="mr-2">9.</span>
                   <span>為了維護其他房客的權益和安寧，請避免在深夜時段大聲喧嘩或播放音樂</span>
+                </li>
+                <li className="flex">
+                  <span className="mr-2">10.</span>
+                  <span>為了維護房間的最佳狀態，我們禁止在房間內烹飪或使用加熱設備。感謝您的理解和配合</span>
                 </li>
               </ul>
             </div>
