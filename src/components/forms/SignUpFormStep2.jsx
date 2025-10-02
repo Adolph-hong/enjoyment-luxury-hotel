@@ -1,4 +1,7 @@
 import { useForm } from 'react-hook-form'
+import { useState } from 'react'
+import { signup } from '../../api/usersApi'
+import { useAuth } from '../../contexts/AuthContext'
 import FormInput from '../ui/FormInput'
 import AuthTitle from '../shared/AuthTitle'
 import AuthStep from '../shared/AuthStep'
@@ -6,13 +9,48 @@ import AuthPrompt from '../shared/AuthPrompt'
 import BirthdayGroup from '../ui/form/BirthdayGroup'
 import AddressGroup from '../ui/form/AddressGroup'
 import Button from '../ui/Button'
+import { useNavigate } from 'react-router-dom'
 
-const SignUpFormStep2 = ({ onBack }) => {
+const SignUpFormStep2 = ({ step1Data }) => {
   const { register, handleSubmit, watch, formState: { errors } } = useForm()
+  const [isLoading, setIsLoading] = useState(false)
+  const navigate = useNavigate()
+  const { fetchUser } = useAuth()
 
-  const onSubmit = (data) => {
-    console.log(data)
-    // 在這裡處理註冊邏輯
+  const onSubmit = async (data) => {
+    try {
+      setIsLoading(true)
+
+      // 組合完整的註冊資料，根據 API 格式
+      const signupData = {
+        name: data.name,
+        email: step1Data.email,
+        password: step1Data.password,
+        phone: data.phone,
+        birthday: `${data.year}-${String(data.month).padStart(2, '0')}-${String(data.day).padStart(2, '0')}`,
+        address: {
+          zipcode: 802,
+          detail: data.address
+        }
+      }
+
+      const result = await signup(signupData)
+      console.log('註冊成功:', result)
+
+      // 註冊成功後儲存 token 並更新使用者資料
+      if (result.token) {
+        localStorage.setItem('token', result.token)
+        await fetchUser()
+      }
+
+      alert('註冊成功！')
+      navigate('/')
+    } catch (error) {
+      console.error('註冊失敗:', error)
+      alert(error.message || '註冊失敗，請稍後再試')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -94,10 +132,11 @@ const SignUpFormStep2 = ({ onBack }) => {
       <Button
         bg="bg-[#BF9D7D]"
         color="text-[#FFFFFF]"
-        content={'完成註冊'}
+        content={isLoading ? '註冊中...' : '完成註冊'}
         mt="mt-[40px]"
         textSize="max-sm:text-[14px]"
         type="submit"
+        disabled={isLoading}
       />
       <AuthPrompt question={'已經有會員了嗎？'} goto={'立即登入'} goUrl={'/login'} mt="mt-[16px]" />
     </form>
