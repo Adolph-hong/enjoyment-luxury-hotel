@@ -2,14 +2,13 @@ import FormInput from '../ui/FormInput'
 import AuthTitle from '../shared/AuthTitle'
 import AuthStep from '../shared/AuthStep'
 import AuthPrompt from '../shared/AuthPrompt'
-import Select from '../ui/form/Select'
 import BirthdayGroup from '../ui/form/BirthdayGroup'
 import AddressGroup from '../ui/form/AddressGroup'
 import Button from '../ui/Button'
 
-const SignUpForm2 = () => {
+const SignUpFormStep2 = () => {
   return (
-    <form className="flex flex-col z-10 mt-[40px] w-full max-w-[416px] max-sm:max-w-[335px] max-sm:px-[20px]">
+    <form className="flex flex-col z-10 mt-[40px] w-full max-w-[416px] max-sm:max-w-[335px]" onSubmit={(e) => { e.preventDefault(); }}>
       <AuthTitle title={'立即註冊'} />
       <AuthStep
         textColor2="text-[#ffffff]"
@@ -75,4 +74,4 @@ const SignUpForm2 = () => {
   )
 }
 
-export default SignUpForm2
+export default SignUpFormStep2

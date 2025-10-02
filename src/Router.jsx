@@ -3,7 +3,7 @@ import Home from './components/pages/Home.jsx'
 import Layout from './Layout.jsx'
 import Login from './components/auth/Login.jsx'
 import SignUp from './components/auth/SignUp.jsx'
-import SignUp2 from './components/auth/SignUp-2.jsx'
+import Account from './components/pages/Account.jsx'
 
 export const router = createBrowserRouter(
   [
@@ -23,9 +23,8 @@ export const router = createBrowserRouter(
           handle: { headerVariant: 'simple', footer: false },
         },
         {
-          path: 'sign-up2',
-          element: <SignUp2 />,
-          handle: { headerVariant: 'simple', footer: false },
+          path: 'account',
+          element: <Account />,
         },
       ],
     },
