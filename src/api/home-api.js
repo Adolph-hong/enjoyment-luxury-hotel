@@ -16,3 +16,7 @@ export function getNews(signal) {
 export function getRooms(signal) {
   return fetchWithSignal('/api/v1/rooms/', signal)
 }
+
+export function getRoomById(roomId, signal) {
+  return fetchWithSignal(`/api/v1/rooms/${roomId}`, signal)
+}
