@@ -5,6 +5,7 @@ import Login from './components/auth/Login.jsx'
 import SignUp from './components/auth/SignUp.jsx'
 import Account from './components/pages/Account.jsx'
 import Rooms from './components/pages/Rooms.jsx'
+import RoomDetail from './components/pages/RoomDetail.jsx'
 
 export const router = createBrowserRouter(
   [
@@ -30,6 +31,10 @@ export const router = createBrowserRouter(
         {
           path: 'room',
           element: <Rooms />,
+        },
+        {
+          path: 'room/:roomId',
+          element: <RoomDetail />,
         },
       ],
     },
