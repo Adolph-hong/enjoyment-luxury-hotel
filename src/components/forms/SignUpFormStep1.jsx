@@ -1,3 +1,4 @@
+import { useForm } from 'react-hook-form'
 import FormInput from '../ui/FormInput'
 import AuthTitle from '../shared/AuthTitle'
 import AuthStep from '../shared/AuthStep'
@@ -5,10 +6,19 @@ import AuthPrompt from '../shared/AuthPrompt'
 import Button from '../ui/Button'
 
 const SignUpFormStep1 = ({ onNext }) => {
+  const { register, handleSubmit, watch, formState: { errors } } = useForm()
+
+  const onSubmit = (data) => {
+    console.log(data)
+    onNext?.(data)
+  }
+
+  const password = watch('password')
+
   return (
-    <form className="flex flex-col z-10 mt-[40px] w-full max-w-[416px] max-sm:max-w-[335px] max-sm:px-[20px]" onSubmit={(e) => { e.preventDefault(); onNext?.(); }}>
+    <form className="flex flex-col z-10 mt-[40px] w-full max-w-[416px] max-sm:max-w-[335px]" onSubmit={handleSubmit(onSubmit)}>
         <AuthTitle eyebrow={'享樂酒店，誠摯歡迎'} title={'立即註冊'} />
-        <AuthStep 
+        <AuthStep
         textColor2="text-[#909090]"
         borderColor2="border-[#909090]"
         lineColor="bg-[#909090]"
@@ -20,6 +30,14 @@ const SignUpFormStep1 = ({ onNext }) => {
         inputId="email"
         inputType="email"
         placeholder="hello@exsample.com"
+        register={register('email', {
+          required: '電子信箱為必填',
+          pattern: {
+            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+            message: '請輸入有效的電子信箱'
+          }
+        })}
+        error={errors.email}
       />
       <FormInput
         labelType="password"
@@ -27,13 +45,26 @@ const SignUpFormStep1 = ({ onNext }) => {
         inputId="password"
         inputType="password"
         placeholder="請輸入密碼"
+        register={register('password', {
+          required: '密碼為必填',
+          minLength: {
+            value: 6,
+            message: '密碼至少需要 6 個字元'
+          }
+        })}
+        error={errors.password}
       />
       <FormInput
         labelType="password"
         labelContent="確認密碼"
-        inputId="password"
+        inputId="confirmPassword"
         inputType="password"
         placeholder="請再輸入一次密碼"
+        register={register('confirmPassword', {
+          required: '請確認密碼',
+          validate: value => value === password || '密碼不一致'
+        })}
+        error={errors.confirmPassword}
       />
       <Button
         bg="bg-[#ECECEC]"

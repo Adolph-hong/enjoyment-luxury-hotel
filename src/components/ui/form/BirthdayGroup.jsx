@@ -7,6 +7,8 @@ export default function BirthdayGroup({
   defaultMonth = 8,
   defaultDay = 15,
   className = '',
+  register,
+  errors,
 }) {
   return (
     <div className={className}>
@@ -14,19 +16,28 @@ export default function BirthdayGroup({
         {label}
       </div>
       <div className="flex gap-2 w-full">
-        {[
-          { options: years, defaultValue: defaultYear },
-          { options: months, defaultValue: defaultMonth },
-          { options: days, defaultValue: defaultDay },
-        ].map((item, index) => (
-          <Select
-            key={index}
-            className="flex-1 h-[56px] text-[#4B4B4B] bg-[#FFFFFF] rounded-[8px]"
-            options={item.options}
-            defaultValue={item.defaultValue}
-          />
-        ))}
+        <Select
+          className="flex-1 h-[56px] text-[#4B4B4B] bg-[#FFFFFF] rounded-[8px]"
+          options={years}
+          defaultValue={defaultYear}
+          {...(register && register('year'))}
+        />
+        <Select
+          className="flex-1 h-[56px] text-[#4B4B4B] bg-[#FFFFFF] rounded-[8px]"
+          options={months}
+          defaultValue={defaultMonth}
+          {...(register && register('month'))}
+        />
+        <Select
+          className="flex-1 h-[56px] text-[#4B4B4B] bg-[#FFFFFF] rounded-[8px]"
+          options={days}
+          defaultValue={defaultDay}
+          {...(register && register('day'))}
+        />
       </div>
+      {errors && (errors.year || errors.month || errors.day) && (
+        <span className="text-red-400 text-sm mt-1">請選擇完整的生日</span>
+      )}
     </div>
   )
 }
