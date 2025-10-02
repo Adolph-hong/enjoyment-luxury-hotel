@@ -1,4 +1,6 @@
 import { useForm } from 'react-hook-form'
+import { useState } from 'react'
+import { verifyEmail } from '../../api/usersApi'
 import FormInput from '../ui/FormInput'
 import AuthTitle from '../shared/AuthTitle'
 import AuthStep from '../shared/AuthStep'
@@ -6,11 +8,32 @@ import AuthPrompt from '../shared/AuthPrompt'
 import Button from '../ui/Button'
 
 const SignUpFormStep1 = ({ onNext }) => {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm()
+  const { register, handleSubmit, watch, formState: { errors }, setError } = useForm()
+  const [isLoading, setIsLoading] = useState(false)
 
-  const onSubmit = (data) => {
-    console.log(data)
-    onNext?.(data)
+  const onSubmit = async (data) => {
+    try {
+      setIsLoading(true)
+
+      // 先驗證 email 是否已註冊
+      const verifyResult = await verifyEmail(data.email)
+
+      if (verifyResult.result?.isEmailExists) {
+        setError('email', {
+          type: 'manual',
+          message: '此 Email 已註冊'
+        })
+        return
+      }
+
+      // Email 可用，進入下一步
+      onNext?.(data)
+    } catch (error) {
+      console.error('驗證失敗:', error)
+      alert(error.message || '驗證失敗，請稍後再試')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const password = watch('password')
@@ -48,8 +71,12 @@ const SignUpFormStep1 = ({ onNext }) => {
         register={register('password', {
           required: '密碼為必填',
           minLength: {
-            value: 6,
-            message: '密碼至少需要 6 個字元'
+            value: 8,
+            message: '密碼至少需要 8 個字元'
+          },
+          pattern: {
+            value: /^(?=.*[a-zA-Z])/,
+            message: '密碼不能只有數字，需包含英文字母'
           }
         })}
         error={errors.password}
@@ -71,10 +98,11 @@ const SignUpFormStep1 = ({ onNext }) => {
         color="text-[#909090]"
         hoverBg="hover:bg-[#BF9D7D]"
         hoverText="hover:text-[#ffffff]"
-        content={'下一步'}
+        content={isLoading ? '驗證中...' : '下一步'}
         mt="mt-[24px]"
         textSize="max-sm:text-[14px]"
         type="submit"
+        disabled={isLoading}
       />
       <AuthPrompt question={'已經有會員了嗎？'} goto={'立即登入'} goUrl={'/login'} mt="mt-[16px]" />
     </form>
