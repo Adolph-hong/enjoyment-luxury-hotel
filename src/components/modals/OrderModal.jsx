@@ -2,7 +2,7 @@ import Button from '../ui/Button'
 import cancelImg from '../../assets/icon/cancel.svg'
 const OrderModal = ({ handleCancel, handleConfirm }) => {
   return (
-    <div className="absolute w-[40%] mx-auto mb-auto top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 bg-white text-black rounded-lg p-3">
+    <div className="absolute w-[90%]  md:w-[40%] mx-auto mb-auto top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 bg-white text-black rounded-lg p-3">
       <div className="text-center relative w-full flex justify-center items-center">
         <button
           onClick={handleCancel}
