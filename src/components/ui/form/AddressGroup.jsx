@@ -1,0 +1,30 @@
+import Select from './Select'
+import { cities, districts } from '../../auth/addressOptions'
+
+export default function AddressGroup({ label = '地址', className = '', register, watch, errors }) {
+  const selectedCity = watch ? watch('city') : cities[0].value
+
+  return (
+    <div className={className}>
+      <div className="mb-2 text-[#fff] font-bold">{label}</div>
+      <div className="flex gap-4">
+
+        <Select
+          className="flex-1 h-[56px] text-[#4B4B4B] bg-[#FFFFFF] rounded-[8px]"
+          options={cities}
+          defaultValue={cities[0].value}
+          {...(register && register('city'))}
+        />
+
+        <Select
+          className="flex-1 h-[56px] text-[#4B4B4B] bg-[#FFFFFF] rounded-[8px]"
+          options={districts[selectedCity] || []}
+          {...(register && register('district'))}
+        />
+      </div>
+      {errors && (errors.city || errors.district) && (
+        <span className="text-red-400 text-sm mt-1">請選擇完整的地址</span>
+      )}
+    </div>
+  )
+}
