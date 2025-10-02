@@ -5,7 +5,7 @@ const Select = forwardRef(function Select({ options = [], className, ...rest }, 
     <div className={`relative ${className}`}>
       <select
         ref={ref}
-        className="w-full h-full appearance-none cursor-pointer bg-transparent pl-4 pr-12"
+        className="w-full h-full appearance-none cursor-pointer bg-transparent pl-4 pr-10 max-sm:text-[14px]"
         {...rest}
       >
         {options.map((opt) => (

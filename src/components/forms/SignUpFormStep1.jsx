@@ -4,9 +4,9 @@ import AuthStep from '../shared/AuthStep'
 import AuthPrompt from '../shared/AuthPrompt'
 import Button from '../ui/Button'
 
-const SignUpForm = () => {
+const SignUpFormStep1 = ({ onNext }) => {
   return (
-    <form className="flex flex-col z-10 mt-[40px] w-full max-w-[416px] max-sm:max-w-[335px] max-sm:px-[20px]">
+    <form className="flex flex-col z-10 mt-[40px] w-full max-w-[416px] max-sm:max-w-[335px] max-sm:px-[20px]" onSubmit={(e) => { e.preventDefault(); onNext?.(); }}>
         <AuthTitle eyebrow={'享樂酒店，誠摯歡迎'} title={'立即註冊'} />
         <AuthStep 
         textColor2="text-[#909090]"
@@ -43,11 +43,11 @@ const SignUpForm = () => {
         content={'下一步'}
         mt="mt-[24px]"
         textSize="max-sm:text-[14px]"
-        url="/sign-up2"
+        type="submit"
       />
       <AuthPrompt question={'已經有會員了嗎？'} goto={'立即登入'} goUrl={'/login'} mt="mt-[16px]" />
     </form>
   )
 }
 
-export default SignUpForm
+export default SignUpFormStep1
