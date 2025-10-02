@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { signup } from '../../api/usersApi'
+import { useAuth } from '../../contexts/AuthContext'
 import FormInput from '../ui/FormInput'
 import AuthTitle from '../shared/AuthTitle'
 import AuthStep from '../shared/AuthStep'
@@ -8,50 +9,45 @@ import AuthPrompt from '../shared/AuthPrompt'
 import BirthdayGroup from '../ui/form/BirthdayGroup'
 import AddressGroup from '../ui/form/AddressGroup'
 import Button from '../ui/Button'
-import { signup } from '../../api/auth-api'
-import { zipcodes } from '../auth/addressOptions'
-import { setCookie } from '../../utils/cookie'
+import { useNavigate } from 'react-router-dom'
 
-const SignUpFormStep2 = ({ onBack, initialData }) => {
+const SignUpFormStep2 = ({ step1Data }) => {
   const { register, handleSubmit, watch, formState: { errors } } = useForm()
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState(null)
   const navigate = useNavigate()
+  const { fetchUser } = useAuth()
 
   const onSubmit = async (data) => {
     try {
       setIsLoading(true)
-      setError(null)
 
-      // Get zipcode from city and district
-      const city = data.city || '高雄市'
-      const district = data.district || '新興區'
-      const zipcode = zipcodes[city]?.[district] || 800
-
-      // Combine step1 and step2 data
+      // 組合完整的註冊資料，根據 API 格式
       const signupData = {
-        email: initialData.email,
-        password: initialData.password,
         name: data.name,
+        email: step1Data.email,
+        password: step1Data.password,
         phone: data.phone,
-        birthday: `${data.year}/${data.month}/${data.day}`,
+        birthday: `${data.year}-${String(data.month).padStart(2, '0')}-${String(data.day).padStart(2, '0')}`,
         address: {
-          zipcode: zipcode,
-          detail: data.address,
-        },
+          zipcode: 802,
+          detail: data.address
+        }
       }
 
-      const response = await signup(signupData)
+      const result = await signup(signupData)
+      console.log('註冊成功:', result)
 
-      // Save token to cookie if provided
-      if (response.token) {
-        setCookie('customTodoToken', response.token)
+      // 註冊成功後儲存 token 並更新使用者資料
+      if (result.token) {
+        localStorage.setItem('token', result.token)
+        await fetchUser()
       }
 
-      // Navigate to login or home page
-      navigate('/login')
-    } catch (err) {
-      setError(err.message || '註冊失敗，請稍後再試')
+      alert('註冊成功！')
+      navigate('/')
+    } catch (error) {
+      console.error('註冊失敗:', error)
+      alert(error.message || '註冊失敗，請稍後再試')
     } finally {
       setIsLoading(false)
     }
@@ -142,9 +138,6 @@ const SignUpFormStep2 = ({ onBack, initialData }) => {
         type="submit"
         disabled={isLoading}
       />
-      {error && (
-        <p className="text-red-400 text-sm mt-2">{error}</p>
-      )}
       <AuthPrompt question={'已經有會員了嗎？'} goto={'立即登入'} goUrl={'/login'} mt="mt-[16px]" />
     </form>
   )

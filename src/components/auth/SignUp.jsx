@@ -5,10 +5,10 @@ import SignUpFormStep2 from '../forms/SignUpFormStep2'
 
 const SignUp = () => {
   const [step, setStep] = useState(1)
-  const [formData, setFormData] = useState({})
+  const [step1Data, setStep1Data] = useState(null)
 
   const handleNextStep = (data) => {
-    setFormData({ ...formData, ...data })
+    setStep1Data(data)
     setStep(2)
   }
 
@@ -17,7 +17,7 @@ const SignUp = () => {
       {step === 1 ? (
         <SignUpFormStep1 onNext={handleNextStep} />
       ) : (
-        <SignUpFormStep2 onBack={() => setStep(1)} initialData={formData} />
+        <SignUpFormStep2 onBack={() => setStep(1)} step1Data={step1Data} />
       )}
     </AuthLayout>
   )

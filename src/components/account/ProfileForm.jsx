@@ -1,306 +1,314 @@
-import { useState, useEffect } from 'react'
-import { useForm } from 'react-hook-form'
-import FormInput from '../ui/FormInput'
-import BirthdayGroup from '../ui/form/BirthdayGroup'
-import AddressGroup from '../ui/form/AddressGroup'
+import { useState } from 'react'
+import { useAuth } from '../../contexts/AuthContext'
+import { updateUserInfo } from '../../api/usersApi'
 import Button from '../ui/Button'
-import { getUser, updateUser } from '../../api/auth-api'
-import { getCookie } from '../../utils/cookie'
+import Select from '../ui/form/Select'
+import { years, months, days } from '../auth/dateOptions'
+import { cities, districts } from '../auth/addressOptions'
 
 const ProfileForm = () => {
+  const { user, fetchUser } = useAuth()
+  const [isLoading, setIsLoading] = useState(false)
+
+  // 編輯模式控制
   const [isEditingPassword, setIsEditingPassword] = useState(false)
   const [isEditingProfile, setIsEditingProfile] = useState(false)
-  const [user, setUser] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const {
-    register,
-    handleSubmit,
-    watch,
-    reset,
-    formState: { errors },
-  } = useForm()
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      const token = getCookie('customTodoToken')
-      if (!token) {
-        setIsLoading(false)
-        return
-      }
+  // 密碼表單
+  const [oldPassword, setOldPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmNewPassword, setConfirmNewPassword] = useState('')
 
-      try {
-        const response = await getUser()
-        const userData = response.result
-        setUser(userData)
+  // 個人資料表單
+  const [name, setName] = useState(user?.name || '')
+  const [phone, setPhone] = useState(user?.phone || '')
 
-        // Parse birthday
-        const birthday = userData.birthday ? userData.birthday.split('/') : []
-        const year = birthday[0] || ''
-        const month = birthday[1] || ''
-        const day = birthday[2] || ''
+  // 生日
+  const birthdayDate = user?.birthday ? new Date(user.birthday) : new Date('1990-08-15')
+  const [year, setYear] = useState(birthdayDate.getFullYear())
+  const [month, setMonth] = useState(birthdayDate.getMonth() + 1)
+  const [day, setDay] = useState(birthdayDate.getDate())
 
-        reset({
-          email: userData.email || '',
-          name: userData.name || '',
-          phone: userData.phone || '',
-          address: userData.address?.detail || '',
-          city: userData.address?.city || '高雄市',
-          district: userData.address?.district || '新興區',
-          zipcode: userData.address?.zipcode || '',
-          year,
-          month,
-          day,
-        })
-      } catch (error) {
-        console.error('Failed to fetch user data:', error)
-      } finally {
-        setIsLoading(false)
-      }
+  // 地址
+  const [selectedCity, setSelectedCity] = useState(user?.address?.city || cities[0].value)
+  const [selectedDistrict, setSelectedDistrict] = useState(user?.address?.county || '')
+  const [addressDetail, setAddressDetail] = useState(user?.address?.detail || '')
+
+  // 修改密碼
+  const handleChangePassword = async () => {
+    if (!oldPassword || !newPassword || !confirmNewPassword) {
+      alert('請填寫所有密碼欄位')
+      return
     }
 
-    fetchUserData()
-  }, [])
+    if (newPassword !== confirmNewPassword) {
+      alert('新密碼與確認密碼不一致')
+      return
+    }
 
-  const onSubmitPassword = (data) => {
-    console.log('Password change:', data)
-    setIsEditingPassword(false)
-  }
+    if (newPassword.length < 8) {
+      alert('新密碼至少需要 8 個字元')
+      return
+    }
 
-  const onSubmitProfile = async (data) => {
     try {
-      const updatedData = {
+      setIsLoading(true)
+      await updateUserInfo({
         userId: user._id,
-        name: data.name,
-        phone: data.phone,
-        birthday: `${data.year}/${data.month}/${data.day}`,
-        address: {
-          zipcode: parseInt(data.zipcode) || 0,
-          detail: data.address,
-        },
-      }
-
-      await updateUser(updatedData)
-      setUser({ ...user, ...updatedData })
-      setIsEditingProfile(false)
-      alert('更新成功！')
+        oldPassword,
+        newPassword
+      })
+      setOldPassword('')
+      setNewPassword('')
+      setConfirmNewPassword('')
+      setIsEditingPassword(false)
+      alert('密碼修改成功！')
     } catch (error) {
-      console.error('Failed to update profile:', error)
-      alert('更新失敗，請稍後再試')
+      console.error('修改密碼失敗:', error)
+      alert(error.message || '修改密碼失敗')
+    } finally {
+      setIsLoading(false)
     }
   }
 
-  const password = watch('password')
-
-  if (isLoading) {
-    return <div className="mt-8 text-white text-center">載入中...</div>
+  // 更新個人資料
+  const handleUpdateProfile = async () => {
+    try {
+      setIsLoading(true)
+      await updateUserInfo({
+        userId: user._id,
+        name,
+        phone,
+        birthday: `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`,
+        address: {
+          zipcode: 802,
+          city: selectedCity,
+          county: selectedDistrict,
+          detail: addressDetail
+        }
+      })
+      await fetchUser()
+      setIsEditingProfile(false)
+      alert('資料更新成功！')
+    } catch (error) {
+      console.error('更新失敗:', error)
+      alert(error.message || '更新失敗')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   if (!user) {
-    return <div className="mt-8 text-white text-center">請先登入</div>
+    return <div className="mt-8 text-center text-white">載入中...</div>
   }
-
+  
   return (
-    <div className="mt-8 flex flex-col md:flex-row gap-6">
+    <div className="mt-8 flex gap-6 max-xl:flex-col">
       {/* 修改密碼卡片 */}
-      <div className="bg-white w-full md:w-2/5 mb-auto text-black rounded-lg p-8">
+      <div className="bg-white w-2/5 mb-auto text-black rounded-lg p-8 max-xl:w-full">
         <h3 className="text-2xl font-bold mb-6">修改密碼</h3>
 
-        {!isEditingPassword ? (
-          <div className="space-y-4">
-            <div>
-              <label className="block text-sm text-[#4B4B4B] mb-2">電子信箱</label>
-              <p className="text-[#000000]">{user?.email}</p>
-            </div>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-sm font-bold mb-2">電子信箱</label>
+            <p className="text-gray-700">{user.email}</p>
+          </div>
 
-            <div>
-              <label className="block text-sm text-[#4B4B4B] mb-2">密碼</label>
-              <div className="flex items-center justify-between">
-                <p className="text-[#000000]">••••••••••</p>
+          <div>
+            <label className="block text-sm font-bold mb-2">密碼</label>
+            <div className="flex items-center justify-between">
+              <p className="text-gray-700">•••••••••</p>
+              {!isEditingPassword && (
                 <button
                   onClick={() => setIsEditingPassword(true)}
-                  className="text-sm text-[#BF9D7D] hover:underline"
+                  className="text-[#BF9D7D] underline hover:text-[#A68968] cursor-pointer"
                 >
                   重設
                 </button>
-              </div>
+              )}
             </div>
           </div>
-        ) : (
-          <form onSubmit={handleSubmit(onSubmitPassword)}>
-            <FormInput
-              labelContent="電子信箱"
-              inputId="email"
-              inputType="email"
-              placeholder="hello@exsample.com"
-              register={register('email', {
-                required: '電子信箱為必填',
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: '請輸入有效的電子信箱',
-                },
-              })}
-              error={errors.email}
-            />
-            <FormInput
-              labelContent="舊密碼"
-              inputId="oldPassword"
-              inputType="password"
-              placeholder="請輸入舊密碼"
-              register={register('oldPassword', {
-                required: '舊密碼為必填',
-              })}
-              error={errors.oldPassword}
-            />
-            <FormInput
-              labelContent="新密碼"
-              inputId="password"
-              inputType="password"
-              placeholder="請輸入新密碼"
-              register={register('password', {
-                required: '新密碼為必填',
-                minLength: {
-                  value: 6,
-                  message: '密碼至少需要 6 個字元',
-                },
-              })}
-              error={errors.password}
-            />
-            <FormInput
-              labelContent="確認新密碼"
-              inputId="confirmPassword"
-              inputType="password"
-              placeholder="請再輸入一次新密碼"
-              register={register('confirmPassword', {
-                required: '請確認密碼',
-                validate: value => value === password || '密碼不一致'
-              })}
-              error={errors.confirmPassword}
-            />
-            <div className="flex gap-4">
-              <Button
-                bg="bg-white"
-                color="text-[#BF9D7D]"
-                hoverBg="hover:bg-gray-100"
-                content={'取消'}
-                onClick={() => setIsEditingPassword(false)}
-                textSize="max-sm:text-[14px]"
-                type="button"
-              />
-              <Button
-                bg="bg-[#BF9D7D]"
-                color="text-[#FFFFFF]"
-                hoverBg="hover:bg-[#8B7355]"
-                content={'儲存設定'}
-                textSize="max-sm:text-[14px]"
-                type="submit"
-              />
-            </div>
-          </form>
-        )}
+
+          {isEditingPassword && (
+            <>
+              <div>
+                <label className="block text-sm font-bold mb-2">舊密碼</label>
+                <input
+                  type="password"
+                  value={oldPassword}
+                  onChange={(e) => setOldPassword(e.target.value)}
+                  className="w-full h-[56px] px-4 border rounded-[8px]"
+                  placeholder="請輸入舊密碼"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold mb-2">新密碼</label>
+                <input
+                  type="password"
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  className="w-full h-[56px] px-4 border rounded-[8px]"
+                  placeholder="請輸入新密碼"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold mb-2">確認新密碼</label>
+                <input
+                  type="password"
+                  value={confirmNewPassword}
+                  onChange={(e) => setConfirmNewPassword(e.target.value)}
+                  className="w-full h-[56px] px-4 border rounded-[8px]"
+                  placeholder="請再輸入一次新密碼"
+                />
+              </div>
+
+              <button
+                onClick={handleChangePassword}
+                disabled={isLoading}
+                className="w-[129px] h-[56px] rounded-[8px] bg-[#ECECEC] text-[#909090] font-bold hover:bg-[#D5D5D5] disabled:opacity-50 max-lg:w-full"
+              >
+                {isLoading ? '儲存中...' : '儲存設定'}
+              </button>
+            </>
+          )}
+        </div>
       </div>
 
       {/* 基本資料卡片 */}
-      <div className="bg-white w-full md:w-3/5 text-black rounded-lg p-8">
+      <div className="bg-white w-3/5 text-black rounded-lg p-8 max-xl:w-full">
         <h3 className="text-2xl font-bold mb-6">基本資料</h3>
 
-        {!isEditingProfile ? (
+        {isEditingProfile ? (
           <div className="space-y-4">
             <div>
-              <label className="block text-sm text-[#4B4B4B] mb-2">姓名</label>
-              <p className="text-[#000000]">{user?.name}</p>
+              <label className="block text-sm font-bold mb-2">姓名</label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className="w-full h-[56px] px-4 border rounded-[8px]"
+                placeholder="請輸入姓名"
+              />
             </div>
 
             <div>
-              <label className="block text-sm text-[#4B4B4B] mb-2">手機號碼</label>
-              <p className="text-[#000000]">{user?.phone}</p>
+              <label className="block text-sm font-bold mb-2">手機號碼</label>
+              <input
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                className="w-full h-[56px] px-4 border rounded-[8px]"
+                placeholder="請輸入手機號碼"
+              />
             </div>
 
             <div>
-              <label className="block text-sm text-[#4B4B4B] mb-2">生日</label>
-              <p className="text-[#000000]">{user?.birthday?.replace(/\//g, ' 年 ').replace(/(\d+)$/, '$1 日').replace(/(\d+) 日/, '$1 月 ')}</p>
+              <label className="block text-sm font-bold mb-2">生日</label>
+              <div className="flex gap-2">
+                <Select
+                  className="flex-1 h-[56px] text-[#4B4B4B] bg-[#FFFFFF] rounded-[8px] border"
+                  options={years}
+                  value={year}
+                  onChange={(e) => setYear(Number(e.target.value))}
+                />
+                <Select
+                  className="flex-1 h-[56px] text-[#4B4B4B] bg-[#FFFFFF] rounded-[8px] border"
+                  options={months}
+                  value={month}
+                  onChange={(e) => setMonth(Number(e.target.value))}
+                />
+                <Select
+                  className="flex-1 h-[56px] text-[#4B4B4B] bg-[#FFFFFF] rounded-[8px] border"
+                  options={days}
+                  value={day}
+                  onChange={(e) => setDay(Number(e.target.value))}
+                />
+              </div>
             </div>
 
             <div>
-              <label className="block text-sm text-[#4B4B4B] mb-2">地址</label>
-              <p className="text-[#000000]">{user?.address?.detail}</p>
+              <label className="block text-sm font-bold mb-2">地址</label>
+              <div className="flex gap-4 mb-4">
+                <Select
+                  className="flex-1 h-[56px] text-[#4B4B4B] bg-[#FFFFFF] rounded-[8px] border"
+                  options={cities}
+                  value={selectedCity}
+                  onChange={(e) => {
+                    setSelectedCity(e.target.value)
+                    setSelectedDistrict('')
+                  }}
+                />
+                <Select
+                  className="flex-1 h-[56px] text-[#4B4B4B] bg-[#FFFFFF] rounded-[8px] border"
+                  options={districts[selectedCity] || []}
+                  value={selectedDistrict}
+                  onChange={(e) => setSelectedDistrict(e.target.value)}
+                />
+              </div>
+              <input
+                type="text"
+                value={addressDetail}
+                onChange={(e) => setAddressDetail(e.target.value)}
+                className="w-full h-[56px] px-4 border rounded-[8px]"
+                placeholder="請輸入詳細地址"
+              />
             </div>
 
             <button
-              onClick={() => setIsEditingProfile(true)}
-              className="mt-4 px-8 py-3 border-2 border-[#BF9D7D] text-[#BF9D7D] rounded hover:bg-[#BF9D7D] hover:text-white transition-colors"
+              onClick={handleUpdateProfile}
+              disabled={isLoading}
+              className="w-[129px] max-lg:w-full h-[56px] rounded-[8px] bg-[#ECECEC] text-[#909090] font-bold hover:bg-[#D5D5D5] disabled:opacity-50"
+            >
+              {isLoading ? '儲存中...' : '儲存設定'}
+            </button>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-bold mb-2">姓名</label>
+              <p className="text-gray-700">{user.name}</p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold mb-2">手機號碼</label>
+              <p className="text-gray-700">{user.phone}</p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold mb-2">生日</label>
+              <p className="text-gray-700">
+                {year} 年 {month} 月 {day} 日
+              </p>
+            </div>
+
+            <div>
+              <label className="block text-sm font-bold mb-2">地址</label>
+              <p className="text-gray-700">
+                {user.address?.city}{user.address?.county} {user.address?.detail}
+              </p>
+            </div>
+
+            <button
+              onClick={() => {
+                // 載入原始資料
+                setName(user.name || '')
+                setPhone(user.phone || '')
+                const bd = user.birthday ? new Date(user.birthday) : new Date('1990-08-15')
+                setYear(bd.getFullYear())
+                setMonth(bd.getMonth() + 1)
+                setDay(bd.getDate())
+                setSelectedCity(user.address?.city || cities[0].value)
+                setSelectedDistrict(user.address?.county || '')
+                setAddressDetail(user.address?.detail || '')
+                setIsEditingProfile(true)
+              }}
+              className="w-[97px] h-[56px] border border-[#BF9D7D] rounded-[8px] text-[#BF9D7D] font-bold hover:bg-[#BF9D7D] hover:text-white transition-colors cursor-pointer"
             >
               編輯
             </button>
           </div>
-        ) : (
-          <form onSubmit={handleSubmit(onSubmitProfile)}>
-            <FormInput
-              labelContent="姓名"
-              inputId="name"
-              inputType="text"
-              placeholder="請輸入姓名"
-              register={register('name', {
-                required: '姓名為必填'
-              })}
-              error={errors.name}
-            />
-            <FormInput
-              labelContent="手機號碼"
-              inputId="phone"
-              inputType="tel"
-              placeholder="請輸入手機號碼"
-              register={register('phone', {
-                required: '手機號碼為必填',
-                pattern: {
-                  value: /^09[0-9]{8}$/,
-                  message: '請輸入有效的手機號碼'
-                }
-              })}
-              error={errors.phone}
-            />
-            <BirthdayGroup
-              className="w-full mb-[16px]"
-              register={register}
-              errors={errors}
-            />
-            <AddressGroup
-              className="w-full mb-[16px]"
-              register={register}
-              watch={watch}
-              errors={errors}
-            />
-            <FormInput
-              labelContent="詳細地址"
-              inputId="address"
-              inputType="text"
-              placeholder="請輸入詳細地址"
-              register={register('address', {
-                required: '詳細地址為必填'
-              })}
-              error={errors.address}
-            />
-
-            <div className="flex gap-4 mt-6">
-              <Button
-                bg="bg-white"
-                color="text-[#BF9D7D]"
-                hoverBg="hover:bg-gray-100"
-                content={'取消'}
-                onClick={() => setIsEditingProfile(false)}
-                textSize="max-sm:text-[14px]"
-                type="button"
-              />
-              <Button
-                bg="bg-[#BF9D7D]"
-                color="text-[#FFFFFF]"
-                hoverBg="hover:bg-[#8B7355]"
-                content={'儲存設定'}
-                textSize="max-sm:text-[14px]"
-                type="submit"
-              />
-            </div>
-          </form>
-        )}
       </div>
     </div>
   )

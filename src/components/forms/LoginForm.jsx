@@ -1,34 +1,31 @@
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { login } from '../../api/usersApi'
+import { useAuth } from '../../contexts/AuthContext'
 import FormInput from '../ui/FormInput'
 import AuthTitle from '../shared/AuthTitle'
 import Button from '../ui/Button'
-import { Link } from 'react-router-dom'
-import { login } from '../../api/auth-api'
-import { setCookie } from '../../utils/cookie'
+import { Link, useNavigate } from 'react-router-dom'
 
 const LoginForm = () => {
   const { register, handleSubmit, formState: { errors } } = useForm()
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState(null)
   const navigate = useNavigate()
+  const { fetchUser } = useAuth()
 
   const onSubmit = async (data) => {
     try {
       setIsLoading(true)
-      setError(null)
-      const response = await login(data.email, data.password)
-
-      // Save token to cookie
-      if (response.token) {
-        setCookie('customTodoToken', response.token)
+      const result = await login(data.email, data.password)
+      console.log('登入成功:', result)
+      if (result.token) {
+        localStorage.setItem('token', result.token)
+        await fetchUser()
       }
-
-      // Navigate to home or account page
       navigate('/')
-    } catch (err) {
-      setError(err.message || '登入失敗，請檢查您的電子信箱和密碼')
+    } catch (error) {
+      console.error('登入失敗:', error)
+      alert(error.message || '登入失敗，請檢查帳號密碼')
     } finally {
       setIsLoading(false)
     }
@@ -62,8 +59,12 @@ const LoginForm = () => {
         register={register('password', {
           required: '密碼為必填',
           minLength: {
-            value: 6,
-            message: '密碼至少需要 6 個字元'
+            value: 8,
+            message: '密碼至少需要 8 個字元'
+          },
+          pattern: {
+            value: /^(?=.*[a-zA-Z])/,
+            message: '密碼不能只有數字，需包含英文字母'
           }
         })}
         error={errors.password}
@@ -106,10 +107,6 @@ const LoginForm = () => {
         type="submit"
         disabled={isLoading}
       />
-      {error && (
-        <p className="text-red-400 text-sm mt-2">{error}</p>
-      )}
-
       <div className="flex gap-2 mt-[40px] max-sm:text-[14px]" >
         <p className="text-[#FFFFFF]">沒有會員嗎？</p>
         <Link to="/sign-up" className="text-[#BF9D7D] font-bold">
