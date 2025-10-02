@@ -2,7 +2,7 @@ const ProfileForm = () => {
   return (
     <div className="mt-8 flex flex-col md:flex-row gap-6">
       {/* 修改密碼卡片 */}
-      <div className="bg-white w-2/5 text-black rounded-lg p-8">
+      <div className="bg-white w-full md:w-2/5 mb-auto text-black rounded-lg p-8">
         <h3 className="text-2xl font-bold mb-6">修改密碼</h3>
 
         <div className="space-y-4">
@@ -24,7 +24,7 @@ const ProfileForm = () => {
       </div>
 
       {/* 基本資料卡片 */}
-      <div className="bg-white w-3/5 text-black rounded-lg p-8">
+      <div className="bg-white w-full md:w-3/5 text-black rounded-lg p-8">
         <h3 className="text-2xl font-bold mb-6">基本資料</h3>
 
         <div className="space-y-4">

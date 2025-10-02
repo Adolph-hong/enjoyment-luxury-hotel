@@ -29,7 +29,7 @@ const OrderList = () => {
   return (
     <div className="mt-8 flex flex-col md:flex-row gap-6">
       {/* 訂單來往詳情卡片 */}
-      <div className="bg-white w-3/5 text-black rounded-lg p-8">
+      <div className="bg-white w-full md:w-3/5 text-black rounded-lg p-8">
         <div className="mb-4">
           <p className="text-sm text-gray-500 mb-2">
             預訂參考編號：10912301512222
@@ -135,13 +135,10 @@ const OrderList = () => {
       </div>
 
       {/* 歷史訂單列表 */}
-      <div className="space-y-4 w-2/5">
+      <div className="space-y-4 mb-auto p-6 bg-white text-black rounded-lg w-full md:w-2/5">
         <h3 className="text-2xl font-bold mb-4">歷史訂單</h3>
         {orders.map((order) => (
-          <div
-            key={order.id}
-            className="bg-white text-black rounded-lg p-6 flex gap-4"
-          >
+          <div key={order.id} className="flex gap-4">
             <img
               src="https://via.placeholder.com/120x120"
               alt={order.name}
