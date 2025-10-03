@@ -24,15 +24,23 @@ const ProfileForm = () => {
   const [phone, setPhone] = useState(user?.phone || '')
 
   // 生日
-  const birthdayDate = user?.birthday ? new Date(user.birthday) : new Date('1990-08-15')
+  const birthdayDate = user?.birthday
+    ? new Date(user.birthday)
+    : new Date('1990-08-15')
   const [year, setYear] = useState(birthdayDate.getFullYear())
   const [month, setMonth] = useState(birthdayDate.getMonth() + 1)
   const [day, setDay] = useState(birthdayDate.getDate())
 
   // 地址
-  const [selectedCity, setSelectedCity] = useState(user?.address?.city || cities[0].value)
-  const [selectedDistrict, setSelectedDistrict] = useState(user?.address?.county || '')
-  const [addressDetail, setAddressDetail] = useState(user?.address?.detail || '')
+  const [selectedCity, setSelectedCity] = useState(
+    user?.address?.city || cities[0].value,
+  )
+  const [selectedDistrict, setSelectedDistrict] = useState(
+    user?.address?.county || '',
+  )
+  const [addressDetail, setAddressDetail] = useState(
+    user?.address?.detail || '',
+  )
 
   // 修改密碼
   const handleChangePassword = async () => {
@@ -56,7 +64,7 @@ const ProfileForm = () => {
       await updateUserInfo({
         userId: user._id,
         oldPassword,
-        newPassword
+        newPassword,
       })
       setOldPassword('')
       setNewPassword('')
@@ -84,8 +92,8 @@ const ProfileForm = () => {
           zipcode: 802,
           city: selectedCity,
           county: selectedDistrict,
-          detail: addressDetail
-        }
+          detail: addressDetail,
+        },
       })
       await fetchUser()
       setIsEditingProfile(false)
@@ -101,7 +109,7 @@ const ProfileForm = () => {
   if (!user) {
     return <div className="mt-8 text-center text-white">載入中...</div>
   }
-  
+
   return (
     <div className="mt-8 flex gap-6 max-xl:flex-col">
       {/* 修改密碼卡片 */}
@@ -154,7 +162,9 @@ const ProfileForm = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-bold mb-2">確認新密碼</label>
+                <label className="block text-sm font-bold mb-2">
+                  確認新密碼
+                </label>
                 <input
                   type="password"
                   value={confirmNewPassword}
@@ -286,7 +296,8 @@ const ProfileForm = () => {
             <div>
               <label className="block text-sm font-bold mb-2">地址</label>
               <p className="text-gray-700">
-                {user.address?.city}{user.address?.county} {user.address?.detail}
+                {user.address?.city}
+                {user.address?.county} {user.address?.detail}
               </p>
             </div>
 
@@ -295,7 +306,9 @@ const ProfileForm = () => {
                 // 載入原始資料
                 setName(user.name || '')
                 setPhone(user.phone || '')
-                const bd = user.birthday ? new Date(user.birthday) : new Date('1990-08-15')
+                const bd = user.birthday
+                  ? new Date(user.birthday)
+                  : new Date('1990-08-15')
                 setYear(bd.getFullYear())
                 setMonth(bd.getMonth() + 1)
                 setDay(bd.getDate())
