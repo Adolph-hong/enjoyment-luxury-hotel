@@ -4,7 +4,7 @@ import { updateUserInfo } from '../../api/usersApi'
 import Button from '../ui/Button'
 import Select from '../ui/form/Select'
 import { years, months, days } from '../auth/dateOptions'
-import { cities, districts } from '../auth/addressOptions'
+import { cities, districts, zipcodes } from '../auth/addressOptions'
 
 const ProfileForm = () => {
   const { user, fetchUser } = useAuth()
@@ -81,15 +81,25 @@ const ProfileForm = () => {
 
   // 更新個人資料
   const handleUpdateProfile = async () => {
+    // 驗證必填欄位
+    if (!name || !phone || !selectedCity || !selectedDistrict || !addressDetail) {
+      alert('請填寫所有必填欄位')
+      return
+    }
+
     try {
       setIsLoading(true)
+
+      // 從 zipcodes 取得對應的郵遞區號
+      const zipcode = zipcodes[selectedCity]?.[selectedDistrict] || 800
+
       await updateUserInfo({
         userId: user._id,
         name,
         phone,
         birthday: `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`,
         address: {
-          zipcode: 802,
+          zipcode: zipcode,
           city: selectedCity,
           county: selectedDistrict,
           detail: addressDetail,

@@ -1,4 +1,4 @@
-import React from 'react'
+import { Fragment } from 'react'
 import { aboutData } from './data'
 
 const AboutSection = () => {
@@ -17,10 +17,10 @@ const AboutSection = () => {
             </div>
             <div className="text-sm leading-6">
               {aboutData.description.map((desc, index) => (
-                <React.Fragment key={index}>
+                <Fragment key={index}>
                   <p>{desc}</p>
                   <br />
-                </React.Fragment>
+                </Fragment>
               ))}
             </div>
           </div>

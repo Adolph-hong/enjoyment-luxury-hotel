@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import { Navigation, Pagination } from 'swiper/modules'
 import 'swiper/css'
@@ -9,6 +10,7 @@ import person from '/src/assets/icon/person.svg'
 
 const RoomCard = ({ room }) => {
   const {
+    _id,
     name,
     description,
     imageUrlList,
@@ -17,6 +19,9 @@ const RoomCard = ({ room }) => {
     bedInfo,
     maxPeople,
   } = room
+
+  // Format maxPeople for display
+  const maxPeopleDisplay = typeof maxPeople === 'number' ? `2-${maxPeople} 人` : maxPeople
 
   return (
     <div className="flex bg-white rounded-[20px] overflow-hidden shadow-lg max-lg:flex-col">
@@ -75,7 +80,7 @@ const RoomCard = ({ room }) => {
               <div className="w-10 h-10 mb-2">
                 <img src={person} alt="person icon" />
               </div>
-              <p className="text-base font-bold">{maxPeople}</p>
+              <p className="text-base font-bold">{maxPeopleDisplay}</p>
             </div>
           </div>
         </div>
@@ -87,9 +92,12 @@ const RoomCard = ({ room }) => {
             <p className="text-[#BF9D7D] text-2xl font-bold">
               NT$ {price.toLocaleString()}
             </p>
-            <button className="text-[#BF9D7D] hover:text-[#8B6F47] transition-colors">
+            <Link
+              to={`/room/${_id}`}
+              className="text-[#BF9D7D] hover:text-[#8B6F47] transition-colors"
+            >
               <span className="text-2xl">→</span>
-            </button>
+            </Link>
           </div>
         </div>
       </div>
