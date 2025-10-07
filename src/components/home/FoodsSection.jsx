@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { foodsData } from './data'
 import FoodsSwiper from '../swipers/FoodsSwiper'
-import { getCulinary } from '../../api/home-api'
+import { getCulinary } from '../../api/homeApi'
 
 const FoodsSection = () => {
   const [foods, setFoods] = useState([])

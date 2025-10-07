@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { getRooms } from '../api/home-api'
+import { getRooms } from '../api/homeApi'
 
 export const useRooms = () => {
   const [rooms, setRooms] = useState([])
