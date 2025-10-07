@@ -25,7 +25,7 @@ const Header = ({ simple }) => {
   return (
     <header className="absolute inset-x-0 top-0 z-50 text-white">
       <div className="flex justify-between">
-        <div className="pt-[16px] xl:pt-[32.55px] pl-[80px] flex flex-col gap-2">
+        <div className="pt-6 md:pt-[32.55px] pl-5 md:pl-[60px] flex flex-col gap-2">
           <img src={hotelLogo} alt="hotelLogo"></img>
           <img src={hotelLogoEn} alt="hotelLogo-English" />
         </div>
@@ -34,7 +34,7 @@ const Header = ({ simple }) => {
           <button
             onClick={() => setIsOpen(true)}
             type="button"
-            className="cursor-pointer xl:hidden pr-10 block"
+            className="cursor-pointer xl:hidden pr-4 block"
           >
             <img src={burgerLogo} alt="burgerLogo" />
           </button>
