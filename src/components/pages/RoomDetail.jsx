@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
-import { getRoomById } from '../../api/home-api'
+import { getRoomById } from '../../api/homeApi'
 import { useAuth } from '../../contexts/AuthContext'
 import py from '/src/assets/icon/Vector.svg'
 import bed from '/src/assets/icon/bed.svg'
@@ -95,7 +95,9 @@ const RoomDetail = () => {
   }
 
   const maxPeopleDisplay =
-    typeof room.maxPeople === 'number' ? `2-${room.maxPeople} 人` : room.maxPeople
+    typeof room.maxPeople === 'number'
+      ? `2-${room.maxPeople} 人`
+      : room.maxPeople
 
   return (
     <div className="min-h-screen bg-[#F7F2EE]">
@@ -137,7 +139,9 @@ const RoomDetail = () => {
           <div className="flex-1 bg-white rounded-[20px] p-10">
             {/* 房間標題 */}
             <div className="mb-10">
-              <h1 className="text-[#140F0A] text-[48px] font-bold mb-4">{room.name}</h1>
+              <h1 className="text-[#140F0A] text-[48px] font-bold mb-4">
+                {room.name}
+              </h1>
               <p className="text-[#4B4B4B] leading-8 whitespace-pre-line text-base">
                 {room.description}
               </p>
@@ -153,19 +157,25 @@ const RoomDetail = () => {
                   <div className="w-10 h-10">
                     <img src={py} alt="square meter icon" />
                   </div>
-                  <p className="text-[#4B4B4B] text-base font-bold">{room.areaInfo}</p>
+                  <p className="text-[#4B4B4B] text-base font-bold">
+                    {room.areaInfo}
+                  </p>
                 </div>
                 <div className="flex flex-col items-center gap-2 border border-[#ECECEC] rounded-lg px-8 py-6 min-w-[140px]">
                   <div className="w-10 h-10">
                     <img src={bed} alt="bed icon" />
                   </div>
-                  <p className="text-[#4B4B4B] text-base font-bold">{room.bedInfo}</p>
+                  <p className="text-[#4B4B4B] text-base font-bold">
+                    {room.bedInfo}
+                  </p>
                 </div>
                 <div className="flex flex-col items-center gap-2 border border-[#ECECEC] rounded-lg px-8 py-6 min-w-[140px]">
                   <div className="w-10 h-10">
                     <img src={person} alt="person icon" />
                   </div>
-                  <p className="text-[#4B4B4B] text-base font-bold">{maxPeopleDisplay}</p>
+                  <p className="text-[#4B4B4B] text-base font-bold">
+                    {maxPeopleDisplay}
+                  </p>
                 </div>
               </div>
             </div>
@@ -203,7 +213,9 @@ const RoomDetail = () => {
                         <path d="M6 18L18 6M6 6l12 12"></path>
                       </svg>
                     )}
-                    <span className={`text-base ${item.isProvide ? 'text-[#4B4B4B]' : 'text-[#ECECEC]'}`}>
+                    <span
+                      className={`text-base ${item.isProvide ? 'text-[#4B4B4B]' : 'text-[#ECECEC]'}`}
+                    >
                       {item.title}
                     </span>
                   </div>
@@ -244,7 +256,9 @@ const RoomDetail = () => {
                         <path d="M6 18L18 6M6 6l12 12"></path>
                       </svg>
                     )}
-                    <span className={`text-base ${item.isProvide ? 'text-[#4B4B4B]' : 'text-[#ECECEC]'}`}>
+                    <span
+                      className={`text-base ${item.isProvide ? 'text-[#4B4B4B]' : 'text-[#ECECEC]'}`}
+                    >
                       {item.title}
                     </span>
                   </div>
@@ -285,7 +299,9 @@ const RoomDetail = () => {
                         <path d="M6 18L18 6M6 6l12 12"></path>
                       </svg>
                     )}
-                    <span className={`text-base ${item.isProvide ? 'text-[#4B4B4B]' : 'text-[#ECECEC]'}`}>
+                    <span
+                      className={`text-base ${item.isProvide ? 'text-[#4B4B4B]' : 'text-[#ECECEC]'}`}
+                    >
                       {item.title}
                     </span>
                   </div>
@@ -305,39 +321,57 @@ const RoomDetail = () => {
                 </li>
                 <li className="flex">
                   <span className="mr-2">2.</span>
-                  <span>如需提前入住或延後退房，請提前與櫃檯聯繫，視當日房況為主（可能會產生額外費用）</span>
+                  <span>
+                    如需提前入住或延後退房，請提前與櫃檯聯繫，視當日房況為主（可能會產生額外費用）
+                  </span>
                 </li>
                 <li className="flex">
                   <span className="mr-2">3.</span>
-                  <span>若您有任何疑問或需要協助，請隨時與我們的櫃檯人員聯繫，我們將竭誠為您服務</span>
+                  <span>
+                    若您有任何疑問或需要協助，請隨時與我們的櫃檯人員聯繫，我們將竭誠為您服務
+                  </span>
                 </li>
                 <li className="flex">
                   <span className="mr-2">4.</span>
-                  <span>為了確保所有房客的安全和舒適，我們提醒您遵守飯店的相關規定和禮儀</span>
+                  <span>
+                    為了確保所有房客的安全和舒適，我們提醒您遵守飯店的相關規定和禮儀
+                  </span>
                 </li>
                 <li className="flex">
                   <span className="mr-2">5.</span>
-                  <span>請勿在房間內抽煙，若有抽菸需求，可以使用設在酒店各樓層的專用吸煙區</span>
+                  <span>
+                    請勿在房間內抽煙，若有抽菸需求，可以使用設在酒店各樓層的專用吸煙區
+                  </span>
                 </li>
                 <li className="flex">
                   <span className="mr-2">6.</span>
-                  <span>若您需要額外的毛巾、盥洗用品或其他物品，請聯繫櫃檯，我們將盡快為您提供</span>
+                  <span>
+                    若您需要額外的毛巾、盥洗用品或其他物品，請聯繫櫃檯，我們將盡快為您提供
+                  </span>
                 </li>
                 <li className="flex">
                   <span className="mr-2">7.</span>
-                  <span>請愛惜房內的設施和物品，如有損壞或遺失，將依照飯店相關規定進行賠償</span>
+                  <span>
+                    請愛惜房內的設施和物品，如有損壞或遺失，將依照飯店相關規定進行賠償
+                  </span>
                 </li>
                 <li className="flex">
                   <span className="mr-2">8.</span>
-                  <span>如您在入住期間遇到任何問題或有特殊需求，請隨時向櫃檯人員反映，我們將盡力協助解決</span>
+                  <span>
+                    如您在入住期間遇到任何問題或有特殊需求，請隨時向櫃檯人員反映，我們將盡力協助解決
+                  </span>
                 </li>
                 <li className="flex">
                   <span className="mr-2">9.</span>
-                  <span>為了維護其他房客的權益和安寧，請避免在深夜時段大聲喧嘩或播放音樂</span>
+                  <span>
+                    為了維護其他房客的權益和安寧，請避免在深夜時段大聲喧嘩或播放音樂
+                  </span>
                 </li>
                 <li className="flex">
                   <span className="mr-2">10.</span>
-                  <span>為了維護房間的最佳狀態，我們禁止在房間內烹飪或使用加熱設備。感謝您的理解和配合</span>
+                  <span>
+                    為了維護房間的最佳狀態，我們禁止在房間內烹飪或使用加熱設備。感謝您的理解和配合
+                  </span>
                 </li>
               </ul>
             </div>
@@ -347,12 +381,16 @@ const RoomDetail = () => {
           <div className="lg:w-[400px]">
             <div className="bg-white rounded-lg p-8 sticky top-32">
               <p className="text-sm text-[#4B4B4B] mb-2">預約房型</p>
-              <h2 className="text-3xl font-bold text-[#140F0A] mb-8">{room.name}</h2>
+              <h2 className="text-3xl font-bold text-[#140F0A] mb-8">
+                {room.name}
+              </h2>
 
               <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
                 {/* 入住日期 */}
                 <div>
-                  <label className="block text-sm font-medium text-[#4B4B4B] mb-2">入住</label>
+                  <label className="block text-sm font-medium text-[#4B4B4B] mb-2">
+                    入住
+                  </label>
                   <input
                     type="date"
                     value={checkInDate}
@@ -364,7 +402,9 @@ const RoomDetail = () => {
 
                 {/* 退房日期 */}
                 <div>
-                  <label className="block text-sm font-medium text-[#4B4B4B] mb-2">退房</label>
+                  <label className="block text-sm font-medium text-[#4B4B4B] mb-2">
+                    退房
+                  </label>
                   <input
                     type="date"
                     value={checkOutDate}
@@ -376,7 +416,9 @@ const RoomDetail = () => {
 
                 {/* 人數 */}
                 <div>
-                  <label className="block text-sm font-medium text-[#4B4B4B] mb-2">人數</label>
+                  <label className="block text-sm font-medium text-[#4B4B4B] mb-2">
+                    人數
+                  </label>
                   <div className="flex items-center justify-between border border-[#ECECEC] rounded-lg px-4 py-3">
                     <button
                       type="button"
@@ -385,10 +427,14 @@ const RoomDetail = () => {
                     >
                       -
                     </button>
-                    <span className="text-[#140F0A] font-medium">{guestCount}</span>
+                    <span className="text-[#140F0A] font-medium">
+                      {guestCount}
+                    </span>
                     <button
                       type="button"
-                      onClick={() => setGuestCount(Math.min(room.maxPeople, guestCount + 1))}
+                      onClick={() =>
+                        setGuestCount(Math.min(room.maxPeople, guestCount + 1))
+                      }
                       className="text-[#BF9D7D] text-2xl font-bold w-8 h-8 flex items-center justify-center hover:bg-[#F7F2EE] rounded transition-colors"
                     >
                       +
