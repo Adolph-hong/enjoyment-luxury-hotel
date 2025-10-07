@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { newsData } from './data'
-import { getNews } from '../../api/home-api'
+import { getNews } from '../../api/homeApi'
 
 const NewsSection = () => {
   const [news, setNews] = useState([])

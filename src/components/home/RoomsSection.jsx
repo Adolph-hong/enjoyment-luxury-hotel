@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import RoomsSwiper from '../swipers/RoomsSwiper'
 import { roomsData } from './data'
-import { getRooms } from '../../api/home-api'
+import { getRooms } from '../../api/homeApi'
 
 const RoomsSection = () => {
   const [rooms, setRooms] = useState([])

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { getRoomById } from '../../api/home-api'
+import { getRoomById } from '../../api/homeApi'
 import py from '/src/assets/icon/Vector.svg'
 import bed from '/src/assets/icon/bed.svg'
 import person from '/src/assets/icon/person.svg'
