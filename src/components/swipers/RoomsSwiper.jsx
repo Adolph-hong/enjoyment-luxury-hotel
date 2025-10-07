@@ -8,6 +8,7 @@ import 'swiper/css/scrollbar'
 
 // import required modules
 import { Navigation, Scrollbar } from 'swiper/modules'
+import { Link } from 'react-router-dom'
 
 const RoomSwiper = ({ room }) => {
   return (
@@ -68,10 +69,13 @@ const RoomsSwiper = ({ rooms }) => {
                     NT$ {room.price}
                   </p>
                 </div>
-                <button className="flex flex-row items-center justify-end w-full md:mt-8 px-6 py-6 bg-white text-black font-semibold rounded hover:bg-[#BF9D7D] hover:text-white transition relative overflow-hidden">
+                <Link
+                  to={`/room/${room.id}`}
+                  className="flex flex-row items-center justify-end w-full md:mt-8 px-6 py-6 bg-white text-black font-semibold rounded hover:bg-[#BF9D7D] hover:text-white transition relative overflow-hidden"
+                >
                   <span className="pr-4">查看更多</span>
                   <span className="inline-block w-1/5 h-px bg-current"></span>
-                </button>
+                </Link>
               </div>
             </div>
           </SwiperSlide>
