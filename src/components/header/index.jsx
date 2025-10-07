@@ -26,8 +26,12 @@ const Header = ({ simple }) => {
     <header className="absolute inset-x-0 top-0 z-50 text-white">
       <div className="flex justify-between">
         <div className="pt-6 md:pt-[32.55px] pl-5 md:pl-[60px] flex flex-col gap-2">
-          <img src={hotelLogo} alt="hotelLogo"></img>
-          <img src={hotelLogoEn} alt="hotelLogo-English" />
+          <Link to="/">
+            <img src={hotelLogo} alt="hotelLogo"></img>
+          </Link>
+          <Link to="/">
+            <img src={hotelLogoEn} alt="hotelLogo-English" />
+          </Link>
         </div>
         {/* 以下為漢堡圖區域 */}
         {!isOpen && (
