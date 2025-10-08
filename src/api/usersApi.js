@@ -1,3 +1,5 @@
+import { getCookie } from '../utils/cookie'
+
 const baseUrl = import.meta.env.VITE_API_BASE
 
 export async function verifyEmail(email) {
@@ -59,12 +61,12 @@ export async function forgotPassword(email, code, newPassword) {
 }
 
 export async function checkLogin() {
-  const token = localStorage.getItem('token')
+  const token = getCookie('customTodoToken')
 
   const res = await fetch(`${baseUrl}/api/v1/user/check`, {
     method: 'GET',
     headers: {
-      'Authorization': `Bearer ${token}`,
+      'Authorization': token,
     },
   })
 
@@ -78,12 +80,12 @@ export async function checkLogin() {
 }
 
 export async function getUserInfo() {
-  const token = localStorage.getItem('token')
+  const token = getCookie('customTodoToken')
 
   const res = await fetch(`${baseUrl}/api/v1/user/`, {
     method: 'GET',
     headers: {
-      'Authorization': `Bearer ${token}`,
+      'Authorization': token,
     },
   })
 
@@ -97,12 +99,12 @@ export async function getUserInfo() {
 }
 
 export async function updateUserInfo(userData) {
-  const token = localStorage.getItem('token')
+  const token = getCookie('customTodoToken')
 
   const res = await fetch(`${baseUrl}/api/v1/user/`, {
     method: 'PUT',
     headers: {
-      'Authorization': `Bearer ${token}`,
+      'Authorization': token,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(userData),
