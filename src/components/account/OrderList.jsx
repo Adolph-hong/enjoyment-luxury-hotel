@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import BlurBg from '../ui/BlurBg'
 import OrderModal from '../modals/OrderModal'
-import { getOrders, deleteOrder } from '../../api/auth-api'
+import { getOrders, deleteOrder } from '../../api/authApi'
 import { getCookie } from '../../utils/cookie'
 
 const OrderList = () => {
@@ -55,7 +55,9 @@ const OrderList = () => {
     try {
       await deleteOrder(selectedOrder._id)
       setOrders(orders.filter((order) => order._id !== selectedOrder._id))
-      setSelectedOrder(orders.find((order) => order._id !== selectedOrder._id) || null)
+      setSelectedOrder(
+        orders.find((order) => order._id !== selectedOrder._id) || null,
+      )
       console.log('預訂已取消')
       setShowModal(false)
     } catch (error) {
@@ -86,7 +88,11 @@ const OrderList = () => {
 
           <div className="mb-6">
             <img
-              src={selectedOrder.roomId?.imageUrl || selectedOrder.roomId?.imageUrlList?.[0] || 'https://via.placeholder.com/400x200'}
+              src={
+                selectedOrder.roomId?.imageUrl ||
+                selectedOrder.roomId?.imageUrlList?.[0] ||
+                'https://via.placeholder.com/400x200'
+              }
               alt="房間照片"
               className="w-full h-48 object-cover rounded-lg mb-4"
             />
@@ -95,19 +101,33 @@ const OrderList = () => {
           <div className="space-y-3 text-sm">
             <p className="font-bold text-xl">{selectedOrder.roomId?.name}</p>
             <p>
-              <span className="text-gray-600">臺北市中正區忠孝東路一段 2 號</span>
+              <span className="text-gray-600">
+                臺北市中正區忠孝東路一段 2 號
+              </span>
             </p>
             <p>
               <span className="text-gray-600">電話：</span>+886-7-1234567
             </p>
             <p className="text-gray-600">
-              入住：{new Date(selectedOrder.checkInDate).toLocaleDateString('zh-TW', { month: 'long', day: 'numeric' })} 14:00 ｜
-              退房：{new Date(selectedOrder.checkOutDate).toLocaleDateString('zh-TW', { month: 'long', day: 'numeric' })} 12:00
+              入住：
+              {new Date(selectedOrder.checkInDate).toLocaleDateString('zh-TW', {
+                month: 'long',
+                day: 'numeric',
+              })}{' '}
+              14:00 ｜ 退房：
+              {new Date(selectedOrder.checkOutDate).toLocaleDateString(
+                'zh-TW',
+                { month: 'long', day: 'numeric' },
+              )}{' '}
+              12:00
             </p>
             <p>
-              <span className="text-gray-600">人數：</span>{selectedOrder.peopleNum} 人
+              <span className="text-gray-600">人數：</span>
+              {selectedOrder.peopleNum} 人
             </p>
-            <p className="font-bold text-lg">NT${selectedOrder.roomId?.price?.toLocaleString()}</p>
+            <p className="font-bold text-lg">
+              NT${selectedOrder.roomId?.price?.toLocaleString()}
+            </p>
           </div>
 
           {selectedOrder.roomId?.facilityInfo && (
@@ -152,7 +172,10 @@ const OrderList = () => {
 
       {showModal && (
         <BlurBg>
-          <OrderModal handleCancel={handleCancel} handleConfirm={handleConfirm} />
+          <OrderModal
+            handleCancel={handleCancel}
+            handleConfirm={handleConfirm}
+          />
         </BlurBg>
       )}
 
@@ -171,7 +194,11 @@ const OrderList = () => {
               onClick={() => setSelectedOrder(order)}
             >
               <img
-                src={order.roomId?.imageUrl || order.roomId?.imageUrlList?.[0] || 'https://via.placeholder.com/120x120'}
+                src={
+                  order.roomId?.imageUrl ||
+                  order.roomId?.imageUrlList?.[0] ||
+                  'https://via.placeholder.com/120x120'
+                }
                 alt={order.roomId?.name}
                 className="w-24 h-24 object-cover rounded"
               />
@@ -189,10 +216,12 @@ const OrderList = () => {
                   住宿人數：{order.peopleNum} 人
                 </p>
                 <p className="text-xs text-gray-500 mb-2">
-                  入住：{checkIn.toLocaleDateString('zh-TW')} ｜
-                  退房：{checkOut.toLocaleDateString('zh-TW')}
+                  入住：{checkIn.toLocaleDateString('zh-TW')} ｜ 退房：
+                  {checkOut.toLocaleDateString('zh-TW')}
                 </p>
-                <p className="font-bold text-lg">NT${order.roomId?.price?.toLocaleString()}</p>
+                <p className="font-bold text-lg">
+                  NT${order.roomId?.price?.toLocaleString()}
+                </p>
               </div>
             </div>
           )
