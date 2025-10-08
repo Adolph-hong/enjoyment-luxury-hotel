@@ -53,6 +53,7 @@ const Header = ({ simple }) => {
               <img src={cancelLogo} alt="cancel logo" />
             </button>
             <Link
+              onClick={() => setIsOpen(false)}
               to="room"
               className="w-11/12 max-w-[700px] text-2xl font-bold inline-flex items-center justify-center px-8 py-7 rounded-lg text-white
              transition-colors duration-200 hover:bg-[#BF9D7D]"
@@ -88,6 +89,8 @@ const Header = ({ simple }) => {
               </Link>
             )}
             <Link
+              to="room"
+              onClick={() => setIsOpen(false)}
               className="w-11/12 max-w-[700px] text-2xl font-bold inline-flex items-center justify-center px-8 py-7 rounded-lg text-white
              transition-colors duration-200 hover:bg-[#BF9D7D]"
             >
