@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import HeroTitle from '../shared/HeroTitle'
 import { heroData } from './data'
 
@@ -15,10 +16,13 @@ const HeroSection = () => {
             </h1>
             <p className="text-xl pt-5">{heroData.subtitle[2]}</p>
           </div>
-          <button className="flex flex-row items-center justify-end w-full mt-8 px-6 py-6 bg-white text-black font-semibold rounded hover:bg-[#BF9D7D] hover:text-white transition relative overflow-hidden">
+          <Link
+            to="/booking"
+            className="flex flex-row items-center justify-end w-full mt-8 px-6 py-6 bg-white text-black font-semibold rounded hover:bg-[#BF9D7D] hover:text-white transition relative overflow-hidden"
+          >
             <span className="pr-4">{heroData.btnText}</span>
             <span className="inline-block w-1/5 h-px bg-current"></span>
-          </button>
+          </Link>
         </div>
       </HeroTitle>
     </section>
