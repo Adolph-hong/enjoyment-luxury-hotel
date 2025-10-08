@@ -88,6 +88,7 @@ const Header = ({ simple }) => {
               </Link>
             )}
             <Link
+              to="/booking"
               className="w-11/12 max-w-[700px] text-2xl font-bold inline-flex items-center justify-center px-8 py-7 rounded-lg text-white
              transition-colors duration-200 hover:bg-[#BF9D7D]"
             >
@@ -142,7 +143,7 @@ const Header = ({ simple }) => {
               </Link>
             )}
             <Link
-              to="/room"
+              to="/booking"
               className="font-bold inline-flex items-center justify-center px-8 py-1 rounded-lg text-white
              transition-colors duration-200 hover:bg-[#BF9D7D]"
             >
