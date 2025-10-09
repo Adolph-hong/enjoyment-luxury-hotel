@@ -9,9 +9,11 @@ const AccountLayout = ({ children }) => {
 
   return (
     <section className="flex flex-col w-full bg-black text-white">
-      <div className="flex flex-row w-full  items-center mt-30 pl-60 py-30 gap-5 bg-[image:var(--bg-image-account)] bg-cover bg-center max-lg:pl-8 max-sm:flex-col max-sm:items-start">
+      <div className="flex flex-row w-full  items-center mt-30 pl-60 py-30 gap-5 bg-image-account bg-cover bg-center max-lg:pl-8 max-sm:flex-col max-sm:items-start">
         <img className="w-[100px] h-[100px]" src={headshot1} alt="" />
-        <h2 className="text-5xl max-sm:text-[32px] font-bold">Hello，{user?.name || '會員'}</h2>
+        <h2 className="text-5xl max-sm:text-[32px] font-bold">
+          Hello，{user?.name || '會員'}
+        </h2>
       </div>
       <div className="w-full px-5 lg:px-60 py-8">
         <div className="flex flex-row items-center gap-5 py-5 md:py-10">
