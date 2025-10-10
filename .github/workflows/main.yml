@@ -1,0 +1,23 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # 這是 runner，不是你本地系統
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build project
+        run: |
+          echo "VITE_API_BASE=${{ secrets.VITE_API_BASE }}" > .env
+          npm install
+          npm run build
