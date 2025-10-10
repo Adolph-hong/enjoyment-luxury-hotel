@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import AuthLayout from '../shared/AuthLayout'
-import SignUpFormStep1 from '../forms/SignUpFormStep1'
-import SignUpFormStep2 from '../forms/SignUpFormStep2'
+import SignupFirst from '../forms/SignupFirst'
+import SignupSecond from '../forms/SignupSecond'
 
 const SignUp = () => {
   const [step, setStep] = useState(1)
@@ -15,9 +15,9 @@ const SignUp = () => {
   return (
     <AuthLayout>
       {step === 1 ? (
-        <SignUpFormStep1 onNext={handleNextStep} />
+        <SignupFirst onNext={handleNextStep} />
       ) : (
-        <SignUpFormStep2 onBack={() => setStep(1)} step1Data={step1Data} />
+        <SignupSecond onBack={() => setStep(1)} step1Data={step1Data} />
       )}
     </AuthLayout>
   )

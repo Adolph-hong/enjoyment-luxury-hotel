@@ -12,7 +12,7 @@ import AddressGroup from '../ui/form/AddressGroup'
 import Button from '../ui/Button'
 import { useNavigate } from 'react-router-dom'
 
-const SignUpFormStep2 = ({ step1Data }) => {
+const SignupSecond = ({ step1Data }) => {
   const { register, handleSubmit, watch, formState: { errors } } = useForm()
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
@@ -144,4 +144,4 @@ const SignUpFormStep2 = ({ step1Data }) => {
   )
 }
 
-export default SignUpFormStep2
+export default SignupSecond

@@ -7,7 +7,7 @@ import AuthStep from '../shared/AuthStep'
 import AuthPrompt from '../shared/AuthPrompt'
 import Button from '../ui/Button'
 
-const SignUpFormStep1 = ({ onNext }) => {
+const SignupFirst = ({ onNext }) => {
   const { register, handleSubmit, watch, formState: { errors }, setError } = useForm()
   const [isLoading, setIsLoading] = useState(false)
 
@@ -109,4 +109,4 @@ const SignUpFormStep1 = ({ onNext }) => {
   )
 }
 
-export default SignUpFormStep1
+export default SignupFirst
