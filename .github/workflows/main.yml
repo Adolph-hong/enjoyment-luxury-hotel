@@ -1,23 +1,39 @@
-name: Deploy
+name: Build and Deploy to GitHub Pages
 
 on:
   push:
     branches:
-      - dev
+      - dev # 你主要的分支名稱（如果不是 main，請改掉）
+
+permissions:
+  contents: write # 允許 GitHub Actions 寫入 gh-pages 分支
 
 jobs:
   build:
-    runs-on: ubuntu-latest # 這是 runner，不是你本地系統
-    steps:
-      - uses: actions/checkout@v4
+    runs-on: ubuntu-latest
 
-      - name: Set up Node
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
 
-      - name: Build project
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Create .env file
         run: |
           echo "VITE_API_BASE=${{ secrets.VITE_API_BASE }}" > .env
-          npm install
-          npm run build
+          cat .env
+
+      - name: Build project
+        run: npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
