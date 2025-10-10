@@ -3,9 +3,9 @@ import { years, months, days } from '../../auth/dateOptions'
 
 export default function BirthdayGroup({
   label = '生日',
-  defaultYear = 1990,
-  defaultMonth = 8,
-  defaultDay = 15,
+  defaultYear = '',
+  defaultMonth = '',
+  defaultDay = '',
   className = '',
   register,
   errors,
@@ -18,18 +18,21 @@ export default function BirthdayGroup({
       <div className="flex gap-2 w-full">
         <Select
           className="flex-1 h-[56px] text-[#4B4B4B] bg-[#FFFFFF] rounded-[8px]"
+          placeholder="年份"
           options={years}
           defaultValue={defaultYear}
-          {...(register && register('year'))}
+          {...(register && register('year', { required: '請選擇年份' }))}
         />
         <Select
           className="flex-1 h-[56px] text-[#4B4B4B] bg-[#FFFFFF] rounded-[8px]"
+          placeholder="月份"
           options={months}
           defaultValue={defaultMonth}
           {...(register && register('month'))}
         />
         <Select
           className="flex-1 h-[56px] text-[#4B4B4B] bg-[#FFFFFF] rounded-[8px]"
+          placeholder="日期"
           options={days}
           defaultValue={defaultDay}
           {...(register && register('day'))}

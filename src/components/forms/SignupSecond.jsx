@@ -13,7 +13,15 @@ import Button from '../ui/Button'
 import { useNavigate } from 'react-router-dom'
 
 const SignupSecond = ({ step1Data }) => {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm()
+  const { register, handleSubmit, watch, formState: { errors } } = useForm({
+  defaultValues: {
+    year: '',
+    month: '',
+    day: '',
+    city: '',
+    district: ''
+  }
+})
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
   const { fetchUser } = useAuth()
