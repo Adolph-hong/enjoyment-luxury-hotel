@@ -44,7 +44,7 @@ const SignupSecond = ({ step1Data }) => {
       }
 
       const result = await signup(signupData)
-      console.log('註冊成功:', result)
+      console.log('註冊成功')
 
       // 註冊成功後儲存 token 並更新使用者資料
       if (result.token) {
