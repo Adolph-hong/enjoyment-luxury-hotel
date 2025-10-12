@@ -2,7 +2,6 @@ const baseUrl = import.meta.env.VITE_API_BASE
 
 export async function getOrders() {
   const token = localStorage.getItem('token')
-  console.log('ttttttttttttt', token)
 
   const res = await fetch(`${baseUrl}/api/v1/orders/`, {
     method: 'GET',
@@ -22,7 +21,6 @@ export async function getOrders() {
 
 export async function createOrder(orderData) {
   const token = localStorage.getItem('token')
-  console.log('ttttttttttttt', token)
 
   const res = await fetch(`${baseUrl}/api/v1/orders/`, {
     method: 'POST',
