@@ -1,5 +1,3 @@
-import { getCookie } from '../utils/cookie'
-
 const baseUrl = import.meta.env.VITE_API_BASE
 
 export async function verifyEmail(email) {
@@ -61,12 +59,12 @@ export async function forgotPassword(email, code, newPassword) {
 }
 
 export async function checkLogin() {
-  const token = getCookie('customTodoToken')
+  const token = localStorage.getItem('token')
 
   const res = await fetch(`${baseUrl}/api/v1/user/check`, {
     method: 'GET',
     headers: {
-      'Authorization': token,
+      Authorization: token,
     },
   })
 
@@ -80,12 +78,12 @@ export async function checkLogin() {
 }
 
 export async function getUserInfo() {
-  const token = getCookie('customTodoToken')
+  const token = localStorage.getItem('token')
 
   const res = await fetch(`${baseUrl}/api/v1/user/`, {
     method: 'GET',
     headers: {
-      'Authorization': token,
+      Authorization: token,
     },
   })
 
@@ -99,12 +97,12 @@ export async function getUserInfo() {
 }
 
 export async function updateUserInfo(userData) {
-  const token = getCookie('customTodoToken')
+  const token = localStorage.getItem('token')
 
   const res = await fetch(`${baseUrl}/api/v1/user/`, {
     method: 'PUT',
     headers: {
-      'Authorization': token,
+      Authorization: token,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(userData),
@@ -135,6 +133,9 @@ export async function login(email, password) {
 
   if (!res.ok) {
     throw new Error(data.message || '登入失敗')
+  }
+  if (data.token) {
+    localStorage.setItem('token', data.token)
   }
 
   return data

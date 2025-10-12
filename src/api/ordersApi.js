@@ -1,8 +1,8 @@
-import { getCookie } from '../utils/cookie'
 const baseUrl = import.meta.env.VITE_API_BASE
 
 export async function getOrders() {
-  const token = getCookie('token')
+  const token = localStorage.getItem('token')
+  console.log('ttttttttttttt', token)
 
   const res = await fetch(`${baseUrl}/api/v1/orders/`, {
     method: 'GET',
@@ -21,7 +21,8 @@ export async function getOrders() {
 }
 
 export async function createOrder(orderData) {
-  const token = getCookie('token')
+  const token = localStorage.getItem('token')
+  console.log('ttttttttttttt', token)
 
   const res = await fetch(`${baseUrl}/api/v1/orders/`, {
     method: 'POST',
@@ -42,7 +43,7 @@ export async function createOrder(orderData) {
 }
 
 export async function getOrderById(orderId) {
-  const token = getCookie('token')
+  const token = localStorage.getItem('token')
 
   const res = await fetch(`${baseUrl}/api/v1/orders/${orderId}`, {
     method: 'GET',
@@ -61,7 +62,7 @@ export async function getOrderById(orderId) {
 }
 
 export async function deleteOrder(orderId) {
-  const token = getCookie('token')
+  const token = localStorage.getItem('token')
 
   const res = await fetch(`${baseUrl}/api/v1/orders/${orderId}`, {
     method: 'DELETE',

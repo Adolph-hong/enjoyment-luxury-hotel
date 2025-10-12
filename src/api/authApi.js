@@ -1,10 +1,8 @@
-import { getCookie } from '../utils/cookie'
-
 const baseUrl = import.meta.env.VITE_API_BASE
 
 // Helper function to handle API requests
 const apiRequest = async (path, options = {}) => {
-  const token = getCookie('customTodoToken')
+  const token = localStorage.getItem('token')
 
   const headers = {
     'Content-Type': 'application/json',
