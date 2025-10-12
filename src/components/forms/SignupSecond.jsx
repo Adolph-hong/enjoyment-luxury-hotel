@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { signup } from '../../api/usersApi'
 import { useAuth } from '../../contexts/AuthContext'
 import { setCookie } from '../../utils/cookie'
@@ -11,20 +11,35 @@ import BirthdayGroup from '../ui/form/BirthdayGroup'
 import AddressGroup from '../ui/form/AddressGroup'
 import Button from '../ui/Button'
 import { useNavigate } from 'react-router-dom'
+import { zipcodes } from '../../components/auth/addressOptions'
 
 const SignupSecond = ({ step1Data }) => {
-  const { register, handleSubmit, watch, formState: { errors } } = useForm({
-  defaultValues: {
-    year: '',
-    month: '',
-    day: '',
-    city: '',
-    district: ''
-  }
-})
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      year: '',
+      month: '',
+      day: '',
+      city: '',
+      district: '',
+      zipcode: '',
+    },
+  })
   const [isLoading, setIsLoading] = useState(false)
   const navigate = useNavigate()
   const { fetchUser } = useAuth()
+  const city = watch('city')
+  const district = watch('district')
+
+  useEffect(() => {
+    const zip = city && district ? zipcodes[city]?.[district] || '' : ''
+    setValue('zipcode', zip)
+  }, [city, district, setValue])
 
   const onSubmit = async (data) => {
     try {
@@ -38,9 +53,11 @@ const SignupSecond = ({ step1Data }) => {
         phone: data.phone,
         birthday: `${data.year}-${String(data.month).padStart(2, '0')}-${String(data.day).padStart(2, '0')}`,
         address: {
-          zipcode: 802,
-          detail: data.address
-        }
+          zipcode: data.zipcode,
+          city: data.city, 
+          district: data.district, 
+          detail: data.address,
+        },
       }
 
       const result = await signup(signupData)
@@ -63,7 +80,10 @@ const SignupSecond = ({ step1Data }) => {
   }
 
   return (
-    <form className="flex flex-col z-10 mt-[40px] w-full max-w-[416px] max-sm:max-w-[335px]" onSubmit={handleSubmit(onSubmit)}>
+    <form
+      className="flex flex-col z-10 mt-[40px] w-full max-w-[416px] max-sm:max-w-[335px]"
+      onSubmit={handleSubmit(onSubmit)}
+    >
       <AuthTitle title={'立即註冊'} />
       <AuthStep
         textColor2="text-[#ffffff]"
@@ -79,7 +99,7 @@ const SignupSecond = ({ step1Data }) => {
         inputType="text"
         placeholder="請輸入姓名"
         register={register('name', {
-          required: '姓名為必填'
+          required: '姓名為必填',
         })}
         error={errors.name}
       />
@@ -94,13 +114,23 @@ const SignupSecond = ({ step1Data }) => {
           required: '手機號碼為必填',
           pattern: {
             value: /^09[0-9]{8}$/,
-            message: '請輸入有效的手機號碼'
-          }
+            message: '請輸入有效的手機號碼',
+          },
         })}
         error={errors.phone}
       />
-      <BirthdayGroup className="w-full mb-[16px]" register={register} errors={errors} />
-      <AddressGroup className="w-full mb-[16px]" register={register} watch={watch} errors={errors} />
+      <BirthdayGroup
+        className="w-full mb-[16px]"
+        register={register}
+        errors={errors}
+      />
+      <AddressGroup
+        className="w-full mb-[16px]"
+        register={register}
+        watch={watch}
+        errors={errors}
+      />
+      <input type="hidden" {...register('zipcode')} />
       <FormInput
         labelType="address"
         labelContent="詳細地址"
@@ -108,15 +138,20 @@ const SignupSecond = ({ step1Data }) => {
         inputType="text"
         placeholder="請輸入詳細地址"
         register={register('address', {
-          required: '詳細地址為必填'
+          required: '詳細地址為必填',
         })}
         error={errors.address}
       />
       <label className="inline-flex items-center gap-[8px] text-white cursor-pointer w-fit mb-[8px]">
-        <input type="checkbox" className="peer sr-only" {...register('agreeToTerms', {
-          required: true
-        })} />
-        <span className="inline-flex items-center justify-center w-5 h-5 rounded-[4px] border border-[#909090] flex-shrink-0
+        <input
+          type="checkbox"
+          className="peer sr-only"
+          {...register('agreeToTerms', {
+            required: true,
+          })}
+        />
+        <span
+          className="inline-flex items-center justify-center w-5 h-5 rounded-[4px] border border-[#909090] flex-shrink-0
                     peer-checked:bg-[#BF9D7D] peer-checked:border-[#BF9D7D]
                     [&>svg]:opacity-0 peer-checked:[&>svg]:opacity-100
                     transition-opacity"
@@ -136,7 +171,9 @@ const SignupSecond = ({ step1Data }) => {
         </span>
       </label>
       {errors.agreeToTerms && (
-        <span className="text-red-400 text-sm mb-[16px]">請同意個資使用規範</span>
+        <span className="text-red-400 text-sm mb-[16px]">
+          請同意個資使用規範
+        </span>
       )}
       <Button
         bg="bg-[#BF9D7D]"
@@ -147,7 +184,12 @@ const SignupSecond = ({ step1Data }) => {
         type="submit"
         disabled={isLoading}
       />
-      <AuthPrompt question={'已經有會員了嗎？'} goto={'立即登入'} goUrl={'/login'} mt="mt-[16px]" />
+      <AuthPrompt
+        question={'已經有會員了嗎？'}
+        goto={'立即登入'}
+        goUrl={'/login'}
+        mt="mt-[16px]"
+      />
     </form>
   )
 }
