@@ -2,7 +2,7 @@ import { createBrowserRouter } from 'react-router-dom'
 import Home from './components/pages/Home.jsx'
 import Layout from './Layout.jsx'
 import Login from './components/auth/Login.jsx'
-import SignUp from './components/auth/SignUp.jsx'
+import Signup from './components/auth/Signup.jsx'
 import Account from './components/pages/Account.jsx'
 import Rooms from './components/pages/Rooms.jsx'
 import RoomDetail from './components/pages/RoomDetail.jsx'
@@ -22,7 +22,7 @@ export const router = createBrowserRouter(
         },
         {
           path: 'sign-up',
-          element: <SignUp />,
+          element: <Signup />,
           handle: { headerVariant: 'simple', footer: false },
         },
         {

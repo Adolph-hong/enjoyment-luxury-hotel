@@ -187,7 +187,7 @@ const ProfileForm = () => {
               <button
                 onClick={handleChangePassword}
                 disabled={isLoading}
-                className="w-[129px] h-[56px] rounded-[8px] bg-[#ECECEC] text-[#909090] font-bold hover:bg-[#D5D5D5] disabled:opacity-50 max-lg:w-full"
+                className="w-[129px] h-[56px] rounded-[8px] bg-[#BF9D7D] text-[#FFFFFF] font-bold cursor-pointer disabled:opacity-50 max-lg:w-full hover:opacity-90"
               >
                 {isLoading ? '儲存中...' : '儲存設定'}
               </button>
@@ -279,7 +279,7 @@ const ProfileForm = () => {
             <button
               onClick={handleUpdateProfile}
               disabled={isLoading}
-              className="w-[129px] max-lg:w-full h-[56px] rounded-[8px] bg-[#ECECEC] text-[#909090] font-bold hover:bg-[#D5D5D5] disabled:opacity-50"
+              className="w-[129px] max-lg:w-full h-[56px] rounded-[8px] bg-[#BF9D7D] text-[#FFFFFF] font-bold cursor-pointer hover:opacity-90 disabled:opacity-50"
             >
               {isLoading ? '儲存中...' : '儲存設定'}
             </button>
