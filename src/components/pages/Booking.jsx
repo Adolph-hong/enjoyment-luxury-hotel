@@ -96,6 +96,15 @@ const Booking = () => {
         checkInDate: checkInDate,
         checkOutDate: checkOutDate,
         peopleNum: guestCount,
+        userInfo: {
+          address: {
+            zipcode: user?.address?.zipcode || '',
+            detail: user?.address?.detail || '',
+          },
+          name: user?.name || '',
+          phone: user?.phone || '',
+          email: user?.email || '',
+        },
       }
 
       const response = await createOrder(orderData)
