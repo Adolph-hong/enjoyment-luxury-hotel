@@ -22,9 +22,9 @@ const TrafficSection = () => {
               width="600"
               height="450"
               className="w-full min-h-[300px] object-cover"
-              allowfullscreen=""
+              allowFullScreen=""
               loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
+              referrerPolicy="no-referrer-when-downgrade"
             ></iframe>
           </div>
           <ul className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4">
