@@ -10,7 +10,7 @@ const apiRequest = async (path, options = {}) => {
   }
 
   if (token && options.requireAuth) {
-    headers['Authorization'] = token
+    headers.Authorization = token
   }
 
   const response = await fetch(`${baseUrl}${path}`, {
