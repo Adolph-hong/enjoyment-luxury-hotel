@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 import { login } from '../../api/usersApi'
 import { useAuth } from '../../contexts/AuthContext'
+import { setCookie } from '../../utils/cookie'
 import FormInput from '../ui/FormInput'
 import AuthTitle from '../shared/AuthTitle'
 import Button from '../ui/Button'
@@ -19,7 +20,7 @@ const LoginForm = () => {
       const result = await login(data.email, data.password)
       console.log('登入成功:', result)
       if (result.token) {
-        localStorage.setItem('token', result.token)
+        setCookie('customTodoToken', result.token)
         await fetchUser()
       }
       navigate('/')

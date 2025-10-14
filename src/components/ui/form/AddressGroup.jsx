@@ -2,7 +2,7 @@ import Select from './Select'
 import { cities, districts } from '../../auth/addressOptions'
 
 export default function AddressGroup({ label = '地址', className = '', register, watch, errors }) {
-  const selectedCity = watch ? watch('city') : cities[0].value
+  const selectedCity = watch ? watch('city') : ""
 
   return (
     <div className={className}>
@@ -11,15 +11,20 @@ export default function AddressGroup({ label = '地址', className = '', registe
 
         <Select
           className="flex-1 h-[56px] text-[#4B4B4B] bg-[#FFFFFF] rounded-[8px]"
-          options={cities}
-          defaultValue={cities[0].value}
-          {...(register && register('city'))}
+           options={[{ label: '請選擇縣市', value: '' }, ...cities]}
+          defaultValue=""
+          {...(register && register('city', { required: '請選擇縣市' }))}
         />
 
         <Select
           className="flex-1 h-[56px] text-[#4B4B4B] bg-[#FFFFFF] rounded-[8px]"
-          options={districts[selectedCity] || []}
-          {...(register && register('district'))}
+           options={
+            selectedCity
+              ? [{ label: '請選擇區域', value: '' }, ...(districts[selectedCity] || [])]
+              : [{ label: '請先選縣市', value: '' }]
+          }
+          defaultValue=""
+          {...(register && register('district', { reqFuired: '請選擇區域' }))}
         />
       </div>
       {errors && (errors.city || errors.district) && (

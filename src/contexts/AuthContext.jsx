@@ -1,7 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { getUserInfo } from '../api/usersApi'
 
-const AuthContext = createContext()
+const AuthContext = createContext(null)
 
 export const useAuth = () => {
   const context = useContext(AuthContext)
@@ -18,6 +18,7 @@ export const AuthProvider = ({ children }) => {
   const fetchUser = async () => {
     const token = localStorage.getItem('token')
     if (!token) {
+      setUser(null)
       setIsLoading(false)
       return
     }
@@ -30,6 +31,7 @@ export const AuthProvider = ({ children }) => {
     } catch (error) {
       console.error('取得使用者資料失敗:', error)
       localStorage.removeItem('token')
+      setUser(null)
     } finally {
       setIsLoading(false)
     }

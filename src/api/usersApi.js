@@ -64,7 +64,7 @@ export async function checkLogin() {
   const res = await fetch(`${baseUrl}/api/v1/user/check`, {
     method: 'GET',
     headers: {
-      'Authorization': `Bearer ${token}`,
+      Authorization: token,
     },
   })
 
@@ -83,7 +83,7 @@ export async function getUserInfo() {
   const res = await fetch(`${baseUrl}/api/v1/user/`, {
     method: 'GET',
     headers: {
-      'Authorization': `Bearer ${token}`,
+      Authorization: token,
     },
   })
 
@@ -102,7 +102,7 @@ export async function updateUserInfo(userData) {
   const res = await fetch(`${baseUrl}/api/v1/user/`, {
     method: 'PUT',
     headers: {
-      'Authorization': `Bearer ${token}`,
+      Authorization: token,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(userData),
@@ -133,6 +133,9 @@ export async function login(email, password) {
 
   if (!res.ok) {
     throw new Error(data.message || '登入失敗')
+  }
+  if (data.token) {
+    localStorage.setItem('token', data.token)
   }
 
   return data

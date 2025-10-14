@@ -25,16 +25,20 @@ const Header = ({ simple }) => {
   return (
     <header className="absolute inset-x-0 top-0 z-50 text-white">
       <div className="flex justify-between">
-        <div className="pt-[16px] xl:pt-[32.55px] pl-[80px] flex flex-col gap-2">
-          <img src={hotelLogo} alt="hotelLogo"></img>
-          <img src={hotelLogoEn} alt="hotelLogo-English" />
+        <div className="pt-6 md:pt-[32.55px] pl-5 md:pl-[60px] flex flex-col gap-2">
+          <Link to="/">
+            <img src={hotelLogo} alt="hotelLogo"></img>
+          </Link>
+          <Link to="/">
+            <img src={hotelLogoEn} alt="hotelLogo-English" />
+          </Link>
         </div>
         {/* 以下為漢堡圖區域 */}
         {!isOpen && (
           <button
             onClick={() => setIsOpen(true)}
             type="button"
-            className="cursor-pointer xl:hidden pr-10 block"
+            className="cursor-pointer xl:hidden pr-4 block"
           >
             <img src={burgerLogo} alt="burgerLogo" />
           </button>
@@ -49,6 +53,7 @@ const Header = ({ simple }) => {
               <img src={cancelLogo} alt="cancel logo" />
             </button>
             <Link
+              onClick={() => setIsOpen(false)}
               to="room"
               className="w-11/12 max-w-[700px] text-2xl font-bold inline-flex items-center justify-center px-8 py-7 rounded-lg text-white
              transition-colors duration-200 hover:bg-[#BF9D7D]"
@@ -84,6 +89,7 @@ const Header = ({ simple }) => {
               </Link>
             )}
             <Link
+              to="/booking"
               className="w-11/12 max-w-[700px] text-2xl font-bold inline-flex items-center justify-center px-8 py-7 rounded-lg text-white
              transition-colors duration-200 hover:bg-[#BF9D7D]"
             >
@@ -138,7 +144,7 @@ const Header = ({ simple }) => {
               </Link>
             )}
             <Link
-              to="/room"
+              to="/booking"
               className="font-bold inline-flex items-center justify-center px-8 py-1 rounded-lg text-white
              transition-colors duration-200 hover:bg-[#BF9D7D]"
             >

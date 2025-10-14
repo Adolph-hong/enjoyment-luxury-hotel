@@ -60,11 +60,7 @@ export const newsData = {
 }
 export const heroData = {
   title: ['享樂酒店', 'Enjoyment Luxury Hotel'],
-  subtitle: [
-    '高雄',
-    '豪華住宿之選',
-    '我們致力於為您提供無與倫比的奢華體驗與優質服務',
-  ],
+  subtitle: ['高雄', '豪華住宿之選', '我們致力於為您提供無與倫比的奢華體驗與優質服務'],
   btnText: '立即訂房',
 }
 

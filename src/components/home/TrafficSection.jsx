@@ -17,10 +17,15 @@ const TrafficSection = () => {
           </div>
           <div className="mb-10">
             <p className="pb-5">{trafficData.address}</p>
-            <img
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3682.690768993764!2d120.30793527534601!3d22.62801987945228!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x346e0491b7febacd%3A0x24542bac2726199b!2z5a-25oiQ5LiW57SA5aSn5qiT!5e0!3m2!1szh-TW!2stw!4v1759890784503!5m2!1szh-TW!2stw"
+              width="600"
+              height="450"
               className="w-full min-h-[300px] object-cover"
-              {...trafficData.mapImg}
-            />
+              allowFullScreen=""
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            ></iframe>
           </div>
           <ul className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-4">
             {trafficData.info.map((trafficItem) => (

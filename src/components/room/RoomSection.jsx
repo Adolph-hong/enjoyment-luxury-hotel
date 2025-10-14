@@ -1,5 +1,5 @@
 import RoomCard from '../shared/RoomCard'
-import { useRooms } from '../../api/useRooms'
+import { useRooms } from '../../hooks/useRooms'
 
 const RoomSection = () => {
   const { rooms, loading, error } = useRooms()

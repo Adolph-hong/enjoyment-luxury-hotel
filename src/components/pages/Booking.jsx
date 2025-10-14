@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { getRoomById } from '../../api/home-api'
+import { getRoomById } from '../../api/homeApi'
 import { createOrder } from '../../api/ordersApi'
 import { useAuth } from '../../contexts/AuthContext'
-import BookingSuccessModal from '../booking/BookingSuccessModal'
+import BookingSuccessModal from '../modals/BookingSuccessModal'
 import BlurBg from '../ui/BlurBg'
 import py from '/src/assets/icon/Vector.svg'
 import bed from '/src/assets/icon/bed.svg'
@@ -96,6 +96,15 @@ const Booking = () => {
         checkInDate: checkInDate,
         checkOutDate: checkOutDate,
         peopleNum: guestCount,
+        userInfo: {
+          address: {
+            zipcode: user?.address?.zipcode || '',
+            detail: user?.address?.detail || '',
+          },
+          name: user?.name || '',
+          phone: user?.phone || '',
+          email: user?.email || '',
+        },
       }
 
       const response = await createOrder(orderData)
@@ -119,7 +128,7 @@ const Booking = () => {
       // 如果是使用者資料未填寫，提示前往個人資料頁面
       if (error.message && error.message.includes('未填寫')) {
         alert(
-          '請先完善您的個人資料（姓名、電話、地址等）才能進行訂房。點擊確定前往個人資料頁面。'
+          '請先完善您的個人資料（姓名、電話、地址等）才能進行訂房。點擊確定前往個人資料頁面。',
         )
         navigate('/account')
       } else {
@@ -153,7 +162,9 @@ const Booking = () => {
   }
 
   const maxPeopleDisplay =
-    typeof room.maxPeople === 'number' ? `2-${room.maxPeople} 人` : room.maxPeople
+    typeof room.maxPeople === 'number'
+      ? `2-${room.maxPeople} 人`
+      : room.maxPeople
 
   return (
     <div className="min-h-screen bg-[#F7F2EE]">
@@ -183,7 +194,9 @@ const Booking = () => {
             <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
               {/* 選擇房型 */}
               <div>
-                <label className="block text-sm font-bold text-[#4B4B4B] mb-3">選擇房型</label>
+                <label className="block text-sm font-bold text-[#4B4B4B] mb-3">
+                  選擇房型
+                </label>
                 <div className="flex items-center gap-4 p-4 border border-[#ECECEC] rounded-lg">
                   {room.imageUrlList && room.imageUrlList.length > 0 && (
                     <img
@@ -193,7 +206,9 @@ const Booking = () => {
                     />
                   )}
                   <div className="flex-1">
-                    <h3 className="text-[#140F0A] text-lg font-bold mb-1">{room.name}</h3>
+                    <h3 className="text-[#140F0A] text-lg font-bold mb-1">
+                      {room.name}
+                    </h3>
                     <p className="text-[#4B4B4B] text-sm">{room.description}</p>
                   </div>
                 </div>
@@ -201,10 +216,14 @@ const Booking = () => {
 
               {/* 訂房日期 */}
               <div>
-                <label className="block text-sm font-bold text-[#4B4B4B] mb-3">訂房日期</label>
+                <label className="block text-sm font-bold text-[#4B4B4B] mb-3">
+                  訂房日期
+                </label>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-xs text-[#909090] mb-2">入住日期</label>
+                    <label className="block text-xs text-[#909090] mb-2">
+                      入住日期
+                    </label>
                     <input
                       type="date"
                       value={checkInDate}
@@ -214,13 +233,17 @@ const Booking = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs text-[#909090] mb-2">退房日期</label>
+                    <label className="block text-xs text-[#909090] mb-2">
+                      退房日期
+                    </label>
                     <input
                       type="date"
                       value={checkOutDate}
                       onChange={(e) => setCheckOutDate(e.target.value)}
                       className="w-full px-4 py-3 border border-[#ECECEC] rounded-lg focus:outline-none focus:border-[#BF9D7D] text-[#4B4B4B]"
-                      min={checkInDate || new Date().toISOString().split('T')[0]}
+                      min={
+                        checkInDate || new Date().toISOString().split('T')[0]
+                      }
                     />
                   </div>
                 </div>
@@ -228,7 +251,9 @@ const Booking = () => {
 
               {/* 房客人數 */}
               <div>
-                <label className="block text-sm font-bold text-[#4B4B4B] mb-3">房客人數</label>
+                <label className="block text-sm font-bold text-[#4B4B4B] mb-3">
+                  房客人數
+                </label>
                 <div className="flex items-center gap-4">
                   <button
                     type="button"
@@ -242,7 +267,9 @@ const Booking = () => {
                   </span>
                   <button
                     type="button"
-                    onClick={() => setGuestCount(Math.min(room.maxPeople, guestCount + 1))}
+                    onClick={() =>
+                      setGuestCount(Math.min(room.maxPeople, guestCount + 1))
+                    }
                     className="w-12 h-12 flex items-center justify-center border border-[#ECECEC] rounded-lg text-[#BF9D7D] text-2xl font-bold hover:bg-[#F7F2EE] transition-colors"
                   >
                     +
@@ -252,19 +279,27 @@ const Booking = () => {
 
               {/* 訂房人資訊 */}
               <div>
-                <label className="block text-sm font-bold text-[#4B4B4B] mb-3">訂房人資訊</label>
+                <label className="block text-sm font-bold text-[#4B4B4B] mb-3">
+                  訂房人資訊
+                </label>
                 <div className="space-y-3 p-4 bg-[#F7F2EE] rounded-lg">
                   <div className="flex justify-between">
                     <span className="text-[#4B4B4B]">姓名</span>
-                    <span className="text-[#140F0A] font-medium">{user?.name || '未設定'}</span>
+                    <span className="text-[#140F0A] font-medium">
+                      {user?.name || '未設定'}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-[#4B4B4B]">電話</span>
-                    <span className="text-[#140F0A] font-medium">{user?.phone || '未設定'}</span>
+                    <span className="text-[#140F0A] font-medium">
+                      {user?.phone || '未設定'}
+                    </span>
                   </div>
                   <div className="flex justify-between">
                     <span className="text-[#4B4B4B]">電子信箱</span>
-                    <span className="text-[#140F0A] font-medium">{user?.email || '未設定'}</span>
+                    <span className="text-[#140F0A] font-medium">
+                      {user?.email || '未設定'}
+                    </span>
                   </div>
                   <div className="flex justify-between items-start">
                     <span className="text-[#4B4B4B]">地址</span>
@@ -291,23 +326,33 @@ const Booking = () => {
           {/* 右側：訂單摘要 */}
           <div className="lg:w-[400px]">
             <div className="bg-white rounded-[20px] p-8 sticky top-32">
-              <h2 className="text-[#140F0A] text-2xl font-bold mb-6">訂單摘要</h2>
+              <h2 className="text-[#140F0A] text-2xl font-bold mb-6">
+                訂單摘要
+              </h2>
 
               {/* 房型資訊 */}
               <div className="mb-6">
-                <h3 className="text-[#140F0A] text-xl font-bold mb-4">{room.name}</h3>
+                <h3 className="text-[#140F0A] text-xl font-bold mb-4">
+                  {room.name}
+                </h3>
                 <div className="flex gap-4 mb-4">
                   <div className="flex items-center gap-2">
                     <img src={py} alt="area" className="w-5 h-5" />
-                    <span className="text-[#4B4B4B] text-sm">{room.areaInfo}</span>
+                    <span className="text-[#4B4B4B] text-sm">
+                      {room.areaInfo}
+                    </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <img src={bed} alt="bed" className="w-5 h-5" />
-                    <span className="text-[#4B4B4B] text-sm">{room.bedInfo}</span>
+                    <span className="text-[#4B4B4B] text-sm">
+                      {room.bedInfo}
+                    </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <img src={person} alt="person" className="w-5 h-5" />
-                    <span className="text-[#4B4B4B] text-sm">{maxPeopleDisplay}</span>
+                    <span className="text-[#4B4B4B] text-sm">
+                      {maxPeopleDisplay}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -328,7 +373,9 @@ const Booking = () => {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-[#4B4B4B]">入住天數</span>
-                  <span className="text-[#140F0A] font-medium">{nights} 晚</span>
+                  <span className="text-[#140F0A] font-medium">
+                    {nights} 晚
+                  </span>
                 </div>
               </div>
 
@@ -347,7 +394,9 @@ const Booking = () => {
               {/* 總金額 */}
               <div className="mb-6 pt-6 border-t-2 border-[#140F0A]">
                 <div className="flex justify-between items-center">
-                  <span className="text-[#140F0A] text-xl font-bold">總金額</span>
+                  <span className="text-[#140F0A] text-xl font-bold">
+                    總金額
+                  </span>
                   <span className="text-[#BF9D7D] text-3xl font-bold">
                     NT$ {totalPrice.toLocaleString()}
                   </span>
@@ -358,7 +407,9 @@ const Booking = () => {
               <button
                 type="button"
                 onClick={handleBooking}
-                disabled={isBooking || !checkInDate || !checkOutDate || nights <= 0}
+                disabled={
+                  isBooking || !checkInDate || !checkOutDate || nights <= 0
+                }
                 className="w-full bg-[#BF9D7D] text-white font-bold py-4 rounded-lg hover:bg-[#A0805E] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isBooking ? '處理中...' : '確認訂房'}
@@ -378,7 +429,9 @@ const Booking = () => {
           <div className="fixed inset-0 z-50 flex items-center justify-center">
             <div className="bg-white rounded-[20px] p-10 flex flex-col items-center">
               <div className="w-16 h-16 border-4 border-[#BF9D7D] border-t-transparent rounded-full animate-spin mb-4"></div>
-              <p className="text-[#140F0A] text-lg font-medium">處理中，請稍候...</p>
+              <p className="text-[#140F0A] text-lg font-medium">
+                處理中，請稍候...
+              </p>
             </div>
           </div>
         </BlurBg>
