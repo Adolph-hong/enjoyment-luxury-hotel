@@ -31,7 +31,7 @@
   },
 
   /* === 📂 要包含與排除的資料夾 === */
-  "include": ["src"], // 編譯範圍：src 資料夾
+  "include": ["src", "images.d.ts"], // 編譯範圍：src 資料夾
   "exclude": ["node_modules", "dist"], // 排除第三方套件與輸出資料夾
 
   /* === ⚙️ 對 node 專用設定檔的引用 === */
