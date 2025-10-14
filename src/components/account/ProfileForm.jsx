@@ -1,15 +1,14 @@
 import { useState } from 'react'
 import { useAuth } from '../../contexts/AuthContext'
 import { updateUserInfo } from '../../api/usersApi'
-import Button from '../ui/Button'
 import Select from '../ui/form/Select'
 import { years, months, days } from '../auth/dateOptions'
-import { cities, districts, zipcodes } from '../auth/addressOptions'
+import { cities, districts, zipcodes } from '../../components/auth/addressOptions'
 
 const ProfileForm = () => {
   const { user, fetchUser } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
-
+  
   // 編輯模式控制
   const [isEditingPassword, setIsEditingPassword] = useState(false)
   const [isEditingProfile, setIsEditingProfile] = useState(false)
@@ -36,7 +35,7 @@ const ProfileForm = () => {
     user?.address?.city || cities[0].value,
   )
   const [selectedDistrict, setSelectedDistrict] = useState(
-    user?.address?.county || '',
+    user?.address?.district || '',
   )
   const [addressDetail, setAddressDetail] = useState(
     user?.address?.detail || '',
@@ -82,7 +81,13 @@ const ProfileForm = () => {
   // 更新個人資料
   const handleUpdateProfile = async () => {
     // 驗證必填欄位
-    if (!name || !phone || !selectedCity || !selectedDistrict || !addressDetail) {
+    if (
+      !name ||
+      !phone ||
+      !selectedCity ||
+      !selectedDistrict ||
+      !addressDetail
+    ) {
       alert('請填寫所有必填欄位')
       return
     }
@@ -101,6 +106,7 @@ const ProfileForm = () => {
         address: {
           zipcode: zipcode,
           city: selectedCity,
+          district: selectedDistrict,
           county: selectedDistrict,
           detail: addressDetail,
         },
@@ -256,8 +262,10 @@ const ProfileForm = () => {
                   options={cities}
                   value={selectedCity}
                   onChange={(e) => {
-                    setSelectedCity(e.target.value)
-                    setSelectedDistrict('')
+                    const nextCity = e.target.value
+                    setSelectedCity(nextCity)
+                    const opts = districts[nextCity] || []
+                    setSelectedDistrict(opts[0]?.value || '')
                   }}
                 />
                 <Select
@@ -307,7 +315,8 @@ const ProfileForm = () => {
               <label className="block text-sm font-bold mb-2">地址</label>
               <p className="text-gray-700">
                 {user.address?.city}
-                {user.address?.county} {user.address?.detail}
+                {user.address?.district ?? user.address?.county}{' '}
+                {user.address?.detail}
               </p>
             </div>
 
@@ -323,7 +332,7 @@ const ProfileForm = () => {
                 setMonth(bd.getMonth() + 1)
                 setDay(bd.getDate())
                 setSelectedCity(user.address?.city || cities[0].value)
-                setSelectedDistrict(user.address?.county || '')
+                setSelectedDistrict(user.address?.district || '')
                 setAddressDetail(user.address?.detail || '')
                 setIsEditingProfile(true)
               }}

@@ -2,7 +2,6 @@ import { useForm } from 'react-hook-form'
 import { useEffect, useState } from 'react'
 import { signup } from '../../api/usersApi'
 import { useAuth } from '../../contexts/AuthContext'
-import { setCookie } from '../../utils/cookie'
 import FormInput from '../ui/FormInput'
 import AuthTitle from '../shared/AuthTitle'
 import AuthStep from '../shared/AuthStep'
@@ -65,7 +64,7 @@ const SignupSecond = ({ step1Data }) => {
 
       // 註冊成功後儲存 token 並更新使用者資料
       if (result.token) {
-        setCookie('customTodoToken', result.token)
+        localStorage.setItem('token', result.token)
         await fetchUser()
       }
 

@@ -1,8 +1,7 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { getUserInfo } from '../api/usersApi'
-import { getCookie, deleteCookie } from '../utils/cookie'
 
-const AuthContext = createContext()
+const AuthContext = createContext(null)
 
 export const useAuth = () => {
   const context = useContext(AuthContext)
@@ -17,8 +16,9 @@ export const AuthProvider = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true)
 
   const fetchUser = async () => {
-    const token = getCookie('customTodoToken')
+    const token = localStorage.getItem('token')
     if (!token) {
+      setUser(null)
       setIsLoading(false)
       return
     }
@@ -30,14 +30,15 @@ export const AuthProvider = ({ children }) => {
       }
     } catch (error) {
       console.error('取得使用者資料失敗:', error)
-      deleteCookie('customTodoToken')
+      localStorage.removeItem('token')
+      setUser(null)
     } finally {
       setIsLoading(false)
     }
   }
 
   const logout = () => {
-    deleteCookie('customTodoToken')
+    localStorage.removeItem('token')
     setUser(null)
   }
 
