@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "composite": true, // 允許被其他 tsconfig 引用（必要）
+    "module": "ESNext", // 使用 ES 模組
+    "moduleResolution": "Bundler", // 模組解析方式
+    "allowSyntheticDefaultImports": true, // 允許匯入沒有 default export 的模組
+    "esModuleInterop": true // CommonJS 模組相容性
+  },
+  "include": ["vite.config.ts"] // 只包含 Vite 設定檔
+}
