@@ -3,7 +3,7 @@
     /* === 🧱 編譯輸出與模組設定 === */
     "target": "ESNext", // 編譯成最新版本的 JavaScript（支援現代瀏覽器）
     "module": "ESNext", // 使用 ES 模組系統（Vite 必須）
-    "moduleResolution": "Node", // 模組解析方式（對應 Node 的 import 行為）
+    "moduleResolution": "Bundler", // 模組解析方式（讓 TypeScript「像 Vite 一樣」找模組）
     "jsx": "react-jsx", // React 17+ 自動引入 JSX runtime，不需再 import React
 
     /* === 🌐 環境設定 === */
@@ -25,9 +25,8 @@
     "allowSyntheticDefaultImports": true, // 允許沒有 default export 的模組仍能匯入
 
     /* === 🧭 路徑與別名設定 === */
-    "baseUrl": ".", // 基準目錄，通常為專案根目錄
     "paths": {
-      "@/*": ["src/*"] // 讓你能用 "@/components/Button" 這種寫法
+      "@/*": ["./src/*"] // 讓你能用 "@/components/Button" 這種寫法
     }
   },
 
