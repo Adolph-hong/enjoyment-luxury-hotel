@@ -10,7 +10,13 @@ import 'swiper/css/pagination'
 // import required modules
 import { FreeMode } from 'swiper/modules'
 
-const FoodsSwiper = ({ foods }) => {
+import type { Food } from '@/types/api/food'
+
+type Props = {
+  foods: Food[]
+}
+
+const FoodsSwiper: React.FC<Props> = ({ foods }) => {
   const [width, setWidth] = useState(window.innerWidth)
   useEffect(() => {
     const handleResize = () => setWidth(window.innerWidth)
