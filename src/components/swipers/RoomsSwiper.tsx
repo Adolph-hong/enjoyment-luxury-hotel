@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Swiper, SwiperSlide } from 'swiper/react'
+import type { Room } from '../../types/api/room'
 
 // Import Swiper styles
 import 'swiper/css'
@@ -10,7 +11,14 @@ import 'swiper/css/scrollbar'
 import { Navigation, Scrollbar } from 'swiper/modules'
 import { Link } from 'react-router-dom'
 
-const RoomSwiper = ({ room }) => {
+type RoomProps = {
+  room: Room
+}
+type RoomsProps = {
+  rooms: Room[]
+}
+
+const RoomSwiper: React.FC<RoomProps> = ({ room }) => {
   return (
     <Swiper
       scrollbar={{
@@ -32,7 +40,7 @@ const RoomSwiper = ({ room }) => {
   )
 }
 
-const RoomsSwiper = ({ rooms }) => {
+const RoomsSwiper: React.FC<RoomsProps> = ({ rooms }) => {
   const [width, setWidth] = useState(window.innerWidth)
 
   useEffect(() => {
@@ -61,13 +69,9 @@ const RoomsSwiper = ({ rooms }) => {
               )}
               <div className="flex flex-col justify-end">
                 <div className="w-full flex flex-col">
-                  <h2 className="text-3xl font-semibold mb-4 w-full ">
-                    {room.name}
-                  </h2>
+                  <h2 className="text-3xl font-semibold mb-4 w-full ">{room.name}</h2>
                   <p className="mb-2 text-sm w-full ">{room.description}</p>
-                  <p className="mb-5 text-2xl font-bold pt-5">
-                    NT$ {room.price}
-                  </p>
+                  <p className="mb-5 text-2xl font-bold pt-5">NT$ {room.price}</p>
                 </div>
                 <Link
                   to={`/room/${room._id}`}

@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react'
 import { foodsData } from './data'
 import FoodsSwiper from '../swipers/FoodsSwiper'
 import { getCulinary } from '../../api/homeApi'
+import type { Food } from '@/types/api/food'
 
-const FoodsSection = () => {
-  const [foods, setFoods] = useState([])
+const FoodsSection: React.FC = () => {
+  const [foods, setFoods] = useState<Food[]>([])
 
   useEffect(() => {
     const controller = new AbortController()

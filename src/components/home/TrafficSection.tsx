@@ -22,7 +22,6 @@ const TrafficSection = () => {
               width="600"
               height="450"
               className="w-full min-h-[300px] object-cover"
-              allowFullScreen=""
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
             ></iframe>
@@ -31,9 +30,7 @@ const TrafficSection = () => {
             {trafficData.info.map((trafficItem) => (
               <li key={trafficItem.id}>
                 <img className="w-[64px] h-[64px]" {...trafficItem.image} />
-                <h2 className="text-xl font-bold pt-5 pb-2">
-                  {trafficItem.title}
-                </h2>
+                <h2 className="text-xl font-bold pt-5 pb-2">{trafficItem.title}</h2>
                 <p className="text-sm">{trafficItem.description}</p>
               </li>
             ))}
