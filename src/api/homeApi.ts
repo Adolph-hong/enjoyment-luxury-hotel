@@ -1,15 +1,13 @@
-const baseUrl = import.meta.env.VITE_API_BASE
+import type { Food } from '@/types/api/food'
+import type { New } from '@/types/api/new'
+import type { Room } from '@/types/api/room'
+import type { RoomId } from '@/types/api/roomId'
+import { baseUrl } from '../constant/baseUrl'
 
 type FetchWithSignalProps = {
   path: string
   signal: AbortSignal
 }
-
-import type { Food } from '@/types/api/food'
-
-import type { New } from '@/types/api/new'
-import type { Room } from '@/types/api/room'
-import type { RoomId } from '@/types/api/roomId'
 
 const fetchWithSignal = async <T>({ path, signal }: FetchWithSignalProps): Promise<T> => {
   const res = await fetch(`${baseUrl}${path}`, { signal })
