@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { getRooms } from '../api/homeApi'
+import { Room } from '@/types/api/room'
 
 export const useRooms = () => {
-  const [rooms, setRooms] = useState([])
+  const [rooms, setRooms] = useState<Room[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
 
