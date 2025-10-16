@@ -7,8 +7,8 @@ import 'swiper/css/pagination'
 import py from '/src/assets/icon/Vector.svg'
 import bed from '/src/assets/icon/bed.svg'
 import person from '/src/assets/icon/person.svg'
-
-const RoomCard = ({ room }) => {
+import type { RoomCardProps } from '@/types/shared/room.card'
+const RoomCard:React.FC<RoomCardProps> = ({ room }) => {
   const {
     _id,
     name,

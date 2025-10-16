@@ -1,6 +1,6 @@
 import HeroTitle from '../shared/HeroTitle'
 
-const RoomBanner = () => {
+const RoomBanner:React.FC = () => {
   return (
     <section>
       <HeroTitle leftClassName="xl:pl-80">
