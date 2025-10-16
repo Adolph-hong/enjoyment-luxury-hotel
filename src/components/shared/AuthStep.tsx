@@ -1,7 +1,7 @@
 import React from "react"
 
 type AuthStepProps = {
-  bg2: string
+  bg2?: string
   textColor2: string
   borderColor2: string
   lineColor: string

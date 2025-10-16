@@ -8,6 +8,7 @@ type FormInputProps = {
   placeholder : string
   register : UseFormRegisterReturn
   error?: FieldError | undefined
+  pattern?: string
 }
 
 const FormInput : React.FC<FormInputProps> = ({labelId, labelContent, inputId, inputType, placeholder, register, error}) => {

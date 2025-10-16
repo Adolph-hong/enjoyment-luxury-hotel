@@ -1,7 +1,20 @@
+import { UseFormRegister, UseFormWatch, FieldErrors } from 'react-hook-form'
 import Select from './Select'
 import { cities, districts } from '../../auth/addressOptions'
 
-export default function AddressGroup({ label = '地址', className = '', register, watch, errors }) {
+type AddressFormShape = {
+  city: string
+  district: string
+}
+type AddressGroupProps = {
+  label?: string
+  className: string
+  register?: any
+  watch?: any
+  errors?: FieldErrors<AddressFormShape>
+}
+
+export default function AddressGroup({ label = '地址', className = '', register, watch, errors } : AddressGroupProps) {
   const selectedCity = watch ? watch('city') : ""
 
   return (
@@ -24,7 +37,7 @@ export default function AddressGroup({ label = '地址', className = '', registe
               : [{ label: '請先選縣市', value: '' }]
           }
           defaultValue=""
-          {...(register && register('district', { reqFuired: '請選擇區域' }))}
+          {...(register && register('district', { required: '請選擇區域' }))}
         />
       </div>
       {errors && (errors.city || errors.district) && (

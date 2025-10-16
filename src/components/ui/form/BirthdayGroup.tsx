@@ -1,5 +1,22 @@
+import { UseFormRegister, FieldErrors } from 'react-hook-form'
 import Select from './Select'
 import { years, months, days } from '../../auth/dateOptions'
+
+type BirthdayFormShape = {
+  year: string
+  month: string
+  day: string
+}
+
+type BirthdayGroupProps = {
+  label?: string
+  defaultYear?: string
+  defaultMonth?: string
+  defaultDay?: string
+  className: string
+  register?: any
+  errors?: FieldErrors<BirthdayFormShape>
+}
 
 export default function BirthdayGroup({
   label = '生日',
@@ -9,7 +26,7 @@ export default function BirthdayGroup({
   className = '',
   register,
   errors,
-}) {
+}: BirthdayGroupProps) {
   return (
     <div className={className}>
       <div className="mb-4 text-[#ffffff] font-bold max-sm:text-[14px]">

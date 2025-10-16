@@ -1,6 +1,6 @@
 type AuthTitleProps = {
-    eyebrow: string;
-    title: string;
+    eyebrow?: string;
+    title?: string;
 }
 
 const AuthTitle : React.FC<AuthTitleProps> = ({eyebrow, title}) => {
