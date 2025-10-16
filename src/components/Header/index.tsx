@@ -103,7 +103,7 @@ const Header : React.FC<HeaderProps> = ({ simple }) => {
           <nav className="hidden xl:flex gap-2 pt-[20px] pr-[62px]">
             <Link
               to="/room"
-              className="font-bold inline-flex items-center justify-center px-8 py-1 rounded-lg font-bold text-white
+              className="font-bold inline-flex items-center justify-center px-8 py-1 rounded-lg text-white
              transition-colors duration-200 hover:bg-[#BF9D7D]"
             >
               客房旅宿

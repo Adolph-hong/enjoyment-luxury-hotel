@@ -2,10 +2,18 @@ import { createContext, useContext, useState, useEffect } from 'react'
 import { getUserInfo } from '../api/usersApi'
 
 type User = {
-  id: number
+  _id: number
   name: string
   email: string
   phone?: string
+  birthday?: string
+  address?: {
+    city?: string
+    district?: string
+    county?: string
+    zipcode: number
+    detail: string
+  }
 }
 
 type AuthContextType = {
@@ -29,9 +37,17 @@ export const useAuth = () => {
   return context
 }
 
-export const AuthProvider = ({ children } : AuthLayoutProps) => {
-const [user, setUser] = useState<User | null>(null)
-const [isLoading, setIsLoading] = useState<boolean>(true)
+export const useAuthUser = () => {
+  const { user, isLoading, isLoggedIn } = useAuth()
+  if (!user) {
+    throw new Error('User must be logged in to access useAuthUser')
+  }
+  return user
+}
+
+export const AuthProvider = ({ children }: AuthLayoutProps) => {
+  const [user, setUser] = useState<User | null>(null)
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   const fetchUser = async () => {
     const token = localStorage.getItem('token')
@@ -75,5 +91,3 @@ const [isLoading, setIsLoading] = useState<boolean>(true)
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
-
-

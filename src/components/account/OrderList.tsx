@@ -2,12 +2,12 @@ import { useState, useEffect } from 'react'
 import BlurBg from '../ui/BlurBg'
 import OrderModal from '../modals/OrderModal'
 import { getOrders, deleteOrder } from '../../api/authApi'
-import { getCookie } from '../../utils/cookie'
+import type { Order } from '@/types/api/order'
 
 const OrderList = () => {
   const [showModal, setShowModal] = useState(false)
-  const [orders, setOrders] = useState([])
-  const [selectedOrder, setSelectedOrder] = useState(null)
+  const [orders, setOrders] = useState<Order[]>([])
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -23,7 +23,7 @@ const OrderList = () => {
 
   useEffect(() => {
     const fetchOrders = async () => {
-      const token = getCookie('customTodoToken')
+      const token = localStorage.getItem('token')
       if (!token) {
         setIsLoading(false)
         return
@@ -33,7 +33,7 @@ const OrderList = () => {
         const response = await getOrders()
         setOrders(response.result || [])
         if (response.result && response.result.length > 0) {
-          setSelectedOrder(response.result[0])
+          setSelectedOrder(response.result?.[0] ?? null)
         }
       } catch (error) {
         console.error('Failed to fetch orders:', error)
@@ -55,9 +55,7 @@ const OrderList = () => {
     try {
       await deleteOrder(selectedOrder._id)
       setOrders(orders.filter((order) => order._id !== selectedOrder._id))
-      setSelectedOrder(
-        orders.find((order) => order._id !== selectedOrder._id) || null,
-      )
+      setSelectedOrder(orders.find((order) => order._id !== selectedOrder._id) || null)
       console.log('預訂已取消')
       setShowModal(false)
     } catch (error) {
@@ -80,9 +78,7 @@ const OrderList = () => {
       {selectedOrder && (
         <div className="bg-white w-full md:w-3/5 text-black rounded-lg p-8">
           <div className="mb-4">
-            <p className="text-sm text-gray-500 mb-2">
-              預訂參考編號：{selectedOrder._id}
-            </p>
+            <p className="text-sm text-gray-500 mb-2">預訂參考編號：{selectedOrder._id}</p>
             <h3 className="text-2xl font-bold mb-4">即將來到詳情</h3>
           </div>
 
@@ -101,9 +97,7 @@ const OrderList = () => {
           <div className="space-y-3 text-sm">
             <p className="font-bold text-xl">{selectedOrder.roomId?.name}</p>
             <p>
-              <span className="text-gray-600">
-                臺北市中正區忠孝東路一段 2 號
-              </span>
+              <span className="text-gray-600">臺北市中正區忠孝東路一段 2 號</span>
             </p>
             <p>
               <span className="text-gray-600">電話：</span>+886-7-1234567
@@ -115,19 +109,17 @@ const OrderList = () => {
                 day: 'numeric',
               })}{' '}
               14:00 ｜ 退房：
-              {new Date(selectedOrder.checkOutDate).toLocaleDateString(
-                'zh-TW',
-                { month: 'long', day: 'numeric' },
-              )}{' '}
+              {new Date(selectedOrder.checkOutDate).toLocaleDateString('zh-TW', {
+                month: 'long',
+                day: 'numeric',
+              })}{' '}
               12:00
             </p>
             <p>
               <span className="text-gray-600">人數：</span>
               {selectedOrder.peopleNum} 人
             </p>
-            <p className="font-bold text-lg">
-              NT${selectedOrder.roomId?.price?.toLocaleString()}
-            </p>
+            <p className="font-bold text-lg">NT${selectedOrder.roomId?.price?.toLocaleString()}</p>
           </div>
 
           {selectedOrder.roomId?.facilityInfo && (
@@ -172,10 +164,7 @@ const OrderList = () => {
 
       {showModal && (
         <BlurBg>
-          <OrderModal
-            handleCancel={handleCancel}
-            handleConfirm={handleConfirm}
-          />
+          <OrderModal handleCancel={handleCancel} handleConfirm={handleConfirm} />
         </BlurBg>
       )}
 
@@ -185,7 +174,7 @@ const OrderList = () => {
         {orders.map((order) => {
           const checkIn = new Date(order.checkInDate)
           const checkOut = new Date(order.checkOutDate)
-          const nights = Math.ceil((checkOut - checkIn) / (1000 * 60 * 60 * 24))
+          const nights = Math.ceil((checkOut.getTime() - checkIn.getTime()) / (1000 * 60 * 60 * 24))
 
           return (
             <div
@@ -204,24 +193,16 @@ const OrderList = () => {
               />
               <div className="flex-1">
                 <div className="mb-2">
-                  <p className="text-xs text-gray-500 mb-1">
-                    預訂參考編號：{order._id}
-                  </p>
+                  <p className="text-xs text-gray-500 mb-1">預訂參考編號：{order._id}</p>
                   <h4 className="font-bold text-lg">{order.roomId?.name}</h4>
                 </div>
-                <p className="text-sm text-gray-600 mb-1">
-                  住宿天數：{nights} 晚
-                </p>
-                <p className="text-sm text-gray-600 mb-2">
-                  住宿人數：{order.peopleNum} 人
-                </p>
+                <p className="text-sm text-gray-600 mb-1">住宿天數：{nights} 晚</p>
+                <p className="text-sm text-gray-600 mb-2">住宿人數：{order.peopleNum} 人</p>
                 <p className="text-xs text-gray-500 mb-2">
                   入住：{checkIn.toLocaleDateString('zh-TW')} ｜ 退房：
                   {checkOut.toLocaleDateString('zh-TW')}
                 </p>
-                <p className="font-bold text-lg">
-                  NT${order.roomId?.price?.toLocaleString()}
-                </p>
+                <p className="font-bold text-lg">NT${order.roomId?.price?.toLocaleString()}</p>
               </div>
             </div>
           )

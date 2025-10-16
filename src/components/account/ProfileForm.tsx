@@ -1,14 +1,15 @@
 import { useState } from 'react'
-import { useAuth } from '../../contexts/AuthContext'
+import { useAuthUser, useAuth } from '../../contexts/AuthContext'
 import { updateUserInfo } from '../../api/usersApi'
 import Select from '../ui/form/Select'
 import { years, months, days } from '../auth/dateOptions'
 import { cities, districts, zipcodes } from '../../components/auth/addressOptions'
 
 const ProfileForm = () => {
-  const { user, fetchUser } = useAuth()
+  const user = useAuthUser()
+  const { fetchUser } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
-  
+
   // 編輯模式控制
   const [isEditingPassword, setIsEditingPassword] = useState(false)
   const [isEditingProfile, setIsEditingProfile] = useState(false)
@@ -23,23 +24,15 @@ const ProfileForm = () => {
   const [phone, setPhone] = useState(user?.phone || '')
 
   // 生日
-  const birthdayDate = user?.birthday
-    ? new Date(user.birthday)
-    : new Date('1990-08-15')
+  const birthdayDate = user?.birthday ? new Date(user.birthday) : new Date('1990-08-15')
   const [year, setYear] = useState(birthdayDate.getFullYear())
   const [month, setMonth] = useState(birthdayDate.getMonth() + 1)
   const [day, setDay] = useState(birthdayDate.getDate())
 
   // 地址
-  const [selectedCity, setSelectedCity] = useState(
-    user?.address?.city || cities[0].value,
-  )
-  const [selectedDistrict, setSelectedDistrict] = useState(
-    user?.address?.district || '',
-  )
-  const [addressDetail, setAddressDetail] = useState(
-    user?.address?.detail || '',
-  )
+  const [selectedCity, setSelectedCity] = useState(user?.address?.city || cities[0]?.value || '')
+  const [selectedDistrict, setSelectedDistrict] = useState(user?.address?.district || '')
+  const [addressDetail, setAddressDetail] = useState(user?.address?.detail || '')
 
   // 修改密碼
   const handleChangePassword = async () => {
@@ -70,9 +63,14 @@ const ProfileForm = () => {
       setConfirmNewPassword('')
       setIsEditingPassword(false)
       alert('密碼修改成功！')
-    } catch (error) {
-      console.error('修改密碼失敗:', error)
-      alert(error.message || '修改密碼失敗')
+    } catch (error: unknown) {
+      console.error(error)
+
+      if (error instanceof Error) {
+        alert(error.message || '修改密碼失敗')
+      } else {
+        alert('修改密碼失敗')
+      }
     } finally {
       setIsLoading(false)
     }
@@ -81,13 +79,7 @@ const ProfileForm = () => {
   // 更新個人資料
   const handleUpdateProfile = async () => {
     // 驗證必填欄位
-    if (
-      !name ||
-      !phone ||
-      !selectedCity ||
-      !selectedDistrict ||
-      !addressDetail
-    ) {
+    if (!name || !phone || !selectedCity || !selectedDistrict || !addressDetail) {
       alert('請填寫所有必填欄位')
       return
     }
@@ -104,7 +96,7 @@ const ProfileForm = () => {
         phone,
         birthday: `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`,
         address: {
-          zipcode: zipcode,
+          zipcode: Number(zipcode),
           city: selectedCity,
           district: selectedDistrict,
           county: selectedDistrict,
@@ -114,9 +106,14 @@ const ProfileForm = () => {
       await fetchUser()
       setIsEditingProfile(false)
       alert('資料更新成功！')
-    } catch (error) {
-      console.error('更新失敗:', error)
-      alert(error.message || '更新失敗')
+    } catch (error: unknown) {
+      console.error('更新個人資料失敗:', error)
+
+      if (error instanceof Error) {
+        alert(error.message || '更新失敗')
+      } else {
+        alert('更新失敗')
+      }
     } finally {
       setIsLoading(false)
     }
@@ -178,9 +175,7 @@ const ProfileForm = () => {
               </div>
 
               <div>
-                <label className="block text-sm font-bold mb-2">
-                  確認新密碼
-                </label>
+                <label className="block text-sm font-bold mb-2">確認新密碼</label>
                 <input
                   type="password"
                   value={confirmNewPassword}
@@ -236,19 +231,19 @@ const ProfileForm = () => {
                 <Select
                   className="flex-1 h-[56px] text-[#4B4B4B] bg-[#FFFFFF] rounded-[8px] border"
                   options={years}
-                  value={year}
+                  value={String(year)}
                   onChange={(e) => setYear(Number(e.target.value))}
                 />
                 <Select
                   className="flex-1 h-[56px] text-[#4B4B4B] bg-[#FFFFFF] rounded-[8px] border"
                   options={months}
-                  value={month}
+                  value={String(month)}
                   onChange={(e) => setMonth(Number(e.target.value))}
                 />
                 <Select
                   className="flex-1 h-[56px] text-[#4B4B4B] bg-[#FFFFFF] rounded-[8px] border"
                   options={days}
-                  value={day}
+                  value={String(day)}
                   onChange={(e) => setDay(Number(e.target.value))}
                 />
               </div>
@@ -315,8 +310,7 @@ const ProfileForm = () => {
               <label className="block text-sm font-bold mb-2">地址</label>
               <p className="text-gray-700">
                 {user.address?.city}
-                {user.address?.district ?? user.address?.county}{' '}
-                {user.address?.detail}
+                {user.address?.district ?? user.address?.county} {user.address?.detail}
               </p>
             </div>
 
@@ -325,13 +319,11 @@ const ProfileForm = () => {
                 // 載入原始資料
                 setName(user.name || '')
                 setPhone(user.phone || '')
-                const bd = user.birthday
-                  ? new Date(user.birthday)
-                  : new Date('1990-08-15')
+                const bd = user.birthday ? new Date(user.birthday) : new Date('1990-08-15')
                 setYear(bd.getFullYear())
                 setMonth(bd.getMonth() + 1)
                 setDay(bd.getDate())
-                setSelectedCity(user.address?.city || cities[0].value)
+                setSelectedCity(user.address?.city || cities[0]?.value || '')
                 setSelectedDistrict(user.address?.district || '')
                 setAddressDetail(user.address?.detail || '')
                 setIsEditingProfile(true)

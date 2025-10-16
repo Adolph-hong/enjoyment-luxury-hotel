@@ -1,6 +1,13 @@
-const baseUrl = import.meta.env.VITE_API_BASE
+import { baseUrl } from '../constant/baseUrl'
+import type { UserData } from '@/types/api/useData'
+import type { UpdatePasswordData } from '@/types/api/auth'
 
-export async function verifyEmail(email) {
+const createAuthHeaders = (token: string | null): Record<string, string> => ({
+  'Content-Type': 'application/json',
+  ...(token ? { Authorization: token } : {}),
+})
+
+export const verifyEmail = async (email: string) => {
   const res = await fetch(`${baseUrl}/api/v1/verify/email`, {
     method: 'POST',
     headers: {
@@ -18,7 +25,7 @@ export async function verifyEmail(email) {
   return data
 }
 
-export async function generateEmailCode(email) {
+export const generateEmailCode = async (email: string) => {
   const res = await fetch(`${baseUrl}/api/v1/verify/generateEmailCode`, {
     method: 'POST',
     headers: {
@@ -36,7 +43,7 @@ export async function generateEmailCode(email) {
   return data
 }
 
-export async function forgotPassword(email, code, newPassword) {
+export const forgotPassword = async (email: string, code: string, newPassword: string) => {
   const res = await fetch(`${baseUrl}/api/v1/user/forget`, {
     method: 'POST',
     headers: {
@@ -58,14 +65,12 @@ export async function forgotPassword(email, code, newPassword) {
   return data
 }
 
-export async function checkLogin() {
+export const checkLogin = async () => {
   const token = localStorage.getItem('token')
 
   const res = await fetch(`${baseUrl}/api/v1/user/check`, {
     method: 'GET',
-    headers: {
-      Authorization: token,
-    },
+    headers: createAuthHeaders(token),
   })
 
   const data = await res.json()
@@ -77,14 +82,12 @@ export async function checkLogin() {
   return data
 }
 
-export async function getUserInfo() {
+export const getUserInfo = async () => {
   const token = localStorage.getItem('token')
 
   const res = await fetch(`${baseUrl}/api/v1/user/`, {
     method: 'GET',
-    headers: {
-      Authorization: token,
-    },
+    headers: createAuthHeaders(token),
   })
 
   const data = await res.json()
@@ -96,15 +99,12 @@ export async function getUserInfo() {
   return data
 }
 
-export async function updateUserInfo(userData) {
+export const updateUserInfo = async (userData: UserData) => {
   const token = localStorage.getItem('token')
 
   const res = await fetch(`${baseUrl}/api/v1/user/`, {
     method: 'PUT',
-    headers: {
-      Authorization: token,
-      'Content-Type': 'application/json',
-    },
+    headers: createAuthHeaders(token),
     body: JSON.stringify(userData),
   })
 
@@ -114,10 +114,10 @@ export async function updateUserInfo(userData) {
     throw new Error(data.message || '更新使用者資料失敗')
   }
 
-  return data
+  return data as UpdatePasswordData
 }
 
-export async function login(email, password) {
+export const login = async (email: string, password: string) => {
   const res = await fetch(`${baseUrl}/api/v1/user/login`, {
     method: 'POST',
     headers: {
@@ -141,7 +141,7 @@ export async function login(email, password) {
   return data
 }
 
-export async function signup(userData) {
+export const signup = async (userData: UserData) => {
   const res = await fetch(`${baseUrl}/api/v1/user/signup`, {
     method: 'POST',
     headers: {
