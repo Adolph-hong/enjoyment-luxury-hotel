@@ -33,8 +33,8 @@ export const getRooms = (signal: AbortSignal): Promise<Room[]> => {
     signal,
   })
 }
-export const getRoomById = (roomId: string, signal: AbortSignal): Promise<RoomId[]> => {
-  return fetchWithSignal<RoomId[]>({
+export const getRoomById = (roomId: string, signal: AbortSignal): Promise<RoomId> => {
+  return fetchWithSignal<RoomId>({
     path: `/api/v1/rooms/${roomId}`,
     signal,
   })
