@@ -1,6 +1,10 @@
 import React from 'react'
 
-const BlurBg = ({ children }) => {
+type Props = {
+  children: React.ReactNode
+}
+
+const BlurBg: React.FC<Props> = ({ children }) => {
   return (
     <div className="fixed inset-0 z-40 bg-transparent bg-opacity-40 backdrop-blur-md">
       {children}
