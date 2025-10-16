@@ -13,7 +13,7 @@ import ReserveForm from '../forms/ReservationForm'
 import RoomLoading from '../room/RoomLoading'
 import { RoomId } from '@/types/api/roomId'
 
-const RoomDetail = () => {
+const RoomDetail:React.FC = () => {
   const { roomId } = useParams<{roomId : string}>()
   const [room, setRoom] = useState<RoomId | null>(null)
   const [loading, setLoading] = useState(true)
