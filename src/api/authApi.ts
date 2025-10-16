@@ -1,3 +1,6 @@
+import { UserData } from '../types/api/useData'
+import { UpdateUserData } from '../types/api/updateUserData'
+
 const baseUrl = import.meta.env.VITE_API_BASE
 type ApiRequestOptions = {
   method?: string
@@ -40,7 +43,7 @@ export const login = async (email : string, password : string) => {
   })
 }
 
-export const signup = async (userData) => {
+export const signup = async (userData : UserData) => {
   return apiRequest('/api/v1/user/signup', {
     method: 'POST',
     body: JSON.stringify(userData),
@@ -68,7 +71,7 @@ export const getUser = async () => {
   })
 }
 
-export const updateUser = async (userData) => {
+export const updateUser = async (userData : UpdateUserData) => {
   return apiRequest('/api/v1/user/', {
     method: 'PUT',
     body: JSON.stringify(userData),
