@@ -3,7 +3,7 @@ import hotelLogoEn from '/src/assets/logo/hotel-logo-english.svg'
 import lineLogo from '/src/assets/icon/Line.svg'
 import igLogo from '/src/assets/icon/IG.svg'
 
-const Footer = () => {
+const Footer: React.FC = () => {
   return (
     <footer>
       {/*以下第一個區塊*/}

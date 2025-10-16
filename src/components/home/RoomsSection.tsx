@@ -2,9 +2,10 @@ import { useEffect, useState } from 'react'
 import RoomsSwiper from '../swipers/RoomsSwiper'
 import { roomsData } from './data'
 import { getRooms } from '../../api/homeApi'
+import type { Room } from '../../types/api/room'
 
 const RoomsSection = () => {
-  const [rooms, setRooms] = useState([])
+  const [rooms, setRooms] = useState<Room[]>([])
 
   useEffect(() => {
     const controller = new AbortController()

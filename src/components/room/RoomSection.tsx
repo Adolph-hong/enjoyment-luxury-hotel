@@ -1,7 +1,7 @@
 import RoomCard from '../shared/RoomCard'
 import { useRooms } from '../../hooks/useRooms'
 
-const RoomSection = () => {
+const RoomSection:React.FC = () => {
   const { rooms, loading, error } = useRooms()
 
   if (loading) {

@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
 import { newsData } from './data'
 import { getNews } from '../../api/homeApi'
+import type { New } from '@/types/api/new'
 
-const NewsSection = () => {
-  const [news, setNews] = useState([])
+const NewsSection: React.FC = () => {
+  const [news, setNews] = useState<New[]>([])
 
   useEffect(() => {
     const controller = new AbortController()
@@ -33,10 +34,7 @@ const NewsSection = () => {
           </h2>
           <div className="mt-2 h-[2px] w-24 bg-gradient-to-r from-[#c0a375] to-transparent"></div>
         </div>
-        <img
-          className="w-[100px] absolute top-10 right-10"
-          {...newsData.decosImg}
-        />
+        <img className="w-[100px] absolute top-10 right-10" {...newsData.decosImg} />
         <img
           className="w-[100px] z-10 absolute bottom-[-2%] xl:bottom-[-5%] left-10"
           {...newsData.decosImg}
