@@ -1,10 +1,18 @@
-const baseUrl = import.meta.env.VITE_API_BASE
+import { UserData } from '../types/api/useData'
+import { UpdateUserData } from '../types/api/updateUserData'
 
+const baseUrl = import.meta.env.VITE_API_BASE
+type ApiRequestOptions = {
+  method?: string
+  headers?: Record<string, string>
+  body?: string
+  requireAuth?: boolean
+}
 // Helper function to handle API requests
-const apiRequest = async (path, options = {}) => {
+const apiRequest = async (path : string, options : ApiRequestOptions = {}) => {
   const token = localStorage.getItem('token')
 
-  const headers = {
+  const headers : Record<string, string> = {
     'Content-Type': 'application/json',
     ...options.headers,
   }
@@ -28,21 +36,21 @@ const apiRequest = async (path, options = {}) => {
 }
 
 // User APIs
-export const login = async (email, password) => {
+export const login = async (email : string, password : string) => {
   return apiRequest('/api/v1/user/login', {
     method: 'POST',
     body: JSON.stringify({ email, password }),
   })
 }
 
-export const signup = async (userData) => {
+export const signup = async (userData : UserData) => {
   return apiRequest('/api/v1/user/signup', {
     method: 'POST',
     body: JSON.stringify(userData),
   })
 }
 
-export const forgotPassword = async (email) => {
+export const forgotPassword = async (email : string) => {
   return apiRequest('/api/v1/user/forgot', {
     method: 'POST',
     body: JSON.stringify({ email }),
@@ -63,7 +71,7 @@ export const getUser = async () => {
   })
 }
 
-export const updateUser = async (userData) => {
+export const updateUser = async (userData : UpdateUserData) => {
   return apiRequest('/api/v1/user/', {
     method: 'PUT',
     body: JSON.stringify(userData),
@@ -72,14 +80,14 @@ export const updateUser = async (userData) => {
 }
 
 // Verify APIs
-export const verifyEmail = async (email, code) => {
+export const verifyEmail = async (email : string) => {
   return apiRequest('/api/v1/verify/email', {
     method: 'POST',
-    body: JSON.stringify({ email, code }),
+    body: JSON.stringify({ email}),
   })
 }
 
-export const generateEmailCode = async (email) => {
+export const generateEmailCode = async (email : string) => {
   return apiRequest('/api/v1/verify/generateEmailCode', {
     method: 'POST',
     body: JSON.stringify({ email }),
@@ -94,14 +102,14 @@ export const getOrders = async () => {
   })
 }
 
-export const getOrderById = async (orderId) => {
+export const getOrderById = async (orderId : string) => {
   return apiRequest(`/api/v1/orders/${orderId}`, {
     method: 'GET',
     requireAuth: true,
   })
 }
 
-export const deleteOrder = async (orderId) => {
+export const deleteOrder = async (orderId : string) => {
   return apiRequest(`/api/v1/orders/${orderId}`, {
     method: 'DELETE',
     requireAuth: true,

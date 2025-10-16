@@ -1,25 +1,48 @@
-import { useForm } from 'react-hook-form'
+import { useForm, SubmitHandler } from 'react-hook-form'
 import { useEffect, useState } from 'react'
 import { signup } from '../../api/usersApi'
-import { useAuth } from '../../contexts/AuthContext'
 import FormInput from '../ui/FormInput'
 import AuthTitle from '../shared/AuthTitle'
 import AuthStep from '../shared/AuthStep'
-import AuthPrompt from '../shared/AuthPrompt'
+import { useAuth } from '../../contexts/AuthContext'
 import BirthdayGroup from '../ui/form/BirthdayGroup'
 import AddressGroup from '../ui/form/AddressGroup'
 import Button from '../ui/Button'
 import { useNavigate } from 'react-router-dom'
-import { zipcodes } from '../../components/auth/addressOptions'
+import { zipcodes } from '../auth/addressOptions'
+import AuthPrompt from '../shared/AuthPrompt'
 
-const SignupSecond = ({ step1Data }) => {
+type Step1Data = {
+  email: string
+  password: string
+}
+
+type SignupSecondProps = {
+  step1Data: Step1Data
+  onBack?: () => void 
+}
+
+type SignupSecondForm = {
+  name: string
+  phone: string
+  year: string
+  month: string
+  day: string
+  city: string
+  district: string
+  zipcode: string
+  address: string
+  agreeToTerms?: boolean
+}
+
+const SignupSecond = ({ step1Data }: SignupSecondProps) => {
   const {
     register,
     handleSubmit,
     watch,
     setValue,
     formState: { errors },
-  } = useForm({
+  } = useForm<SignupSecondForm>({
     defaultValues: {
       year: '',
       month: '',
@@ -40,7 +63,7 @@ const SignupSecond = ({ step1Data }) => {
     setValue('zipcode', zip)
   }, [city, district, setValue])
 
-  const onSubmit = async (data) => {
+  const onSubmit: SubmitHandler<SignupSecondForm> = async (data) => {
     try {
       setIsLoading(true)
 
@@ -53,8 +76,8 @@ const SignupSecond = ({ step1Data }) => {
         birthday: `${data.year}-${String(data.month).padStart(2, '0')}-${String(data.day).padStart(2, '0')}`,
         address: {
           zipcode: data.zipcode,
-          city: data.city, 
-          district: data.district, 
+          city: data.city,
+          district: data.district,
           detail: data.address,
         },
       }
@@ -71,8 +94,14 @@ const SignupSecond = ({ step1Data }) => {
       alert('註冊成功！')
       navigate('/')
     } catch (error) {
-      console.error('註冊失敗:', error)
-      alert(error.message || '註冊失敗，請稍後再試')
+      const msg =
+        error instanceof Error
+          ? error.message
+          : typeof error === 'string'
+            ? error
+            : JSON.stringify(error) // 最後保險，確保是字串
+
+      alert(`驗證失敗：${msg}`) // ✅ 只傳一個參數
     } finally {
       setIsLoading(false)
     }
@@ -103,7 +132,7 @@ const SignupSecond = ({ step1Data }) => {
         error={errors.name}
       />
       <FormInput
-        labelType="sign-2-phone"
+        labelId="sign-2-phone"
         labelContent="手機號碼"
         inputId="sign-2-phone"
         inputType="tel"
@@ -118,11 +147,7 @@ const SignupSecond = ({ step1Data }) => {
         })}
         error={errors.phone}
       />
-      <BirthdayGroup
-        className="w-full mb-[16px]"
-        register={register}
-        errors={errors}
-      />
+      <BirthdayGroup className="w-full mb-[16px]" register={register} errors={errors} />
       <AddressGroup
         className="w-full mb-[16px]"
         register={register}
@@ -131,7 +156,7 @@ const SignupSecond = ({ step1Data }) => {
       />
       <input type="hidden" {...register('zipcode')} />
       <FormInput
-        labelType="address"
+        labelId="address"
         labelContent="詳細地址"
         inputId="address"
         inputType="text"
@@ -165,14 +190,10 @@ const SignupSecond = ({ step1Data }) => {
             <path d="M5 13l4 4L19 7" />
           </svg>
         </span>
-        <span className="leading-none font-bold">
-          我已閱讀並同意本網站個資使用規範
-        </span>
+        <span className="leading-none font-bold">我已閱讀並同意本網站個資使用規範</span>
       </label>
       {errors.agreeToTerms && (
-        <span className="text-red-400 text-sm mb-[16px]">
-          請同意個資使用規範
-        </span>
+        <span className="text-red-400 text-sm mb-[16px]">請同意個資使用規範</span>
       )}
       <Button
         bg="bg-[#BF9D7D]"
@@ -183,12 +204,7 @@ const SignupSecond = ({ step1Data }) => {
         type="submit"
         disabled={isLoading}
       />
-      <AuthPrompt
-        question={'已經有會員了嗎？'}
-        goto={'立即登入'}
-        goUrl={'/login'}
-        mt="mt-[16px]"
-      />
+      <AuthPrompt question={'已經有會員了嗎？'} goto={'立即登入'} goUrl={'/login'} mt="mt-[16px]" />
     </form>
   )
 }

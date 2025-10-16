@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form'
+import { useForm, SubmitHandler, FieldErrors } from 'react-hook-form'
 import { useState } from 'react'
 import { verifyEmail } from '../../api/usersApi'
 import FormInput from '../ui/FormInput'
@@ -7,11 +7,28 @@ import AuthStep from '../shared/AuthStep'
 import AuthPrompt from '../shared/AuthPrompt'
 import Button from '../ui/Button'
 
-const SignupFirst = ({ onNext }) => {
-  const { register, handleSubmit, watch, formState: { errors }, setError } = useForm()
+type SignupFirstFormData = {
+  email: string
+  password: string
+  confirmPassword: string
+}
+
+type SignupFirstProps = {
+  onNext?: (data: SignupFirstFormData) => void
+}
+
+
+const SignupFirst = ({ onNext }: SignupFirstProps) => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    setError,
+  } = useForm<SignupFirstFormData>()
   const [isLoading, setIsLoading] = useState(false)
 
-  const onSubmit = async (data) => {
+  const onSubmit: SubmitHandler<SignupFirstFormData> = async (data) => {
     try {
       setIsLoading(true)
 
@@ -21,7 +38,7 @@ const SignupFirst = ({ onNext }) => {
       if (verifyResult.result?.isEmailExists) {
         setError('email', {
           type: 'manual',
-          message: '此 Email 已註冊'
+          message: '此 Email 已註冊',
         })
         return
       }
@@ -29,8 +46,14 @@ const SignupFirst = ({ onNext }) => {
       // Email 可用，進入下一步
       onNext?.(data)
     } catch (error) {
-      console.error('驗證失敗:', error)
-      alert(error.message || '驗證失敗，請稍後再試')
+      const msg =
+        error instanceof Error
+          ? error.message
+          : typeof error === 'string'
+            ? error
+            : JSON.stringify(error) // 最後保險，確保是字串
+
+      alert(`驗證失敗：${msg}`) // ✅ 只傳一個參數
     } finally {
       setIsLoading(false)
     }
@@ -39,16 +62,19 @@ const SignupFirst = ({ onNext }) => {
   const password = watch('password')
 
   return (
-    <form className="flex flex-col z-10 mt-[40px] w-full max-w-[416px] max-sm:max-w-[335px]" onSubmit={handleSubmit(onSubmit)}>
-        <AuthTitle eyebrow={'享樂酒店，誠摯歡迎'} title={'立即註冊'} />
-        <AuthStep
+    <form
+      className="flex flex-col z-10 mt-[40px] w-full max-w-[416px] max-sm:max-w-[335px]"
+      onSubmit={handleSubmit(onSubmit)}
+    >
+      <AuthTitle eyebrow={'享樂酒店，誠摯歡迎'} title={'立即註冊'} />
+      <AuthStep
         textColor2="text-[#909090]"
         borderColor2="border-[#909090]"
         lineColor="bg-[#909090]"
         isDone={false}
-        />
-        <FormInput
-        labelType="email"
+      />
+      <FormInput
+        labelId="email"
         labelContent="電子信箱"
         inputId="email"
         inputType="email"
@@ -57,13 +83,13 @@ const SignupFirst = ({ onNext }) => {
           required: '電子信箱為必填',
           pattern: {
             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-            message: '請輸入有效的電子信箱'
-          }
+            message: '請輸入有效的電子信箱',
+          },
         })}
         error={errors.email}
       />
       <FormInput
-        labelType="password"
+        labelId="password"
         labelContent="密碼"
         inputId="password"
         inputType="password"
@@ -72,24 +98,24 @@ const SignupFirst = ({ onNext }) => {
           required: '密碼為必填',
           minLength: {
             value: 8,
-            message: '密碼至少需要 8 個字元'
+            message: '密碼至少需要 8 個字元',
           },
           pattern: {
             value: /^(?=.*[a-zA-Z])/,
-            message: '密碼不能只有數字，需包含英文字母'
-          }
+            message: '密碼不能只有數字，需包含英文字母',
+          },
         })}
         error={errors.password}
       />
       <FormInput
-        labelType="password"
+        labelId="password"
         labelContent="確認密碼"
         inputId="confirmPassword"
         inputType="password"
         placeholder="請再輸入一次密碼"
         register={register('confirmPassword', {
           required: '請確認密碼',
-          validate: value => value === password || '密碼不一致'
+          validate: (value) => value === password || '密碼不一致',
         })}
         error={errors.confirmPassword}
       />

@@ -1,7 +1,7 @@
 import AuthLayout from '../shared/AuthLayout'
 import LoginForm from '../forms/LoginForm'
 
-const Login = () => {
+const Login : React.FC = () => {
   return (
   <AuthLayout>
     <LoginForm />
