@@ -1,7 +1,14 @@
 import { useNavigate } from 'react-router-dom'
 import BlurBg from '../ui/BlurBg'
+import { orderResult } from '@/types/components/bookingModal'
 
-const BookingSuccessModal = ({ isOpen, onClose, orderData }) => {
+type Props = {
+  isOpen: boolean
+  onClose: () => void
+  orderResult: orderResult | null
+}
+
+const BookingSuccessModal: React.FC<Props> = ({ isOpen, onClose, orderResult }) => {
   const navigate = useNavigate()
 
   if (!isOpen) return null
@@ -33,7 +40,7 @@ const BookingSuccessModal = ({ isOpen, onClose, orderData }) => {
 
           {/* 標題 */}
           <h2 className="text-[#140F0A] text-3xl font-bold text-center mb-3">
-            恭喜，{orderData?.userName || ''}！
+            恭喜，{orderResult?.userName || ''}！
           </h2>
           <p className="text-[#140F0A] text-xl text-center mb-8">您已預訂成功</p>
 
@@ -47,29 +54,29 @@ const BookingSuccessModal = ({ isOpen, onClose, orderData }) => {
               <div className="flex justify-between">
                 <span className="text-[#4B4B4B]">預訂參考編號</span>
                 <span className="text-[#140F0A] font-bold">
-                  {orderData?.orderId?.slice(-8).toUpperCase() || 'N/A'}
+                  {orderResult?.orderId?.slice(-8).toUpperCase() || 'N/A'}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-[#4B4B4B]">房型</span>
-                <span className="text-[#140F0A] font-medium">{orderData?.roomName || 'N/A'}</span>
+                <span className="text-[#140F0A] font-medium">{orderResult?.roomName || 'N/A'}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-[#4B4B4B]">入住日期</span>
                 <span className="text-[#140F0A] font-medium">
-                  {orderData?.checkInDate || 'N/A'}
+                  {orderResult?.checkInDate || 'N/A'}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-[#4B4B4B]">退房日期</span>
                 <span className="text-[#140F0A] font-medium">
-                  {orderData?.checkOutDate || 'N/A'}
+                  {orderResult?.checkOutDate || 'N/A'}
                 </span>
               </div>
               <div className="flex justify-between">
                 <span className="text-[#4B4B4B]">房客人數</span>
                 <span className="text-[#140F0A] font-medium">
-                  {orderData?.peopleNum || 'N/A'} 位
+                  {orderResult?.peopleNum || 'N/A'} 位
                 </span>
               </div>
             </div>
@@ -81,15 +88,15 @@ const BookingSuccessModal = ({ isOpen, onClose, orderData }) => {
             <div className="space-y-2">
               <div className="flex">
                 <span className="text-[#4B4B4B] w-20">姓名</span>
-                <span className="text-[#140F0A]">{orderData?.userName || 'N/A'}</span>
+                <span className="text-[#140F0A]">{orderResult?.userName || 'N/A'}</span>
               </div>
               <div className="flex">
                 <span className="text-[#4B4B4B] w-20">電話</span>
-                <span className="text-[#140F0A]">{orderData?.userPhone || 'N/A'}</span>
+                <span className="text-[#140F0A]">{orderResult?.userPhone || 'N/A'}</span>
               </div>
               <div className="flex">
                 <span className="text-[#4B4B4B] w-20">電子信箱</span>
-                <span className="text-[#140F0A]">{orderData?.userEmail || 'N/A'}</span>
+                <span className="text-[#140F0A]">{orderResult?.userEmail || 'N/A'}</span>
               </div>
             </div>
           </div>
