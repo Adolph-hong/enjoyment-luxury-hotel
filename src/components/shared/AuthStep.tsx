@@ -1,4 +1,20 @@
-const AuthStep = ({ bg2, textColor2, borderColor2, lineColor, isDone = false }) => {
+import React from "react"
+
+type AuthStepProps = {
+  bg2: string
+  textColor2: string
+  borderColor2: string
+  lineColor: string
+  isDone: boolean
+}
+
+const AuthStep: React.FC<AuthStepProps> = ({
+  bg2,
+  textColor2,
+  borderColor2,
+  lineColor,
+  isDone = false,
+}) => {
   return (
     <div className="flex items-center mb-[56px] gap-2">
       <div className="flex flex-col items-center gap-[4px] text-[#ffffff] font-bold">
