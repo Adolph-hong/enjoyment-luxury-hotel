@@ -5,7 +5,7 @@ import hotelLogo from '/src/assets/logo/hotel-logo.svg'
 import hotelLogoEn from '/src/assets/logo/hotel-logo-english.svg'
 import burgerLogo from '/src/assets/icon/menu-button.svg'
 import cancelLogo from '/src/assets/icon/cancel.svg'
-import type { HeaderProps } from './Header.types'
+import type { HeaderProps } from '../../types/shared/Header.types'
 
 const Header : React.FC<HeaderProps> = ({ simple }) => {
   const [isOpen, setIsOpen] = useState(false)
