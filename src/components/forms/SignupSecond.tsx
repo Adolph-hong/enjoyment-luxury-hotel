@@ -52,7 +52,7 @@ const SignupSecond = ({ step1Data }: SignupSecondProps) => {
       zipcode: '',
     },
   })
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const navigate = useNavigate()
   const { fetchUser } = useAuth()
   const city = watch('city')
