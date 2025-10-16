@@ -16,7 +16,7 @@ const RoomDetail = () => {
   const { roomId } = useParams()
   const [room, setRoom] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const controller = new AbortController()
