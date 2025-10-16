@@ -1,8 +1,26 @@
 import { createContext, useContext, useState, useEffect } from 'react'
 import { getUserInfo } from '../api/usersApi'
 
-const AuthContext = createContext(null)
+type User = {
+  id: number
+  name: string
+  email: string
+  phone?: string
+}
 
+type AuthContextType = {
+  user: User | null
+  isLoading: boolean
+  isLoggedIn: boolean
+  setUser: React.Dispatch<React.SetStateAction<User | null>>
+  fetchUser: () => Promise<void>
+  logout: () => void
+}
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined)
+type AuthLayoutProps = {
+  children: React.ReactNode
+}
 export const useAuth = () => {
   const context = useContext(AuthContext)
   if (!context) {
@@ -11,9 +29,9 @@ export const useAuth = () => {
   return context
 }
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null)
-  const [isLoading, setIsLoading] = useState(true)
+export const AuthProvider = ({ children } : AuthLayoutProps) => {
+const [user, setUser] = useState<User | null>(null)
+const [isLoading, setIsLoading] = useState<boolean>(true)
 
   const fetchUser = async () => {
     const token = localStorage.getItem('token')
@@ -46,7 +64,7 @@ export const AuthProvider = ({ children }) => {
     fetchUser()
   }, [])
 
-  const value = {
+  const value: AuthContextType = {
     user,
     isLoading,
     isLoggedIn: !!user,
@@ -57,3 +75,5 @@ export const AuthProvider = ({ children }) => {
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }
+
+
