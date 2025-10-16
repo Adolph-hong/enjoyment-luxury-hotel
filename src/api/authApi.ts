@@ -1,7 +1,9 @@
-import { UserData } from '../types/api/useData'
-import { UpdateUserData } from '../types/api/updateUserData'
+import { UserData } from '@/types/api/useData'
+import { UpdateUserData } from '@/types/api/updateUserData'
+import type { AuthResponse, Status, Token, EmailVerifyResponse } from '@/types/api/auth'
+import type { OrderResponse, SingleOrderResponse } from '@/types/api/order'
+import { baseUrl } from '../constant/baseUrl'
 
-const baseUrl = import.meta.env.VITE_API_BASE
 type ApiRequestOptions = {
   method?: string
   headers?: Record<string, string>
@@ -9,10 +11,10 @@ type ApiRequestOptions = {
   requireAuth?: boolean
 }
 // Helper function to handle API requests
-const apiRequest = async (path : string, options : ApiRequestOptions = {}) => {
+const apiRequest = async <T>(path: string, options: ApiRequestOptions = {}): Promise<T> => {
   const token = localStorage.getItem('token')
 
-  const headers : Record<string, string> = {
+  const headers: Record<string, string> = {
     'Content-Type': 'application/json',
     ...options.headers,
   }
@@ -32,47 +34,47 @@ const apiRequest = async (path : string, options : ApiRequestOptions = {}) => {
     throw new Error(data.message || 'API request failed')
   }
 
-  return data
+  return data as T
 }
 
 // User APIs
-export const login = async (email : string, password : string) => {
-  return apiRequest('/api/v1/user/login', {
+export const login = async (email: string, password: string) => {
+  return apiRequest<AuthResponse>('/api/v1/user/login', {
     method: 'POST',
     body: JSON.stringify({ email, password }),
   })
 }
 
-export const signup = async (userData : UserData) => {
-  return apiRequest('/api/v1/user/signup', {
+export const signup = async (userData: UserData) => {
+  return apiRequest<AuthResponse>('/api/v1/user/signup', {
     method: 'POST',
     body: JSON.stringify(userData),
   })
 }
 
-export const forgotPassword = async (email : string) => {
-  return apiRequest('/api/v1/user/forgot', {
+export const forgotPassword = async (email: string) => {
+  return apiRequest<Status>('/api/v1/user/forgot', {
     method: 'POST',
     body: JSON.stringify({ email }),
   })
 }
 
 export const checkUser = async () => {
-  return apiRequest('/api/v1/user/check', {
+  return apiRequest<Status & Token>('/api/v1/user/check', {
     method: 'GET',
     requireAuth: true,
   })
 }
 
 export const getUser = async () => {
-  return apiRequest('/api/v1/user/', {
+  return apiRequest<{ user: UserData }>('/api/v1/user/', {
     method: 'GET',
     requireAuth: true,
   })
 }
 
-export const updateUser = async (userData : UpdateUserData) => {
-  return apiRequest('/api/v1/user/', {
+export const updateUser = async (userData: UpdateUserData) => {
+  return apiRequest<Status>('/api/v1/user/', {
     method: 'PUT',
     body: JSON.stringify(userData),
     requireAuth: true,
@@ -80,15 +82,15 @@ export const updateUser = async (userData : UpdateUserData) => {
 }
 
 // Verify APIs
-export const verifyEmail = async (email : string) => {
-  return apiRequest('/api/v1/verify/email', {
+export const verifyEmail = async (email: string) => {
+  return apiRequest<EmailVerifyResponse>('/api/v1/verify/email', {
     method: 'POST',
-    body: JSON.stringify({ email}),
+    body: JSON.stringify({ email }),
   })
 }
 
-export const generateEmailCode = async (email : string) => {
-  return apiRequest('/api/v1/verify/generateEmailCode', {
+export const generateEmailCode = async (email: string) => {
+  return apiRequest<EmailVerifyResponse>('/api/v1/verify/generateEmailCode', {
     method: 'POST',
     body: JSON.stringify({ email }),
   })
@@ -96,21 +98,21 @@ export const generateEmailCode = async (email : string) => {
 
 // Orders APIs
 export const getOrders = async () => {
-  return apiRequest('/api/v1/orders/', {
+  return apiRequest<OrderResponse>('/api/v1/orders/', {
     method: 'GET',
     requireAuth: true,
   })
 }
 
-export const getOrderById = async (orderId : string) => {
-  return apiRequest(`/api/v1/orders/${orderId}`, {
+export const getOrderById = async (orderId: string) => {
+  return apiRequest<SingleOrderResponse>(`/api/v1/orders/${orderId}`, {
     method: 'GET',
     requireAuth: true,
   })
 }
 
-export const deleteOrder = async (orderId : string) => {
-  return apiRequest(`/api/v1/orders/${orderId}`, {
+export const deleteOrder = async (orderId: string) => {
+  return apiRequest<SingleOrderResponse>(`/api/v1/orders/${orderId}`, {
     method: 'DELETE',
     requireAuth: true,
   })
