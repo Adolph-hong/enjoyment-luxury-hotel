@@ -5,8 +5,9 @@ import hotelLogo from '/src/assets/logo/hotel-logo.svg'
 import hotelLogoEn from '/src/assets/logo/hotel-logo-english.svg'
 import burgerLogo from '/src/assets/icon/menu-button.svg'
 import cancelLogo from '/src/assets/icon/cancel.svg'
+import type { HeaderProps } from './Header.types'
 
-const Header = ({ simple }) => {
+const Header : React.FC<HeaderProps> = ({ simple }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   const { isLoggedIn, user, logout } = useAuth()
