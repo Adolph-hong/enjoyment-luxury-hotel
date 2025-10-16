@@ -1,6 +1,7 @@
-const baseUrl = import.meta.env.VITE_API_BASE
+import { baseUrl } from '../constant/baseUrl'
+import type { orderData } from '@/types/api/booking'
 
-export async function getOrders() {
+export const getOrders = async () => {
   const token = localStorage.getItem('token')
 
   const res = await fetch(`${baseUrl}/api/v1/orders/`, {
@@ -19,7 +20,7 @@ export async function getOrders() {
   return data
 }
 
-export async function createOrder(orderData) {
+export const createOrder = async (orderData: orderData) => {
   const token = localStorage.getItem('token')
 
   const res = await fetch(`${baseUrl}/api/v1/orders/`, {
@@ -40,7 +41,7 @@ export async function createOrder(orderData) {
   return data
 }
 
-export async function getOrderById(orderId) {
+export const getOrderById = async (orderId: string) => {
   const token = localStorage.getItem('token')
 
   const res = await fetch(`${baseUrl}/api/v1/orders/${orderId}`, {
@@ -59,7 +60,7 @@ export async function getOrderById(orderId) {
   return data
 }
 
-export async function deleteOrder(orderId) {
+export const deleteOrder = async (orderId: string) => {
   const token = localStorage.getItem('token')
 
   const res = await fetch(`${baseUrl}/api/v1/orders/${orderId}`, {
