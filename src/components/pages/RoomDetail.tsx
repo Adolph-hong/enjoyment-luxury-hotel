@@ -132,7 +132,7 @@ const RoomDetail:React.FC = () => {
           {/* 右側訂房表單 */}
           <div className="lg:w-[400px]">
             <div className="bg-white rounded-lg p-8 sticky top-32">
-              <p className="text-xl font-bold text-black mb-2 border-b border-[#ECECEC] pb-2 mb-6">
+              <p className="text-xl font-bold text-black border-b border-[#ECECEC] pb-2 mb-10">
                 預約房型
               </p>
               <h2 className="text-3xl font-bold text-[#4B4B4B] mb-2">
