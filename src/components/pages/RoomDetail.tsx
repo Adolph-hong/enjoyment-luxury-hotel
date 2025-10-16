@@ -11,14 +11,20 @@ import ReserveInfo from '../room/ReserveInfo'
 import RoomHero from '../room/RoomHero'
 import ReserveForm from '../forms/ReservationForm'
 import RoomLoading from '../room/RoomLoading'
+import { RoomId } from '@/types/api/roomId'
 
 const RoomDetail = () => {
-  const { roomId } = useParams()
-  const [room, setRoom] = useState(null)
+  const { roomId } = useParams<{roomId : string}>()
+  const [room, setRoom] = useState<RoomId | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
+    if (!roomId) {
+    setError("找不到房間 ID");
+    setLoading(false);
+    return;
+  }
     const controller = new AbortController()
 
     const fetchRoom = async () => {
@@ -27,7 +33,7 @@ const RoomDetail = () => {
         setRoom(data)
         setLoading(false)
       } catch (err) {
-        if (err.name !== 'AbortError') {
+        if (err instanceof Error && err.name !== 'AbortError') {
           setError(err.message)
           setLoading(false)
           console.error('Error fetching room:', err)
