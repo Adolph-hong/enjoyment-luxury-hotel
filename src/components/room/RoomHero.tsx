@@ -1,4 +1,10 @@
-const RoomHero = ({ room }) => {
+import type { RoomHeroTypes } from "@/types/components/roomHero"
+
+type RoomHeroProps = {
+  room:RoomHeroTypes
+}
+
+const RoomHero:React.FC<RoomHeroProps> = ({ room }) => {
   return (
     <div className="mb-16 flex gap-3 max-md:flex-col rounded-2xl overflow-hidden">
       {/* 左側大圖 */}
