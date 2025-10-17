@@ -1,4 +1,6 @@
-const RoomTitle = ({ title }) => {
+import type { RoomTitleTypes } from "@/types/components/roomTitle"
+
+const RoomTitle:React.FC<RoomTitleTypes> = ({ title }) => {
   return (
     <div className="flex flex-row items-center gap-3 mb-6">
       <div className="border-3 h-[25px] border-[#BF9D7D] rounded-2xl"></div>
