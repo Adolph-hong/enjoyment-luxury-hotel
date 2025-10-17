@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    /* === 🧱 編譯輸出與模組設定 === */
+    "target": "ESNext", // 編譯成最新版本的 JavaScript（支援現代瀏覽器）
+    "module": "ESNext", // 使用 ES 模組系統（Vite 必須）
+    "moduleResolution": "Bundler", // 模組解析方式（讓 TypeScript「像 Vite 一樣」找模組）
+    "jsx": "react-jsx", // React 17+ 自動引入 JSX runtime，不需再 import React
+
+    /* === 🌐 環境設定 === */
+    "lib": ["DOM", "DOM.Iterable", "ESNext"], // 指定支援的環境：瀏覽器 DOM + ESNext 功能
+    "skipLibCheck": true, // 跳過外部套件型別檢查（加快編譯速度）
+    "allowJs": true, // 允許混用 .js / .ts 檔（轉換期很實用）
+    "isolatedModules": true, // 每個檔案視為獨立模組（Vite / React 專案需要）
+    "noEmit": true, // 不輸出 .js，交給 Vite 處理
+    "resolveJsonModule": true, // 允許 import JSON 檔案
+    "forceConsistentCasingInFileNames": true, // 檔名大小寫一致（避免跨系統錯誤）
+
+    /* === 🔍 型別檢查與嚴格設定 === */
+    "strict": true, // 啟用所有嚴格檢查（建議保持開啟）
+    "noUncheckedIndexedAccess": true, // 索引存取時強制檢查 undefined
+    "exactOptionalPropertyTypes": true, // 精確控制可選屬性是否可為 undefined
+
+    /* === 🔄 模組匯入相容性 === */
+    "esModuleInterop": true, // 允許使用 commonJS 模組的預設匯入方式
+    "allowSyntheticDefaultImports": true, // 允許沒有 default export 的模組仍能匯入
+
+    /* === 🧭 路徑與別名設定 === */
+    "paths": {
+      "@/*": ["./src/*"] // 讓你能用 "@/components/Button" 這種寫法
+    }
+  },
+
+  /* === 📂 要包含與排除的資料夾 === */
+  "include": ["src", "images.d.ts", "swiper.d.ts"], // 編譯範圍：src 資料夾
+  "exclude": ["node_modules", "dist"], // 排除第三方套件與輸出資料夾
+
+  /* === ⚙️ 對 node 專用設定檔的引用 === */
+  "references": [{ "path": "./tsconfig.node.json" }]
+}

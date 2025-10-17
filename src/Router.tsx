@@ -1,0 +1,50 @@
+import { createBrowserRouter } from 'react-router-dom'
+import Home from './components/pages/Home.jsx'
+import Layout from './Layout.js'
+import Login from './components/auth/Login.jsx'
+import Signup from './components/auth/Signup.jsx'
+import Account from './components/pages/Account.jsx'
+import Rooms from './components/pages/Rooms.js'
+import RoomDetail from './components/pages/RoomDetail.jsx'
+import Booking from './components/pages/Booking.jsx'
+
+export const router = createBrowserRouter(
+  [
+    {
+      path: '/',
+      element: <Layout />,
+      children: [
+        { index: true, element: <Home /> },
+        {
+          path: 'login',
+          element: <Login />,
+          handle: { headerVariant: 'simple', footer: false },
+        },
+        {
+          path: 'sign-up',
+          element: <Signup />,
+          handle: { headerVariant: 'simple', footer: false },
+        },
+        {
+          path: 'account',
+          element: <Account />,
+        },
+        {
+          path: 'room',
+          element: <Rooms />,
+        },
+        {
+          path: 'room/:roomId',
+          element: <RoomDetail />,
+        },
+        {
+          path: 'booking',
+          element: <Booking />,
+        },
+      ],
+    },
+  ],
+  {
+    basename: '/enjoyment-luxury-hotel/', // ← 設定前綴
+  }
+)
