@@ -9,18 +9,11 @@ const RoomsSection = () => {
 
   useEffect(() => {
     const controller = new AbortController()
-    const { signal } = controller
+    getRooms(controller.signal).then(setRooms)
 
-    const fetchRooms = async () => {
-      try {
-        const result = await getRooms(signal)
-        setRooms(result)
-      } catch (err) {
-        console.error('Failed to fetch rooms:', err)
-      }
+    return () => {
+      controller.abort()
     }
-
-    fetchRooms()
   }, [])
 
   return (

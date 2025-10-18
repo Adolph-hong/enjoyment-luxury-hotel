@@ -8,17 +8,8 @@ const NewsSection: React.FC = () => {
 
   useEffect(() => {
     const controller = new AbortController()
-    const { signal } = controller
-    const fetchNews = async () => {
-      try {
-        const result = await getNews(signal)
-        setNews(result)
-      } catch (err) {
-        console.error('Failed to fetch news:', err)
-      }
-    }
+    getNews(controller.signal).then(setNews)
 
-    fetchNews()
     return () => {
       controller.abort()
     }

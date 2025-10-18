@@ -9,18 +9,7 @@ const FoodsSection: React.FC = () => {
 
   useEffect(() => {
     const controller = new AbortController()
-    const { signal } = controller
-
-    const fetchFoods = async () => {
-      try {
-        const result = await getCulinary(signal)
-        setFoods(result)
-      } catch (err) {
-        console.error('Failed to fetch foods:', err)
-      }
-    }
-
-    fetchFoods()
+    getCulinary(controller.signal).then(setFoods)
     return () => {
       controller.abort()
     }
