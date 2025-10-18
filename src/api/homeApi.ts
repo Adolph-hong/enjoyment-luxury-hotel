@@ -10,32 +10,62 @@ type FetchWithSignalProps = {
 }
 
 const fetchWithSignal = async <T>({ path, signal }: FetchWithSignalProps): Promise<T> => {
-  const res = await fetch(`${baseUrl}${path}`, { signal })
-  const { result } = await res.json()
-  return result
+  try {
+    const res = await fetch(`${baseUrl}${path}`, { signal })
+    const { result } = await res.json()
+    return result
+  } catch (error) {
+    console.error('Failed to fetch data:', error)
+    throw error
+  }
 }
 
-export const getCulinary = (signal: AbortSignal): Promise<Food[]> => {
-  return fetchWithSignal<Food[]>({
-    path: '/api/v1/home/culinary',
-    signal,
-  })
+export const getCulinary = async (signal: AbortSignal): Promise<Food[]> => {
+  try {
+    const result = await fetchWithSignal<Food[]>({
+      path: '/api/v1/home/culinary',
+      signal,
+    })
+    return result
+  } catch (error) {
+    console.error('❌ Failed to fetch culinary data:', error)
+    throw error
+  }
 }
-export const getNews = (signal: AbortSignal): Promise<New[]> => {
-  return fetchWithSignal<New[]>({
-    path: '/api/v1/home/news',
-    signal,
-  })
+
+export const getNews = async (signal: AbortSignal): Promise<New[]> => {
+  try {
+    const result = await fetchWithSignal<New[]>({
+      path: '/api/v1/home/news',
+      signal,
+    })
+    return result
+  } catch (error) {
+    console.error('❌ Failed to fetch news data:', error)
+    throw error
+  }
 }
-export const getRooms = (signal: AbortSignal): Promise<Room[]> => {
-  return fetchWithSignal<Room[]>({
-    path: '/api/v1/rooms/',
-    signal,
-  })
+export const getRooms = async (signal: AbortSignal): Promise<Room[]> => {
+  try {
+    const result = await fetchWithSignal<Room[]>({
+      path: '/api/v1/rooms/',
+      signal,
+    })
+    return result
+  } catch (error) {
+    console.error('❌ Failed to fetch rooms data:', error)
+    throw error
+  }
 }
-export const getRoomById = (roomId: string, signal: AbortSignal): Promise<RoomId> => {
-  return fetchWithSignal<RoomId>({
-    path: `/api/v1/rooms/${roomId}`,
-    signal,
-  })
+export const getRoomById = async (roomId: string, signal: AbortSignal): Promise<RoomId> => {
+  try {
+    const result = await fetchWithSignal<RoomId>({
+      path: `/api/v1/rooms/${roomId}`,
+      signal,
+    })
+    return result
+  } catch (error) {
+    console.error('❌ Failed to fetch room data:', error)
+    throw error
+  }
 }

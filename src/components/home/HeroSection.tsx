@@ -10,11 +10,11 @@ const HeroSection = () => {
         <div className="z-10 mt-70 xl:mt-0 w-full pl-5 pr-10 xl:w-[53%] xl:pr-55 flex flex-col justify-center items-center xl:items-start text-white">
           <div>
             <h1 className="text-6xl font-bold">
-              {heroData.subtitle[0]}
+              {heroData.subtitles[0]}
               <br />
-              {heroData.subtitle[1]}
+              {heroData.subtitles[1]}
             </h1>
-            <p className="text-xl pt-5">{heroData.subtitle[2]}</p>
+            <p className="text-xl pt-5">{heroData.subtitles[2]}</p>
           </div>
           <Link
             to="/booking"

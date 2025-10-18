@@ -9,7 +9,7 @@ import roomsDecosA from '../../assets/home/decos/rooms-1.png'
 import roomsDecosB from '../../assets/home/decos/rooms-2.png'
 
 export const trafficData = {
-  title: ['交通', '方式'],
+  titles: ['交通', '方式'],
   address: '台灣高雄市新興區六角路123號',
   mapImg: { src: trafficImg, alt: '交通方式' },
   decosImg: { src: trafficDecos, alt: '交通裝飾' },
@@ -39,8 +39,8 @@ export const trafficData = {
 }
 
 export const aboutData = {
-  title: ['關於', '我們'],
-  description: [
+  titles: ['關於', '我們'],
+  descriptions: [
     '享樂酒店，位於美麗島高雄的心臟地帶，是這座城市的璀璨瑰寶與傲人地標。',
     '我們的存在，不僅僅是為了提供奢華的住宿體驗，更是為了將高雄的美麗與活力，獻給每一位蒞臨的旅客。',
     '我們的酒店，擁有時尚典雅的裝潢，每一個細節都充滿著藝術與設計的精緻。',
@@ -50,22 +50,22 @@ export const aboutData = {
   ],
 }
 export const foodsData = {
-  title: ['佳餚', '美饌'],
+  titles: ['佳餚', '美饌'],
   decosImg: { src: foodsDeco, alt: '美食裝飾' },
 }
 
 export const newsData = {
-  title: ['最新', '消息'],
+  titles: ['最新', '消息'],
   decosImg: { src: newsDeco, alt: '最新消息裝飾' },
 }
 export const heroData = {
-  title: ['享樂酒店', 'Enjoyment Luxury Hotel'],
-  subtitle: ['高雄', '豪華住宿之選', '我們致力於為您提供無與倫比的奢華體驗與優質服務'],
+  titles: ['享樂酒店', 'Enjoyment Luxury Hotel'],
+  subtitles: ['高雄', '豪華住宿之選', '我們致力於為您提供無與倫比的奢華體驗與優質服務'],
   btnText: '立即訂房',
 }
 
 export const roomsData = {
-  image: [
+  images: [
     { src: roomsDecosA, alt: '房型裝飾A' },
     { src: roomsDecosB, alt: '房型裝飾B' },
   ],
