@@ -16,9 +16,9 @@ const AboutSection = () => {
               <div className="border-b-2 border-white w-[50%] md:w-[20%]"></div>
             </div>
             <div className="text-sm leading-6">
-              {aboutData.description.map((desc, index) => (
+              {aboutData.descriptions.map((description, index) => (
                 <Fragment key={index}>
-                  <p>{desc}</p>
+                  <p>{description}</p>
                   <br />
                 </Fragment>
               ))}
