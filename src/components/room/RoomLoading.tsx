@@ -1,4 +1,6 @@
-const RoomLoading = ({ text }) => {
+import type { RoomLodingTypes } from "@/types/components/roomLoading"
+
+const RoomLoading:React.FC<RoomLodingTypes> = ({ text }) => {
   return (
     <div className="min-h-screen bg-[#F7F2EE]">
       <div className="bg-[#140F0A] h-[200px]"></div>
