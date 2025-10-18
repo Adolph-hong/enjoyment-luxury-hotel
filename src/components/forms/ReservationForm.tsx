@@ -1,7 +1,9 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../../contexts/AuthContext'
-const ReservationForm = ({ room, roomId }) => {
+import { RoomId } from '@/types/api/roomId'
+
+const ReservationForm: React.FC<{ room: RoomId; roomId: string }> = ({ room, roomId }) => {
   const navigate = useNavigate()
   const { isLoggedIn } = useAuth()
   // 訂房表單狀態
@@ -43,9 +45,7 @@ const ReservationForm = ({ room, roomId }) => {
       <div className="grid grid-cols-2 gap-4">
         {/* 入住日期 */}
         <div className=" border-2 border-black rounded-lg p-3">
-          <label className="block text-sm font-medium text-[#4B4B4B] mb-2">
-            入住
-          </label>
+          <label className="block text-sm font-medium text-[#4B4B4B] mb-2">入住</label>
           <input
             type="date"
             value={checkInDate}
@@ -57,9 +57,7 @@ const ReservationForm = ({ room, roomId }) => {
 
         {/* 退房日期 */}
         <div className=" border-2 border-black rounded-lg p-3">
-          <label className="block text-sm font-medium text-[#4B4B4B] mb-2">
-            退房
-          </label>
+          <label className="block text-sm font-medium text-[#4B4B4B] mb-2">退房</label>
           <input
             type="date"
             value={checkOutDate}
@@ -72,9 +70,7 @@ const ReservationForm = ({ room, roomId }) => {
 
       {/* 人數 */}
       <div className="flex flex-row justify-between items-center">
-        <label className="block text-sm font-medium text-[#4B4B4B] mb-2">
-          人數
-        </label>
+        <label className="block text-sm font-medium text-[#4B4B4B] mb-2">人數</label>
         <div className="flex items-center justify-between gap-5">
           <button
             type="button"
@@ -86,9 +82,7 @@ const ReservationForm = ({ room, roomId }) => {
           <span className="text-[#140F0A] font-medium">{guestCount}</span>
           <button
             type="button"
-            onClick={() =>
-              setGuestCount(Math.min(room.maxPeople, guestCount + 1))
-            }
+            onClick={() => setGuestCount(Math.min(room.maxPeople, guestCount + 1))}
             className="text-black text-2xl font-bold w-8 h-8 flex items-center justify-center hover:bg-[#F7F2EE] pb-1 border border-[#ECECEC] rounded-4xl transition-colors"
           >
             +
@@ -98,9 +92,7 @@ const ReservationForm = ({ room, roomId }) => {
 
       {/* 價格和預訂按鈕 */}
       <div>
-        <p className="text-[#BF9D7D] text-2xl font-bold mb-6">
-          NT$ {room.price.toLocaleString()}
-        </p>
+        <p className="text-[#BF9D7D] text-2xl font-bold mb-6">NT$ {room.price.toLocaleString()}</p>
         <button
           type="button"
           onClick={handleBooking}

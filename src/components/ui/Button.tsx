@@ -5,7 +5,7 @@ type BottonProps = {
   content: string
   hoverBg?: string
   hoverText?: string
-  mt: string
+  mt?: string
   textSize: string
   url?: string
   type?: 'button' | 'submit' | 'reset'
