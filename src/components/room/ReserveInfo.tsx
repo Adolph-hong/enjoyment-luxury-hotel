@@ -1,4 +1,4 @@
-const ReserveInfo = () => {
+const ReserveInfo:React.FC = () => {
   return (
     <ul className="space-y-3">
       {[
