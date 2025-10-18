@@ -1,4 +1,10 @@
-const InfoText = ({ item }) => {
+import type { Info } from "@/types/api/room"
+
+type InfoProps = {
+  item : Info
+}
+
+const InfoText:React.FC<InfoProps> = ({ item }) => {
   return (
     <div className="flex items-center gap-3">
       {item.isProvide ? (
