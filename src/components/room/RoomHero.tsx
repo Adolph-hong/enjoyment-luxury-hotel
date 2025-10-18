@@ -1,7 +1,7 @@
-import type { RoomHeroTypes } from "@/types/components/roomHero"
+import type { RoomId } from "@/types/api/roomId"
 
 type RoomHeroProps = {
-  room:RoomHeroTypes
+  room:RoomId
 }
 
 const RoomHero:React.FC<RoomHeroProps> = ({ room }) => {
