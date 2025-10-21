@@ -3,7 +3,11 @@ import { useAuth } from '../../contexts/AuthContext'
 import headshot1 from '../../assets/account/headshot-1.png'
 import { trafficData } from '../home/data'
 
-const AccountLayout = ({ children }) => {
+type Props = {
+  children: ((activeTab: string) => React.ReactNode) | React.ReactNode
+}
+
+const AccountLayout: React.FC<Props> = ({ children }) => {
   const [activeTab, setActiveTab] = useState('profile')
   const { user } = useAuth()
 
@@ -11,9 +15,7 @@ const AccountLayout = ({ children }) => {
     <section className="flex flex-col w-full bg-black text-white">
       <div className="flex flex-row w-full  items-center mt-30 pl-60 py-30 gap-5 bg-image-account bg-cover bg-center max-lg:pl-8 max-sm:flex-col max-sm:items-start">
         <img className="w-[100px] h-[100px]" src={headshot1} alt="" />
-        <h2 className="text-5xl max-sm:text-[32px] font-bold">
-          Hello，{user?.name || '會員'}
-        </h2>
+        <h2 className="text-5xl max-sm:text-[32px] font-bold">Hello，{user?.name || '會員'}</h2>
       </div>
       <div className="w-full px-5 lg:px-60 py-8">
         <div className="flex flex-row items-center gap-5 py-5 md:py-10">
@@ -38,12 +40,9 @@ const AccountLayout = ({ children }) => {
             我的訂單
           </button>
         </div>
-        {children?.(activeTab) || children}
+        {typeof children === 'function' ? children(activeTab) : children}
       </div>
-      <img
-        className="bg-black py-15 w-full min-h-[250px] object-cover"
-        {...trafficData.decosImg}
-      />
+      <img className="bg-black py-15 w-full min-h-[250px] object-cover" {...trafficData.decosImg} />
     </section>
   )
 }

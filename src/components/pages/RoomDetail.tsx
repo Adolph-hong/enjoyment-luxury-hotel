@@ -13,18 +13,18 @@ import ReserveForm from '../forms/ReservationForm'
 import RoomLoading from '../room/RoomLoading'
 import { RoomId } from '@/types/api/roomId'
 
-const RoomDetail:React.FC = () => {
-  const { roomId } = useParams<{roomId : string}>()
+const RoomDetail: React.FC = () => {
+  const { roomId } = useParams<{ roomId: string }>()
   const [room, setRoom] = useState<RoomId | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     if (!roomId) {
-    setError("找不到房間 ID");
-    setLoading(false);
-    return;
-  }
+      setError('找不到房間 ID')
+      setLoading(false)
+      return
+    }
     const controller = new AbortController()
 
     const fetchRoom = async () => {
@@ -55,9 +55,7 @@ const RoomDetail:React.FC = () => {
   }
 
   const maxPeopleDisplay =
-    typeof room.maxPeople === 'number'
-      ? `2-${room.maxPeople} 人`
-      : room.maxPeople
+    typeof room.maxPeople === 'number' ? `2-${room.maxPeople} 人` : room.maxPeople
 
   return (
     <div className="min-h-screen bg-[#F7F2EE]">
@@ -74,9 +72,7 @@ const RoomDetail:React.FC = () => {
           <div className="flex-1 p-10">
             {/* 房間標題 */}
             <div className="mb-10">
-              <h1 className="text-[#140F0A] text-[48px] font-bold mb-4">
-                {room.name}
-              </h1>
+              <h1 className="text-[#140F0A] text-[48px] font-bold mb-4">{room.name}</h1>
               <p className="text-[#4B4B4B] leading-8 whitespace-pre-line text-base">
                 {room.description}
               </p>
@@ -135,11 +131,9 @@ const RoomDetail:React.FC = () => {
               <p className="text-xl font-bold text-black border-b border-[#ECECEC] pb-2 mb-10">
                 預約房型
               </p>
-              <h2 className="text-3xl font-bold text-[#4B4B4B] mb-2">
-                {room.name}
-              </h2>
+              <h2 className="text-3xl font-bold text-[#4B4B4B] mb-2">{room.name}</h2>
               <p className="text-[#4B4B4B] text-sm mb-8">{room.description}</p>
-              <ReserveForm room={room} roomId={roomId} />
+              <ReserveForm room={room} roomId={roomId!} />
             </div>
           </div>
         </div>
