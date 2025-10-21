@@ -8,17 +8,8 @@ const NewsSection: React.FC = () => {
 
   useEffect(() => {
     const controller = new AbortController()
-    const { signal } = controller
-    const fetchNews = async () => {
-      try {
-        const result = await getNews(signal)
-        setNews(result)
-      } catch (err) {
-        console.error('Failed to fetch news:', err)
-      }
-    }
+    getNews(controller.signal).then(setNews)
 
-    fetchNews()
     return () => {
       controller.abort()
     }
@@ -28,9 +19,9 @@ const NewsSection: React.FC = () => {
       <div className="py-16 flex flex-col relative xl:flex-row gap-8 max-w-screen-xl mx-auto px-4">
         <div className="pr-20">
           <h2 className="text-3xl font-bold text-[#BF9D7D]">
-            {newsData.title[0]}
+            {newsData.titles[0]}
             <br />
-            {newsData.title[1]}
+            {newsData.titles[1]}
           </h2>
           <div className="mt-2 h-[2px] w-24 bg-gradient-to-r from-[#c0a375] to-transparent"></div>
         </div>

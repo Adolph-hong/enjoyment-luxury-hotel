@@ -1,15 +1,13 @@
 import { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 import { Swiper, SwiperSlide } from 'swiper/react'
+import { Navigation, Scrollbar } from 'swiper/modules'
+
 import type { Room } from '../../types/api/room'
 
-// Import Swiper styles
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/scrollbar'
-
-// import required modules
-import { Navigation, Scrollbar } from 'swiper/modules'
-import { Link } from 'react-router-dom'
 
 type RoomProps = {
   room: Room

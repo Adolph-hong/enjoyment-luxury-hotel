@@ -1,16 +1,12 @@
-// Import Swiper React components
-import { Swiper, SwiperSlide } from 'swiper/react'
 import { useEffect, useState } from 'react'
-
-// Import Swiper styles
-import 'swiper/css'
-import 'swiper/css/free-mode'
-import 'swiper/css/pagination'
-
-// import required modules
+import { Swiper, SwiperSlide } from 'swiper/react'
 import { FreeMode } from 'swiper/modules'
 
 import type { Food } from '@/types/api/food'
+
+import 'swiper/css'
+import 'swiper/css/free-mode'
+import 'swiper/css/pagination'
 
 type Props = {
   foods: Food[]

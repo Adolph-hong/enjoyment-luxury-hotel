@@ -1,13 +1,13 @@
 import Button from '../ui/Button'
 import cancelImg from '../../assets/icon/cancel.svg'
-const OrderModal = ({ handleCancel, handleConfirm }) => {
+const OrderModal: React.FC<{ handleCancel: () => void; handleConfirm: () => void }> = ({
+  handleCancel,
+  handleConfirm,
+}) => {
   return (
     <div className="absolute w-[90%]  md:w-[40%] mx-auto mb-auto top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 bg-white text-black rounded-lg p-3">
       <div className="text-center relative w-full flex justify-center items-center">
-        <button
-          onClick={handleCancel}
-          className="absolute top-2 right-2 cursor-pointer"
-        >
+        <button onClick={handleCancel} className="absolute top-2 right-2 cursor-pointer">
           <img className="invert w-[14px]" src={cancelImg} alt="cancel" />
         </button>
         <p className="text-xl py-25 font-bold">確定要取消此房型的預訂嗎？</p>
